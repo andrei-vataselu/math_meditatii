@@ -11,7 +11,7 @@ export default function Footer() {
         <nav aria-label="Legal" className="flex flex-col sm:flex-row justify-center gap-6 text-sm text-gray-100 items-center">
           <a href="/tos" className="hover:text-white transition-colors">Termeni și condiții</a>
           <a href="/privacy" className="hover:text-white transition-colors">Politica de confidențialitate</a>
-          <a href="/politica-cookie" className="hover:text-white transition-colors">Politica de utilizare cookie-uri</a>
+          <a href="/politica-cookies" className="hover:text-white transition-colors">Politica de utilizare cookie-uri</a>
         </nav>
 
         {/* Authority Logos */}
@@ -71,7 +71,7 @@ export default function Footer() {
           <FaInstagram size={32} color="#C13584" />
           </a>
           <a
-            href="https://chat.whatsapp.com/CiyxENF40rcHOwp9On1yY3"
+            href="https://chat.whatsapp.com/KXZcwE814NtLImYiBYkOBd"
             target="_blank"
             rel="noopener noreferrer"
             className="w-8 h-8 flex items-center justify-center"
