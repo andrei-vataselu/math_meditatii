@@ -2,9 +2,12 @@
 
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { useUser, SignInButton } from '@clerk/nextjs';
+import Link from 'next/link';
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
+  const { isSignedIn, isLoaded } = useUser();
 
   useEffect(() => {
     setIsVisible(true);
@@ -45,12 +48,28 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
-          <button className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-8 py-4 rounded-full text-lg font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300 transform hover:scale-105 shadow-lg">
-            Programează o ședință
-          </button>
-          <button className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-[#DB0073] transition-all duration-300">
-            Vezi resurse gratuite
-          </button>
+          {isLoaded && (
+            <>
+              {isSignedIn ? (
+                <Link href="/dashboard">
+                  <button className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-8 py-4 rounded-full text-lg font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    Accesează Dashboard
+                  </button>
+                </Link>
+              ) : (
+                <Link href="/sign-up">
+                  <button className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-8 py-4 rounded-full text-lg font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    Programează o ședință
+                  </button>
+                </Link>
+              )}
+            </>
+          )}
+          <SignInButton mode="modal">
+            <button className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-[#DB0073] transition-all duration-300">
+              Vezi resurse gratuite
+            </button>
+          </SignInButton>
         </motion.div>
       </motion.div>
     </main>

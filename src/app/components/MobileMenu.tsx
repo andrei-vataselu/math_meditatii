@@ -2,9 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useUser, UserButton } from '@clerk/nextjs';
+import Link from 'next/link';
 
 export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
+  const { isSignedIn, isLoaded } = useUser();
 
   useEffect(() => {
     if (isOpen) {
@@ -18,8 +21,8 @@ export default function MobileMenu() {
   }, [isOpen]);
 
   const menuItems = [
-    { href: '#features', label: 'Features' },
-    { href: '#pricing', label: 'Pricing' },
+    { href: '#features', label: 'Beneficii' },
+    { href: '#pricing', label: 'Tarife' },
     { href: '#contact', label: 'Contact' }
   ];
 
@@ -87,16 +90,60 @@ export default function MobileMenu() {
                   {item.label}
                 </motion.a>
               ))}
+              
+              {isLoaded && (
+                <>
+                  {isSignedIn ? (
+                    <>
+                      <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: 0.3 }}
+                        className="pt-4 border-t border-white/20"
+                      >
+                        <Link 
+                          href="/dashboard"
+                          className="block text-xl text-gray-300 hover:text-white transition-colors mb-4"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          Dashboard
+                        </Link>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xl text-gray-300">Contul tău</span>
+                          <UserButton 
+                            afterSignOutUrl="/"
+                            appearance={{
+                              elements: {
+                                userButtonAvatarBox: 'w-8 h-8',
+                                userButtonTrigger: 'focus:shadow-none',
+                              }
+                            }}
+                          />
+                        </div>
+                      </motion.div>
+                    </>
+                  ) : (
+                    <>
+                      <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: 0.3 }}
+                        className="pt-4 border-t border-white/20"
+                      >
+                        <Link href="/sign-up">
+                          <button 
+                            className="w-full bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-3 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            Începe acum
+                          </button>
+                        </Link>
+                      </motion.div>
+                    </>
+                  )}
+                </>
+              )}
             </nav>
-
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.4 }}
-              className="mt-12 w-full bg-white text-[#DB0073] px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
-            >
-              Începe acum
-            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
