@@ -8,6 +8,7 @@ import FeatureShowcase from './components/FeatureShowcase';
 import Statistics from './components/Statistics';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
+import Design from './components/Design';
 
 const features = [
   {
@@ -33,15 +34,7 @@ const features = [
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 overflow-hidden isolate">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FEBFD2] rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#DB0073] rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-          <div className="absolute top-40 left-40 w-80 h-80 bg-[#FAD4E4] rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
-        </div>
-        <FloatingMathSymbols />
-      </div>
-
+      <Design />
       <Header />
       <Hero />
       <Features features={features} />
