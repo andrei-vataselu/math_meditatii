@@ -11,12 +11,13 @@ export default function SignInPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 overflow-hidden isolate">
       <Design />
       <Header />
-      <div className="flex items-center justify-center min-h-[calc(100vh-88px)] px-4">
+      <div className="flex items-center justify-center min-h-[calc(100vh-88px)]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="w-full max-w-md"
+          className="w-full max-w-md max-[368px] p-1"
+          ///style={{ maxWidth: '368px'}}
         >
           <div className="text-center mb-8">
             <motion.h1
@@ -41,7 +42,7 @@ export default function SignInPage() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 sm:p-6 border border-white/20"
+            className="bg-white/10 backdrop-blur-lg rounded-2xl flex justify-center items-center p-4  sm:p-6 border border-white/20"
           >
             <SignIn 
               appearance={{

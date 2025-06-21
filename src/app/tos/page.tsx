@@ -24,9 +24,7 @@ function TOSContent() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-4xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600"
             >
-            <span className="block bg-gradient-to-r from-[#DB0073] to-[#FEBFD2] bg-clip-text text-transparent">
             Termeni și Condiții
-            </span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 10 }}

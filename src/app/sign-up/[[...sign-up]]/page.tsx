@@ -11,12 +11,12 @@ export default function SignUpPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 overflow-hidden isolate">
       <Design />
       <Header />
-      <div className="flex items-center justify-center min-h-[calc(100vh-88px)] px-4 py-8">
+      <div className="flex items-center justify-center min-h-[calc(100vh-88px)]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="w-full max-w-md"
+          className="w-full max-w-md max-[368px] p-1"
         >
           <div className="text-center mb-8">
             <motion.h1

@@ -83,7 +83,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <p className="text-xs text-gray-100">
-          &copy; {new Date().getFullYear()} DSMath Center. Toate drepturile rezervate.
+          &copy; DSMath Center. Toate drepturile rezervate.
         </p>
       </div>
     </footer>
