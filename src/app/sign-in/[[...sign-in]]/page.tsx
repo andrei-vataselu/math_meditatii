@@ -2,7 +2,6 @@
 
 import { SignIn } from '@clerk/nextjs';
 import { motion } from 'framer-motion';
-import FloatingMathSymbols from '../../components/FloatingMathSymbols';
 import Header from '../../components/Header';
 import Footer from '@/app/components/Footer';
 import Design from '@/app/components/Design';

@@ -2,7 +2,6 @@
 
 import { PricingTable } from '@clerk/nextjs';
 import { motion } from 'framer-motion';
-import FloatingMathSymbols from '../components/FloatingMathSymbols';
 import Header from '../components/Header';
 import ProtectedRoute from '../components/ProtectedRoute';
 import Design from '../components/Design';

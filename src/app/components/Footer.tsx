@@ -1,6 +1,7 @@
 // components/Footer.tsx
 import { FaWhatsapp, FaInstagram } from "react-icons/fa";
 import { AiFillTikTok } from "react-icons/ai";
+import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -15,8 +16,38 @@ export default function Footer() {
 
         {/* Authority Logos */}
         <div className="flex justify-center gap-8">
-          <img src="/sol.png" alt="SOL" className="h-11 w-auto" />
-          <img src="/sal.png" alt="SAL" className="h-11 w-auto" />
+          <a
+          href="https://reclamatiisal.anpc.ro/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block"
+          aria-label="SAL"
+          >
+          <Image
+          src="/sol.png"
+          alt="Soluționarea online a litigiilor (SOL)"
+          width={500}      
+          height={300}     
+          priority
+          className="h-11 w-auto"      
+          />
+          </a>
+          <a
+          href="https://ec.europa.eu/consumers/odr/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block"
+          aria-label="ANAF"
+          >
+          <Image
+          src="/sal.png"
+          alt="Soluționare Alternativă a Litigiilor (SAL) - ANPC"
+          width={500}      
+          height={300}     
+          priority
+          className="h-11 w-auto"      
+          />
+          </a>
         </div>
 
         {/* Social Media Icons */}
@@ -28,7 +59,7 @@ export default function Footer() {
             className="w-8 h-8 flex items-center justify-center"
             aria-label="TikTok"
           >
-          <AiFillTikTok size={24} color="#25D366" />
+          <AiFillTikTok size={32} color="#696969" />
           </a>
           <a
             href="https://www.instagram.com/dsmathcenter"
@@ -37,7 +68,7 @@ export default function Footer() {
             className="w-8 h-8 flex items-center justify-center "
             aria-label="Instagram"
           >
-          <FaInstagram />
+          <FaInstagram size={32} color="#C13584" />
           </a>
           <a
             href="https://chat.whatsapp.com/CiyxENF40rcHOwp9On1yY3"
@@ -46,12 +77,12 @@ export default function Footer() {
             className="w-8 h-8 flex items-center justify-center"
             aria-label="Instagram"
           >
-          <FaWhatsapp size={24} color="#25D366" />
+          <FaWhatsapp size={32} color="#25D366" />
           </a>
         </nav>
 
         {/* Copyright */}
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-100">
           &copy; {new Date().getFullYear()} DSMath Center. Toate drepturile rezervate.
         </p>
       </div>
