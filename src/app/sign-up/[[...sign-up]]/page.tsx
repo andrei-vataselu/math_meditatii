@@ -5,8 +5,24 @@ import Header from '../../components/Header';
 import Design from '@/app/components/Design';
 import Footer from '@/app/components/Footer';
 import SignUpForm from '@/app/components/SignUpForm';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@/contexts/AuthContext';
 
 export default function SignUpPage() {
+  const router = useRouter();
+  const { isSignedIn, isLoaded } = useUser();
+
+  useEffect(() => {
+    if (isLoaded && isSignedIn) {
+      router.push('/dashboard');
+    }
+  }, [isLoaded, isSignedIn, router]);
+
+  if (!isLoaded || isSignedIn) {
+    return null; // or a loading spinner
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 overflow-hidden isolate">
       <Design />

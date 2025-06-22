@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { signUpWithProfile } from '@/lib/supabase'
+import { signUp } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
@@ -11,6 +11,7 @@ export default function SignUpForm() {
     firstName: '',
     lastName: '',
     email: '',
+    cnp: '',
     phoneNumber: '',
     password: '',
     confirmPassword: ''
@@ -39,13 +40,7 @@ export default function SignUpForm() {
     }
 
     try {
-      const { data, error: signUpError } = await signUpWithProfile({
-        email: formData.email,
-        password: formData.password,
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        phone_number: formData.phoneNumber
-      })
+      const { data, error: signUpError } = await signUp(formData)
       if (signUpError) {
         setError(signUpError.message || 'Eroare la crearea contului')
         setLoading(false)
@@ -76,7 +71,7 @@ export default function SignUpForm() {
         <div className="text-center">
           <div className="text-green-400 text-4xl mb-4">✓</div>
           <h2 className="text-2xl font-bold text-white mb-2">Cont creat cu succes!</h2>
-          <p className="text-gray-300">Te redirecționăm către dashboard...</p>
+          <p className="text-gray-300">Ți-am trimis un email de confirmare. Te rog verifică-ți inbox-ul.</p>
         </div>
       </motion.div>
     )
@@ -133,6 +128,22 @@ export default function SignUpForm() {
                 placeholder="Numele tău"
               />
             </div>
+          </div>
+
+          <div>
+            <label htmlFor="cnp" className="block text-sm font-medium text-gray-300 mb-2">
+              CNP
+            </label>
+            <input
+              id="cnp"
+              name="cnp"
+              type="text"
+              value={formData.cnp}
+              onChange={handleChange}
+              required
+              className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
+              placeholder="Codul Numeric Personal"
+            />
           </div>
 
           <div>

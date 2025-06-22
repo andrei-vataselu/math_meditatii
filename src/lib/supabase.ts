@@ -1,26 +1,34 @@
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(supabaseUrl, supabaseKey)
 
-// Sign up a user and insert into profiles
-export async function signUpWithProfile({ email, password, first_name, last_name, phone_number }: { email: string, password: string, first_name: string, last_name: string, phone_number: string }) {
-  // Sign up
-  const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-    email,
-    password
+interface SignUpFormData {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  cnp: string;
+  phoneNumber?: string;
+}
+
+// Sign up a user, profile is created by a trigger
+export const signUp = async (formData: SignUpFormData) => {
+  const { data, error } = await supabase.auth.signUp({
+    email: formData.email,
+    password: formData.password,
+    options: {
+      data: {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        cnp: formData.cnp,
+        phone_number: formData.phoneNumber
+      }
+    }
   });
-  if (signUpError) return { data: null, error: signUpError };
-  const userId = signUpData?.user?.id;
-  if (!userId) return { data: null, error: { message: 'No user id returned from signUp', code: 'NO_USER_ID' } };
-  // Insert into profiles
-  const { data: profileData, error: profileError } = await supabase.from('profiles').insert([
-    { id: userId, first_name, last_name, email, phone_number }
-  ]);
-  if (profileError) return { data: null, error: profileError };
-  return { data: { user: signUpData.user, profile: profileData }, error: null };
+  return { data, error };
 }
 
 export const signIn = async (email: string, password: string) => {
