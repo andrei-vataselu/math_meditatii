@@ -84,6 +84,15 @@ export default function SignInForm() {
           </div>
         </div>
 
+        <div className="text-right">
+          <Link 
+            href="/forgot-password" 
+            className="text-[#FEBFD2] hover:text-[#FAD4E4] text-sm font-medium transition-colors"
+          >
+            Ai uitat parola?
+          </Link>
+        </div>
+
         <button
           type="submit"
           disabled={loading}

@@ -52,13 +52,47 @@ export const getSession = async () => {
   return { session, error }
 }
 
+// Reset password via email
+export const resetPassword = async (email: string) => {
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/profile`
+  })
+  return { data, error }
+}
+
+// Change email functionality
+export const changeEmail = async (newEmail: string) => {
+  const { data, error } = await supabase.auth.updateUser({
+    email: newEmail
+  })
+  return { data, error }
+}
+
 // Profile helpers - use only the profiles table
 export const getUserProfile = async (userId: string) => {
-  const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).single();
-  return { data, error };
+  try {
+    const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).single();
+    if (error) {
+      console.error('Supabase error:', error)
+      return { data: null, error }
+    }
+    return { data, error: null };
+  } catch (err) {
+    console.error('Profile fetch error:', err)
+    return { data: null, error: { message: 'Eroare la încărcarea profilului' } }
+  }
 }
 
 export const updateUserProfile = async (userId: string, updates: Partial<{ first_name: string, last_name: string, email: string, phone_number: string }>) => {
-  const { data, error } = await supabase.from('profiles').update(updates).eq('id', userId).single();
-  return { data, error };
+  try {
+    const { data, error } = await supabase.from('profiles').update(updates).eq('id', userId).single();
+    if (error) {
+      console.error('Supabase update error:', error)
+      return { data: null, error }
+    }
+    return { data, error: null };
+  } catch (err) {
+    console.error('Profile update error:', err)
+    return { data: null, error: { message: 'Eroare la actualizarea profilului' } }
+  }
 }

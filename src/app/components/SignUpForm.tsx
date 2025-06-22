@@ -19,8 +19,11 @@ const formSchema = z
         (value) => /^07[0-9]{8}$/.test(value),
         'Numărul de telefon trebuie să fie în format românesc (ex. 0712345678)'
       ),
-    password: z.string().min(6, 'Parola trebuie să aibă minim 6 caractere'),
+    password: z.string().min(8, 'Parola trebuie să aibă minim 8 caractere'),
     confirmPassword: z.string(),
+    agreeToTos: z.boolean().refine((val) => val === true, {
+      message: 'Trebuie să accepți Termenii și Condițiile'
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Parolele nu se potrivesc',
@@ -34,7 +37,8 @@ export default function SignUpForm() {
     email: '',
     phoneNumber: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    agreeToTos: false
   })
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<z.ZodError['formErrors']['fieldErrors'] | null>(null)
@@ -43,9 +47,10 @@ export default function SignUpForm() {
   const router = useRouter()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: value
     })
   }
 
@@ -201,9 +206,9 @@ export default function SignUpForm() {
               value={formData.password}
               onChange={handleChange}
               required
-              minLength={6}
+              minLength={8}
               className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
-              placeholder="Creează o parolă (min. 6 caractere)"
+              placeholder="Creează o parolă (min. 8 caractere)"
             />
             {errors?.password && <p className="text-red-400 text-xs mt-1">{errors.password[0]}</p>}
           </div>
@@ -224,6 +229,28 @@ export default function SignUpForm() {
             />
             {errors?.confirmPassword && <p className="text-red-400 text-xs mt-1">{errors.confirmPassword[0]}</p>}
           </div>
+
+          <div className="flex items-start space-x-3">
+            <input
+              id="agreeToTos"
+              name="agreeToTos"
+              type="checkbox"
+              checked={formData.agreeToTos}
+              onChange={handleChange}
+              className="mt-1 h-4 w-4 text-[#FEBFD2] bg-white/10 border-white/20 rounded focus:ring-[#FEBFD2] focus:ring-2"
+            />
+            <label htmlFor="agreeToTos" className="text-sm text-gray-300">
+              Sunt de acord cu{' '}
+              <Link href="/tos" className="text-[#FEBFD2] hover:text-[#FAD4E4] font-medium">
+                Termenii și Condițiile
+              </Link>
+              {' '}și{' '}
+              <Link href="/privacy" className="text-[#FEBFD2] hover:text-[#FAD4E4] font-medium">
+                Politica de Confidențialitate
+              </Link>
+            </label>
+          </div>
+          {errors?.agreeToTos && <p className="text-red-400 text-xs mt-1">{errors.agreeToTos[0]}</p>}
         </div>
 
         <button
