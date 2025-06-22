@@ -5,19 +5,40 @@ import { motion } from 'framer-motion'
 import { signUp } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { z } from 'zod'
+
+const formSchema = z
+  .object({
+    firstName: z.string().trim().min(1, 'Prenumele este obligatoriu'),
+    lastName: z.string().trim().min(1, 'Numele este obligatoriu'),
+    email: z.string().email('Adresa de email este invalidă'),
+    phoneNumber: z
+      .string()
+      .min(1, 'Numărul de telefon este obligatoriu')
+      .refine(
+        (value) => /^07[0-9]{8}$/.test(value),
+        'Numărul de telefon trebuie să fie în format românesc (ex. 0712345678)'
+      ),
+    password: z.string().min(6, 'Parola trebuie să aibă minim 6 caractere'),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Parolele nu se potrivesc',
+    path: ['confirmPassword'],
+  })
 
 export default function SignUpForm() {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    cnp: '',
     phoneNumber: '',
     password: '',
     confirmPassword: ''
   })
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [errors, setErrors] = useState<z.ZodError['formErrors']['fieldErrors'] | null>(null)
+  const [serverError, setServerError] = useState('')
   const [success, setSuccess] = useState(false)
   const router = useRouter()
 
@@ -31,18 +52,21 @@ export default function SignUpForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setError('')
+    setErrors(null)
+    setServerError('')
 
-    if (formData.password !== formData.confirmPassword) {
-      setError('Parolele nu se potrivesc')
+    const validationResult = formSchema.safeParse(formData)
+
+    if (!validationResult.success) {
+      setErrors(validationResult.error.formErrors.fieldErrors)
       setLoading(false)
       return
     }
 
     try {
-      const { data, error: signUpError } = await signUp(formData)
+      const { data, error: signUpError } = await signUp(validationResult.data)
       if (signUpError) {
-        setError(signUpError.message || 'Eroare la crearea contului')
+        setServerError(signUpError.message || 'Eroare la crearea contului')
         setLoading(false)
         return
       }
@@ -54,7 +78,7 @@ export default function SignUpForm() {
       }
     } catch (err) {
       console.error('Sign up error:', err)
-      setError('A apărut o eroare. Te rog să încerci din nou.')
+      setServerError('A apărut o eroare. Te rog să încerci din nou.')
     } finally {
       setLoading(false)
     }
@@ -90,9 +114,9 @@ export default function SignUpForm() {
           <p className="text-gray-300">Începe călătoria ta cu matematica</p>
         </div>
 
-        {error && (
+        {serverError && (
           <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-3">
-            <p className="text-red-300 text-sm">{error}</p>
+            <p className="text-red-300 text-sm">{serverError}</p>
           </div>
         )}
 
@@ -112,6 +136,7 @@ export default function SignUpForm() {
                 className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
                 placeholder="Prenumele tău"
               />
+              {errors?.firstName && <p className="text-red-400 text-xs mt-1">{errors.firstName[0]}</p>}
             </div>
             <div>
               <label htmlFor="lastName" className="block text-sm font-medium text-gray-300 mb-2">
@@ -127,23 +152,8 @@ export default function SignUpForm() {
                 className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
                 placeholder="Numele tău"
               />
+              {errors?.lastName && <p className="text-red-400 text-xs mt-1">{errors.lastName[0]}</p>}
             </div>
-          </div>
-
-          <div>
-            <label htmlFor="cnp" className="block text-sm font-medium text-gray-300 mb-2">
-              CNP
-            </label>
-            <input
-              id="cnp"
-              name="cnp"
-              type="text"
-              value={formData.cnp}
-              onChange={handleChange}
-              required
-              className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
-              placeholder="Codul Numeric Personal"
-            />
           </div>
 
           <div>
@@ -160,6 +170,7 @@ export default function SignUpForm() {
               className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
               placeholder="Introdu adresa ta de email"
             />
+            {errors?.email && <p className="text-red-400 text-xs mt-1">{errors.email[0]}</p>}
           </div>
 
           <div>
@@ -172,9 +183,11 @@ export default function SignUpForm() {
               type="tel"
               value={formData.phoneNumber}
               onChange={handleChange}
+              required
               className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
-              placeholder="+40 712 345 678"
+              placeholder="0712 345 678"
             />
+            {errors?.phoneNumber && <p className="text-red-400 text-xs mt-1">{errors.phoneNumber[0]}</p>}
           </div>
 
           <div>
@@ -192,6 +205,7 @@ export default function SignUpForm() {
               className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
               placeholder="Creează o parolă (min. 6 caractere)"
             />
+            {errors?.password && <p className="text-red-400 text-xs mt-1">{errors.password[0]}</p>}
           </div>
 
           <div>
@@ -208,6 +222,7 @@ export default function SignUpForm() {
               className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
               placeholder="Confirmă parola"
             />
+            {errors?.confirmPassword && <p className="text-red-400 text-xs mt-1">{errors.confirmPassword[0]}</p>}
           </div>
         </div>
 

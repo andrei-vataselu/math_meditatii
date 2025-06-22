@@ -10,8 +10,7 @@ interface SignUpFormData {
   password: string;
   firstName: string;
   lastName: string;
-  cnp: string;
-  phoneNumber?: string;
+  phoneNumber: string;
 }
 
 // Sign up a user, profile is created by a trigger
@@ -23,7 +22,6 @@ export const signUp = async (formData: SignUpFormData) => {
       data: {
         first_name: formData.firstName,
         last_name: formData.lastName,
-        cnp: formData.cnp,
         phone_number: formData.phoneNumber
       }
     }

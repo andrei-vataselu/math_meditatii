@@ -34,16 +34,10 @@ last_name TEXT NOT NULL CHECK (
     char_length(trim(last_name)) > 0
 ),
 
--- CNP (Cod Numeric Personal) - Must be 13 digits and unique.
-cnp TEXT UNIQUE NOT NULL CHECK (
-    char_length(cnp) = 13
-    AND cnp ~ '^[0-9]+$'
-),
-
 -- Phone number must be a valid Romanian format (10 digits starting with 07)
 
 
-phone_number TEXT CHECK (phone_number IS NULL OR phone_number ~ '^07[0-9]{8}$'),
+phone_number TEXT NOT NULL CHECK (phone_number ~ '^07[0-9]{8}$'),
     
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -99,81 +93,18 @@ BEGIN
     -- For now, we will disallow client-side modifications to plans for better security.
 END $$;
 
--- 7. CNP VALIDATION FUNCTION
-CREATE OR REPLACE FUNCTION public.is_cnp_valid(cnp TEXT)
-RETURNS BOOLEAN AS $$
-DECLARE
-    s INT;
-    aa INT;
-    ll INT;
-    zz INT;
-    an INT;
-    c INT;
-    suma BIGINT := 0;
-    cifra_control INT;
-    cheie_control CONSTANT TEXT := '279146358279';
-BEGIN
-    IF char_length(cnp) != 13 OR cnp !~ '^[0-9]+$' THEN
-        RETURN FALSE;
-    END IF;
-
-    s := CAST(substring(cnp, 1, 1) AS INT);
-    aa := CAST(substring(cnp, 2, 2) AS INT);
-    ll := CAST(substring(cnp, 4, 2) AS INT);
-    zz := CAST(substring(cnp, 6, 2) AS INT);
-    c := CAST(substring(cnp, 13, 1) AS INT);
-
-    IF s IN (1, 2) THEN an := 1900 + aa;
-    ELSIF s IN (3, 4) THEN an := 1800 + aa;
-    ELSIF s IN (5, 6) THEN an := 2000 + aa;
-    ELSE RETURN FALSE;
-    END IF;
-
-    -- Check for valid date
-    BEGIN
-        IF to_date(an || '-' || ll || '-' || zz, 'YYYY-MM-DD') IS NULL THEN
-            RETURN FALSE;
-        END IF;
-    EXCEPTION WHEN others THEN
-        RETURN FALSE;
-    END;
-
-    -- Check control digit
-    FOR i IN 1..12 LOOP
-        suma := suma + (CAST(substring(cnp, i, 1) AS INT) * CAST(substring(cheie_control, i, 1) AS INT));
-    END LOOP;
-    
-    cifra_control := suma % 11;
-    IF cifra_control = 10 THEN
-        cifra_control := 1;
-    END IF;
-
-    RETURN cifra_control = c;
-END;
-$$ LANGUAGE plpgsql IMMUTABLE;
-
--- 8. DATABASE TRIGGER: Automatically create a profile when a new user signs up.
+-- 7. DATABASE TRIGGER: Automatically create a profile when a new user signs up.
 -- This function is called by the trigger.
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
-DECLARE
-    user_cnp TEXT;
 BEGIN
-  user_cnp := new.raw_user_meta_data->>'cnp';
-
-  -- Validate CNP before inserting profile.
-  IF public.is_cnp_valid(user_cnp) = FALSE THEN
-    RAISE EXCEPTION 'CNP invalid. Inregistrarea a eșuat.';
-  END IF;
-
-  INSERT INTO public.profiles (id, first_name, last_name, email, cnp, phone_number)
+  INSERT INTO public.profiles (id, first_name, last_name, email, phone_number)
   VALUES (
     new.id,
     -- Get user data from the metadata provided during sign-up
     new.raw_user_meta_data->>'first_name',
     new.raw_user_meta_data->>'last_name',
     new.email,
-    user_cnp,
     new.raw_user_meta_data->>'phone_number'
   );
   RETURN new;
@@ -186,11 +117,9 @@ CREATE TRIGGER on_auth_user_created
   FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
 
 -- 9. Comments explaining the setup
-COMMENT ON FUNCTION public.is_cnp_valid (TEXT) IS 'Validează structura, data și cifra de control a unui CNP românesc.';
+COMMENT ON FUNCTION public.handle_new_user IS 'Creează un profil pentru un utilizator nou.';
 
-COMMENT ON FUNCTION public.handle_new_user IS 'Validează CNP-ul și creează un profil pentru un utilizator nou.';
-
-COMMENT ON TRIGGER on_auth_user_created ON auth.users IS 'Când un utilizator nou se înregistrează, validează CNP-ul și creează automat profilul.';
+COMMENT ON TRIGGER on_auth_user_created ON auth.users IS 'Când un utilizator nou se înregistrează, creează automat profilul.';
 
 COMMENT ON
 TABLE public.profiles IS 'Stores public-facing user profile information.';

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useUser } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import UserButton from './UserButton';
+import Design from './Design';
 
 export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -62,15 +63,19 @@ export default function MobileMenu() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
+            className="fixed inset-0 z-50 overflow-hidden"
+            style={{
+              background: 'linear-gradient(to bottom right, #0f172a, #5f0032, #0f172a)'
+            }}
             onClick={() => setIsOpen(false)}
           >
+    <Design/>
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
-              className="absolute right-0 top-0 h-full w-80 bg-slate-900/95 backdrop-blur-lg border-l border-white/20 p-6"
+              className="absolute inset-0  p-6"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center mb-8">
