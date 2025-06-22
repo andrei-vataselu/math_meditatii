@@ -15,6 +15,11 @@ interface UserProfile {
   updated_at?: string
 }
 
+interface PlanType {
+  status: string;
+  plan_type: string;
+}
+
 interface AuthContextType {
   user: User | null
   profile: UserProfile | null
@@ -22,6 +27,7 @@ interface AuthContextType {
   loading: boolean
   signOut: () => Promise<void>
   refreshUser: () => Promise<void>
+  plan: PlanType // Placeholder for plan, to be replaced with real logic later
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -101,13 +107,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe()
   }, [])
 
+  // Placeholder static plan value
+  const plan: PlanType = { status: 'inactive', plan_type: 'free' };
+
   const value = {
     user,
     profile,
     session,
     loading,
     signOut,
-    refreshUser
+    refreshUser,
+    plan // Add static plan to context value
   }
 
   return (
