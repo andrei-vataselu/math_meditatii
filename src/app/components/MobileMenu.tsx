@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useUser, UserButton } from '@clerk/nextjs';
+import { useUser } from '@/contexts/AuthContext';
 import Link from 'next/link';
+import UserButton from './UserButton';
 
 export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,93 +58,94 @@ export default function MobileMenu() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="fixed inset-0 z-50 bg-gradient-to-b from-slate-900 to-[#5f0032] p-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
+            onClick={() => setIsOpen(false)}
           >
-            <div className="flex justify-between items-center mb-12">
-              <h2 className="text-2xl font-bold text-white">Menu</h2>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-white p-2"
-                aria-label="Close menu"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            <nav className="space-y-6">
-              {menuItems.map((item, index) => (
-                <motion.a
-                  key={item.href}
-                  href={item.href}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                  className="block text-xl text-gray-300 hover:text-white transition-colors"
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="absolute right-0 top-0 h-full w-80 bg-slate-900/95 backdrop-blur-lg border-l border-white/20 p-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-8">
+                <h2 className="text-xl font-bold text-white">Meniu</h2>
+                <button
                   onClick={() => setIsOpen(false)}
+                  className="text-white p-2"
                 >
-                  {item.label}
-                </motion.a>
-              ))}
-              
-              {isLoaded && (
-                <>
-                  {isSignedIn ? (
-                    <>
-                      <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3, delay: 0.3 }}
-                        className="pt-4 border-t border-white/20"
-                      >
-                        <Link 
-                          href="/dashboard"
-                          className="block text-xl text-gray-300 hover:text-white transition-colors mb-4"
-                          onClick={() => setIsOpen(false)}
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <nav className="space-y-6">
+                {menuItems.map((item, index) => (
+                  <motion.a
+                    key={item.href}
+                    href={item.href}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    className="block text-xl text-gray-300 hover:text-white transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.label}
+                  </motion.a>
+                ))}
+                
+                {isLoaded && (
+                  <>
+                    {isSignedIn ? (
+                      <>
+                        <motion.div
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: 0.3 }}
+                          className="pt-4 border-t border-white/20"
                         >
-                          Dashboard
-                        </Link>
-                        <div className="flex items-center justify-between">
-                          <span className="text-xl text-gray-300">Contul tău</span>
-                          <UserButton 
-                            afterSignOutUrl="/"
-                            appearance={{
-                              elements: {
-                                userButtonAvatarBox: 'w-8 h-8',
-                                userButtonTrigger: 'focus:shadow-none',
-                              }
-                            }}
-                          />
-                        </div>
-                      </motion.div>
-                    </>
-                  ) : (
-                    <>
-                      <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3, delay: 0.3 }}
-                        className="pt-4 border-t border-white/20"
-                      >
-                        <Link href="/sign-up">
-                          <button 
-                            className="w-full bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-3 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300"
+                          <Link 
+                            href="/dashboard"
+                            className="block text-xl text-gray-300 hover:text-white transition-colors mb-4"
                             onClick={() => setIsOpen(false)}
                           >
-                            Începe acum
-                          </button>
-                        </Link>
-                      </motion.div>
-                    </>
-                  )}
-                </>
-              )}
-            </nav>
+                            Dashboard
+                          </Link>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xl text-gray-300">Contul tău</span>
+                            <UserButton />
+                          </div>
+                        </motion.div>
+                      </>
+                    ) : (
+                      <>
+                        <motion.div
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: 0.3 }}
+                          className="pt-4 border-t border-white/20"
+                        >
+                          <Link href="/sign-up">
+                            <button 
+                              className="w-full bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-3 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              Începe acum
+                            </button>
+                          </Link>
+                        </motion.div>
+                      </>
+                    )}
+                  </>
+                )}
+              </nav>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

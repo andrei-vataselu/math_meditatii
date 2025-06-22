@@ -1,10 +1,10 @@
 'use client';
 
-import { SignUp } from '@clerk/nextjs';
 import { motion } from 'framer-motion';
 import Header from '../../components/Header';
 import Design from '@/app/components/Design';
 import Footer from '@/app/components/Footer';
+import SignUpForm from '@/app/components/SignUpForm';
 
 export default function SignUpPage() {
   return (
@@ -37,47 +37,7 @@ export default function SignUpPage() {
             </motion.p>
           </div>
           
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 sm:p-6 border border-white/20"
-          >
-            <SignUp 
-              appearance={{
-                elements: {
-                  header: 'hidden',
-                  footer: 'bg-transparent pt-4',
-                  footerActionText: 'text-gray-300',
-                  formButtonPrimary: 'bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300',
-                  card: 'bg-transparent shadow-none w-full',
-                  headerTitle: 'text-white',
-                  headerSubtitle: 'text-gray-300',
-                  socialButtonsBlockButton: 'bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-all duration-300',
-                  formFieldInput: 'bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#FEBFD2] focus:ring-[#FEBFD2]',
-                  formFieldLabel: 'text-gray-300',
-                  footerActionLink: 'text-[#FEBFD2] hover:text-[#FAD4E4]',
-                  dividerLine: 'bg-white/20',
-                  dividerText: 'text-gray-300',
-                  formResendCodeLink: 'text-[#FEBFD2] hover:text-[#FAD4E4]',
-                  formFieldAction: 'text-[#FEBFD2] hover:text-[#FAD4E4]',
-                  identityPreviewText: 'text-gray-300',
-                  identityPreviewEditButton: 'text-[#FEBFD2] hover:text-[#FAD4E4]',
-                  formFieldShowPasswordButton: 'text-gray-400 hover:text-white',
-                  alertText: 'text-red-300',
-                  alert: 'bg-red-500/20 border border-red-500/30',
-                },
-                variables: {
-                  colorPrimary: '#FEBFD2',
-                  colorText: '#ffffff',
-                  colorTextSecondary: '#9ca3af',
-                  colorBackground: 'transparent',
-                  colorInputBackground: 'rgba(255, 255, 255, 0.1)',
-                  colorInputText: '#ffffff',
-                }
-              }}
-            />
-          </motion.div>
+          <SignUpForm />
         </motion.div>
       </div>
       <Footer />

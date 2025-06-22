@@ -1,6 +1,6 @@
 'use client';
 
-import { useUser, useAuth } from '@clerk/nextjs';
+import { useUser, useAuth } from '@/contexts/AuthContext';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import ProtectedRoute from '../components/ProtectedRoute';
@@ -36,13 +36,13 @@ function SubscriptionActive() {
 function NoSubscription() {
   return (
     <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 text-center">
-      <h2 className="text-2xl font-bold text-white mb-4">Deblochează Potențialul Maxim</h2>
+      <h2 className="text-2xl font-bold text-white mb-4">Nu ai un abonament activ</h2>
       <p className="text-gray-300 mb-6">
-        Pentru a accesa toate resursele, exercițiile interactive și pentru a programa ședințe, ai nevoie de un abonament.
+        Pentru a accesa resursele premium și a programa ședințe de meditații, te rog să îți activezi un abonament.
       </p>
       <Link href="/pricing">
-        <button className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-8 py-3 rounded-full text-lg font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300 transform hover:scale-105 shadow-lg">
-          Vezi Planurile
+        <button className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-8 py-3 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300">
+          Vezi planurile disponibile
         </button>
       </Link>
     </div>
@@ -51,8 +51,8 @@ function NoSubscription() {
 
 function DashboardContent() {
   const { user } = useUser();
-  const { has } = useAuth();
-  const hasActiveSubscription = has && has({ plan: 'meditatie_lunara' });
+  const { plan } = useAuth();
+  const hasActiveSubscription = plan && plan.status === 'active' && plan.plan_type !== 'free';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 overflow-hidden isolate">
@@ -94,7 +94,7 @@ function DashboardContent() {
             {hasActiveSubscription ? <SubscriptionActive /> : <NoSubscription />}
         </motion.div>
       </div>
-    <Footer />
+      <Footer />
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { useUser, SignInButton } from '@clerk/nextjs';
+import { useUser } from '@/contexts/AuthContext';
 import Link from 'next/link';
 
 export default function Hero() {
@@ -65,11 +65,11 @@ export default function Hero() {
               )}
             </>
           )}
-          <SignInButton mode="modal">
+          <Link href="/sign-in">
             <button className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-[#DB0073] transition-all duration-300 cursor-pointer">
               Vezi resurse gratuite
             </button>
-          </SignInButton>
+          </Link>
         </motion.div>
       </motion.div>
     </main>

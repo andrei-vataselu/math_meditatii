@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ClerkProvider } from '@clerk/nextjs';
+import { AuthProvider } from '@/contexts/AuthContext';
 import "./globals.css";
 import CookieBanner from "./components/CookieBanner";
 
@@ -26,8 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-  
-    <ClerkProvider>
+    <AuthProvider>
       <html lang="ro">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -36,6 +35,6 @@ export default function RootLayout({
           <CookieBanner />
         </body>
       </html>
-    </ClerkProvider>
+    </AuthProvider>
   );
 }

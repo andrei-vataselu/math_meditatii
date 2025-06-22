@@ -1,15 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useUser, UserButton } from '@clerk/nextjs';
+import { useUser } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import MobileMenu from './MobileMenu';
+import UserButton from './UserButton';
 
 export default function Header() {
   const { isSignedIn, isLoaded } = useUser();
 
   return (
-    <nav className="relative flex justify-between items-center p-6 md:p-8">
+    <nav className="relative flex justify-between items-center p-6 md:p-8" style={{ background: 'none' }}>
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -30,6 +31,7 @@ export default function Header() {
         <a href="#pricing" className="text-gray-300 hover:text-white transition-colors">Tarife</a>
         <a href="#contact" className="text-gray-300 hover:text-white transition-colors">Contact</a>
       </motion.div>
+      
       <div className="flex items-center space-x-4">
         {isLoaded && (
           <>
@@ -47,15 +49,7 @@ export default function Header() {
                   >
                     Dashboard
                   </Link>
-                  <UserButton 
-                    afterSignOutUrl="/"
-                    appearance={{
-                      elements: {
-                        userButtonAvatarBox: 'w-8 h-8',
-                        userButtonTrigger: 'focus:shadow-none',
-                      }
-                    }}
-                  />
+                  <UserButton />
                 </motion.div>
               </>
             ) : (
@@ -78,4 +72,4 @@ export default function Header() {
       </div>
     </nav>
   );
-} 
+}
