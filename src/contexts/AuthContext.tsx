@@ -1,8 +1,8 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+import { createContext, useContext, useEffect, useState, ReactNode, useMemo } from 'react'
 import { User, Session } from '@supabase/supabase-js'
-import { supabase, getUserProfile } from '@/lib/supabase'
+import { supabase, getUserProfile, updateUserProfile } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 
 interface UserProfile {
@@ -26,8 +26,8 @@ interface AuthContextType {
   session: Session | null
   loading: boolean
   signOut: () => Promise<void>
-  refreshUser: () => Promise<void>
-  plan: PlanType // Placeholder for plan, to be replaced with real logic later
+  plan: PlanType
+  updateProfile: (updates: Partial<{ first_name: string; last_name: string; phone_number: string }>) => Promise<{ error: { message: string } | null }>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -39,76 +39,84 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
-  // Updated refreshUser function
-  const refreshUser = async () => {
-    try {
-      const { data: { user: currentUser }, error: userError } = await supabase.auth.getUser();
-      
-      if (userError) throw userError;
-      setUser(currentUser);
+  const updateProfile = async (updates: Partial<{ first_name: string; last_name: string; phone_number: string }>) => {
+    if (!user) return { error: { message: 'User not authenticated' } };
 
-      if (!currentUser) {
-        setProfile(null);
-        return;
-      }
+    const { data, error } = await updateUserProfile(user.id, updates);
 
-      // Fetch profile from DB
-      const { data: profile, error: profileError } = await getUserProfile(currentUser.id);
-      
-      setProfile(profileError ? null : profile);
-
-    } catch (error) {
-      console.error('Error refreshing user:', error);
-    } finally {
-      setLoading(false);
+    if (error) {
+        return { error };
     }
+
+    if (data) {
+        setProfile(data as UserProfile);
+    }
+    return { error: null };
   }
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    setProfile(null);
-    setSession(null);
-    router.push('/sign-in');
+    await supabase.auth.signOut()
+    router.push('/sign-in')
   }
 
   useEffect(() => {
-    // Get initial session
-    const getInitialSession = async () => {
-      const { data: { session: initialSession } } = await supabase.auth.getSession()
-      setSession(initialSession)
-      setUser(initialSession?.user ?? null)
-      
-      if (initialSession?.user) {
-        await refreshUser()
+    setLoading(true)
+
+    const fetchSessionAndProfile = async () => {
+      const {
+        data: { session: currentSession },
+        error: sessionError,
+      } = await supabase.auth.getSession()
+
+      if (sessionError) {
+        console.error('Error fetching session:', sessionError)
+        setLoading(false)
+        return
       }
-      
+
+      setSession(currentSession)
+      const currentUser = currentSession?.user
+      setUser(currentUser ?? null)
+
+      if (currentUser) {
+        const { data: profileData, error: profileError } = await getUserProfile(currentUser.id)
+        if (profileError) {
+          console.error('Error fetching profile:', profileError)
+          setProfile(null)
+        } else {
+          setProfile(profileData)
+        }
+      }
       setLoading(false)
     }
 
-    getInitialSession()
+    fetchSessionAndProfile()
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        setSession(session)
-        setUser(session?.user ?? null)
-        
-        if (session?.user) {
-          await refreshUser()
-        } else {
-          setProfile(null)
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, newSession) => {
+      setSession(newSession)
+      const currentUser = newSession?.user
+      setUser(currentUser ?? null)
+
+      if (currentUser) {
+        if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
+          const { data: profileData, error: profileError } = await getUserProfile(currentUser.id)
+          if (profileError) {
+            setProfile(null)
+          } else {
+            setProfile(profileData)
+          }
         }
-        
-        setLoading(false)
+      } else {
+        setProfile(null)
       }
-    )
+    })
 
-    return () => subscription.unsubscribe()
+    return () => {
+      subscription.unsubscribe()
+    }
   }, [])
-
-  // Placeholder static plan value
-  const plan: PlanType = { status: 'inactive', plan_type: 'free' };
 
   const value = {
     user,
@@ -116,15 +124,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     session,
     loading,
     signOut,
-    refreshUser,
-    plan // Add static plan to context value
+    plan: { status: 'inactive', plan_type: 'free' },
+    updateProfile,
   }
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 export function useAuth() {
@@ -137,15 +141,21 @@ export function useAuth() {
  
 export function useUser() {
   const { user, profile, loading } = useAuth()
-  return {
-    isSignedIn: !!user,
-    isLoaded: !loading,
-    user: user ? {
+
+  const memoizedUser = useMemo(() => {
+    if (!user) return null
+    return {
       emailAddresses: [{ emailAddress: user.email }],
       firstName: profile?.first_name,
       lastName: profile?.last_name,
       username: user.email?.split('@')[0],
       ...user
-    } : null
+    }
+  }, [user, profile])
+
+  return {
+    isSignedIn: !!user,
+    isLoaded: !loading,
+    user: memoizedUser
   }
 }

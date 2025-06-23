@@ -2,15 +2,36 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useUser } from '@/contexts/AuthContext'
-import { getUserProfile, updateUserProfile, changeEmail, resetPassword } from '@/lib/supabase'
+import { useAuth } from '@/contexts/AuthContext'
+import { resetPassword } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import Header from '../components/Header'
 import Design from '../components/Design'
+import { z } from 'zod'
+
+const profileSchema = z.object({
+  firstName: z
+    .string()
+    .trim()
+    .min(1, 'Prenumele este obligatoriu')
+    .regex(/^[^0-9]*$/, 'Prenumele nu poate conține cifre'),
+  lastName: z
+    .string()
+    .trim()
+    .min(1, 'Numele este obligatoriu')
+    .regex(/^[^0-9]*$/, 'Numele nu poate conține cifre'),
+  email: z.string().email('Adresa de email este invalidă'),
+  phoneNumber: z
+    .string()
+    .min(1, 'Numărul de telefon este obligatoriu')
+    .refine(
+      (value) => /^07[0-9]{8}$/.test(value),
+      'Numărul de telefon trebuie să fie în format românesc (ex. 0712345678)'
+    )
+})
 
 export default function ProfilePage() {
-  const { user, isSignedIn, isLoaded } = useUser()
+  const { user, profile, loading: authLoading, updateProfile } = useAuth()
   const router = useRouter()
   
   const [formData, setFormData] = useState({
@@ -20,42 +41,26 @@ export default function ProfilePage() {
     phoneNumber: ''
   })
   const [loading, setLoading] = useState(false)
-  const [profileLoading, setProfileLoading] = useState(true)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  const [passwordEmail, setPasswordEmail] = useState('')
+  const [errors, setErrors] = useState<z.ZodError['formErrors']['fieldErrors'] | null>(null)
   const [passwordLoading, setPasswordLoading] = useState(false)
   const [passwordSuccess, setPasswordSuccess] = useState('')
 
   useEffect(() => {
-    if (isLoaded && !isSignedIn) {
-      router.push('/sign-in')
-      return
-    }
-
-    if (isSignedIn && user) {
-      loadProfile()
-    }
-  }, [isLoaded, isSignedIn, user, router])
-
-  const loadProfile = async () => {
-    try {
-      const profile = await getUserProfile()
-      if (profile) {
+    if (!authLoading) {
+      if (!user) {
+        router.push('/sign-in')
+      } else {
         setFormData({
-          firstName: profile.first_name || '',
-          lastName: profile.last_name || '',
-          email: profile.email || '',
-          phoneNumber: profile.phone_number || ''
+          firstName: profile?.first_name || '',
+          lastName: profile?.last_name || '',
+          email: user.email || '',
+          phoneNumber: profile?.phone_number || ''
         })
       }
-    } catch (err) {
-      console.error('Profile load error:', err)
-      setError('Eroare la încărcarea profilului')
-    } finally {
-      setProfileLoading(false)
     }
-  }
+  }, [user, profile, authLoading, router])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -66,19 +71,38 @@ export default function ProfilePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!user) return
+
     setLoading(true)
     setError('')
     setSuccess('')
+    setErrors(null)
+
+    const validationResult = profileSchema.safeParse(formData)
+
+    if (!validationResult.success) {
+      setErrors(validationResult.error.formErrors.fieldErrors)
+      setLoading(false)
+      return
+    }
 
     try {
-      const { error } = await updateUserProfile(formData)
-      if (error) {
-        setError(error.message)
-      } else {
-        setSuccess('Profilul a fost actualizat cu succes!')
+      const { error: updateError } = await updateProfile({
+        first_name: validationResult.data.firstName,
+        last_name: validationResult.data.lastName,
+        phone_number: validationResult.data.phoneNumber
+      })
+
+      if (updateError) {
+        throw updateError
       }
+      
+      setSuccess('Profilul a fost actualizat cu succes!')
+
     } catch (err) {
-      setError('Eroare la actualizarea profilului')
+      console.error('Profile update error:', err)
+      const error = err as Error
+      setError(error.message || 'Eroare la actualizarea profilului')
     } finally {
       setLoading(false)
     }
@@ -86,26 +110,32 @@ export default function ProfilePage() {
 
   const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!user || !user.email) {
+      setError('Email-ul utilizatorului nu a fost găsit.')
+      setPasswordLoading(false)
+      return
+    }
+
     setPasswordLoading(true)
     setError('')
     setPasswordSuccess('')
 
     try {
-      const { error } = await resetPassword(passwordEmail)
+      const { error } = await resetPassword(user.email)
       if (error) {
         setError(error.message)
       } else {
         setPasswordSuccess('Email-ul de resetare a fost trimis! Vei fi deconectat de pe toate dispozitivele.')
-        setPasswordEmail('')
       }
     } catch (err) {
+      console.error('Password reset error:', err)
       setError('Eroare la trimiterea email-ului de resetare')
     } finally {
       setPasswordLoading(false)
     }
   }
 
-  if (profileLoading) {
+  if (authLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 overflow-hidden isolate">
         <Design />
@@ -159,6 +189,7 @@ export default function ProfilePage() {
                     className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
                     placeholder="Prenumele tău"
                   />
+                  {errors?.firstName && <p className="text-red-400 text-xs mt-1">{errors.firstName[0]}</p>}
                 </div>
                 <div>
                   <label htmlFor="lastName" className="block text-sm font-medium text-gray-300 mb-2">
@@ -174,6 +205,7 @@ export default function ProfilePage() {
                     className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
                     placeholder="Numele tău"
                   />
+                  {errors?.lastName && <p className="text-red-400 text-xs mt-1">{errors.lastName[0]}</p>}
                 </div>
               </div>
 
@@ -191,6 +223,7 @@ export default function ProfilePage() {
                   className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
                   placeholder="Adresa ta de email"
                 />
+                {errors?.email && <p className="text-red-400 text-xs mt-1">{errors.email[0]}</p>}
               </div>
 
               <div>
@@ -207,6 +240,7 @@ export default function ProfilePage() {
                   className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
                   placeholder="0712 345 678"
                 />
+                {errors?.phoneNumber && <p className="text-red-400 text-xs mt-1">{errors.phoneNumber[0]}</p>}
               </div>
 
               <button
@@ -230,22 +264,7 @@ export default function ProfilePage() {
               </div>
             )}
 
-            <form onSubmit={handlePasswordReset} className="space-y-4">
-              <div>
-                <label htmlFor="passwordEmail" className="block text-sm font-medium text-gray-300 mb-2">
-                  Email pentru resetare
-                </label>
-                <input
-                  id="passwordEmail"
-                  type="email"
-                  value={passwordEmail}
-                  onChange={(e) => setPasswordEmail(e.target.value)}
-                  required
-                  className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
-                  placeholder="Introdu adresa ta de email"
-                />
-              </div>
-
+            <form onSubmit={handlePasswordReset}>
               <button
                 type="submit"
                 disabled={passwordLoading}

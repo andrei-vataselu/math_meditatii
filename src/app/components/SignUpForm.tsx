@@ -9,8 +9,16 @@ import { z } from 'zod'
 
 const formSchema = z
   .object({
-    firstName: z.string().trim().min(1, 'Prenumele este obligatoriu'),
-    lastName: z.string().trim().min(1, 'Numele este obligatoriu'),
+    firstName: z
+      .string()
+      .trim()
+      .min(1, 'Prenumele este obligatoriu')
+      .regex(/^[^0-9]*$/, 'Prenumele nu poate conține cifre'),
+    lastName: z
+      .string()
+      .trim()
+      .min(1, 'Numele este obligatoriu')
+      .regex(/^[^0-9]*$/, 'Numele nu poate conține cifre'),
     email: z.string().email('Adresa de email este invalidă'),
     phoneNumber: z
       .string()

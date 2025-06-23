@@ -1,9 +1,8 @@
-'use client';
-
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import FeatureShowcase from './components/FeatureShowcase';
+ 
 import Statistics from './components/Statistics';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
@@ -36,8 +35,10 @@ export default function Home() {
       <Design />
       <Header />
       <Hero />
+    
       <Features features={features} />
-      <FeatureShowcase features={features} />
+      <FeatureShowcase />
+    
       <Statistics />
       <CTA />
       <Footer />

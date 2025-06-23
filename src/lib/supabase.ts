@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import { z } from 'zod'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -83,14 +84,50 @@ export const getUserProfile = async (userId: string) => {
   }
 }
 
-export const updateUserProfile = async (userId: string, updates: Partial<{ first_name: string, last_name: string, email: string, phone_number: string }>) => {
+const profileUpdateSchema = z.object({
+  first_name: z
+    .string()
+    .trim()
+    .min(1, 'Prenumele este obligatoriu')
+    .regex(/^[^0-9]*$/, 'Prenumele nu poate conține cifre'),
+  last_name: z
+    .string()
+    .trim()
+    .min(1, 'Numele este obligatoriu')
+    .regex(/^[^0-9]*$/, 'Numele nu poate conține cifre'),
+  phone_number: z
+    .string()
+    .min(1, 'Numărul de telefon este obligatoriu')
+    .refine(
+      (value) => /^07[0-9]{8}$/.test(value),
+      'Numărul de telefon trebuie să fie în format românesc (ex. 0712345678)'
+    )
+})
+
+export const updateUserProfile = async (
+  userId: string,
+  updates: Partial<{ first_name: string; last_name: string; phone_number: string }>
+) => {
   try {
-    const { data, error } = await supabase.from('profiles').update(updates).eq('id', userId).single();
+    const validationResult = profileUpdateSchema.partial().safeParse(updates)
+
+    if (!validationResult.success) {
+      const firstError = validationResult.error.errors[0]
+      return { data: null, error: { message: firstError.message } }
+    }
+
+    const { data, error } = await supabase
+      .from('profiles')
+      .update(validationResult.data)
+      .eq('id', userId)
+      .select()
+      .single()
+      
     if (error) {
       console.error('Supabase update error:', error)
       return { data: null, error }
     }
-    return { data, error: null };
+    return { data, error: null }
   } catch (err) {
     console.error('Profile update error:', err)
     return { data: null, error: { message: 'Eroare la actualizarea profilului' } }

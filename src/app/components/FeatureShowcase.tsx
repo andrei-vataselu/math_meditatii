@@ -1,56 +1,96 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
-interface Feature {
-  title: string;
-  description: string;
-  icon: string;
-  color: string;
-}
+const showcaseImages = [
+  '/recenzii/img.png',
+  '/recenzii/img2.png',
+  '/recenzii/img3.png',
+  '/recenzii/img4.png',
+  '/recenzii/im5.png',
+];
 
-interface FeatureShowcaseProps {
-  features: Feature[];
-}
-
-export default function FeatureShowcase({ features }: FeatureShowcaseProps) {
-  const [currentFeature, setCurrentFeature] = useState(0);
+export default function FeatureShowcase() {
+  const [current, setCurrent] = useState(0);
+  const router = useRouter();
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentFeature((prev) => (prev + 1) % features.length);
-    }, 3000);
+      setCurrent((prev) => (prev + 1) % showcaseImages.length);
+    }, 4000);
     return () => clearInterval(interval);
-  }, [features.length]);
+  }, []);
+
+  // Swipe support
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.changedTouches[0].clientX;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    touchEndX.current = e.changedTouches[0].clientX;
+    const diff = touchStartX.current - touchEndX.current;
+    if (diff > 50) {
+      setCurrent((prev) => (prev + 1) % showcaseImages.length);
+    } else if (diff < -50) {
+      setCurrent((prev) => (prev - 1 + showcaseImages.length) % showcaseImages.length);
+    }
+  };
 
   return (
-    <section className="relative py-20 px-6">
-      <div className="max-w-4xl mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="bg-white/10 backdrop-blur-lg rounded-3xl p-12 border border-white/20"
+    <section className="relative py-12 sm:py-20">
+      <div className="max-w-4xl mx-auto rounded-3xl overflow-hidden shadow-2xl bg-white/10 border border-white/20 relative">
+        <div
+          className="relative w-full aspect-[16/7] select-none"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
-          <AnimatePresence mode="wait">
+          <AnimatePresence initial={false}>
             <motion.div
-              key={currentFeature}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="space-y-6"
+              key={current}
+              initial={{ opacity: 0, x: 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -60 }}
+              transition={{ duration: 0.7 }}
+              className="absolute inset-0 w-full h-full"
             >
-              <div className={`w-24 h-24 bg-gradient-to-r ${features[currentFeature].color} rounded-3xl flex items-center justify-center text-5xl mx-auto`}>
-                {features[currentFeature].icon}
+              <Image
+                src={showcaseImages[current]}
+                alt={`Feature ${current + 1}`}
+                fill
+                className="object-contain w-full h-full rounded-3xl bg-black"
+                priority
+                sizes="(max-width: 768px) 100vw, 800px"
+              />
+              {/* Overlay gradient for future text */}
+              <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                {/* <span className="text-white font-semibold text-lg">Aici poți pune text/recenzie</span> */}
               </div>
-              <h3 className="text-3xl font-bold text-white">{features[currentFeature].title}</h3>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">{features[currentFeature].description}</p>
             </motion.div>
           </AnimatePresence>
-        </motion.div>
+        </div>
+        {/* Indicators */}
+        <div className="flex justify-center mt-4 gap-3 pb-2">
+          {showcaseImages.map((_, idx) => (
+            <button
+              key={idx}
+              className={`w-4 h-4 rounded-full border-2 border-[#FEBFD2] transition-all duration-300 ${idx === current ? 'bg-[#FEBFD2] scale-110' : 'bg-white/30'}`}
+              onClick={() => setCurrent(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="flex justify-center mt-8">
+        <button
+          className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-8 py-3 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300 shadow-lg"
+          onClick={() => router.push('/recenzii')}
+        >
+          Vezi mai multe recenzii
+        </button>
       </div>
     </section>
   );
