@@ -307,15 +307,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // Add debug functions to window in development
     if (process.env.NODE_ENV === 'development') {
-      (window as any).__AUTH_DEBUG__ = state;
-      (window as any).__RESET_AUTH__ = resetAuth;
-      (window as any).__CHECK_AUTH_STUCK__ = () => {
+      // Extend Window interface for debug functions
+      interface DebugWindow extends Window {
+        __AUTH_DEBUG__: AuthState;
+        __RESET_AUTH__: () => void;
+        __CHECK_AUTH_STUCK__: () => boolean;
+      }
+      
+      (window as unknown as DebugWindow).__AUTH_DEBUG__ = state;
+      (window as unknown as DebugWindow).__RESET_AUTH__ = resetAuth;
+      (window as unknown as DebugWindow).__CHECK_AUTH_STUCK__ = () => {
         const stuck = state.loading && !state.initialized;
         console.log('[Debug] Auth stuck:', stuck, state);
         return stuck;
       };
     }
-  }, [state.user, state.profile, state.session, state.loading, state.error, state.initialized, resetAuth]);
+  }, [state, resetAuth]);
 
   const contextValue = useMemo(() => ({
     ...state,
