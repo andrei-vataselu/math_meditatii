@@ -27,9 +27,10 @@ export default function Header() {
         transition={{ duration: 0.6, delay: 0.2 }}
         className="hidden md:flex space-x-8"
       >
-        <a href="#features" className="text-gray-300 hover:text-white transition-colors">Beneficii</a>
-        <a href="#pricing" className="text-gray-300 hover:text-white transition-colors">Tarife</a>
-        <a href="#contact" className="text-gray-300 hover:text-white transition-colors">Contact</a>
+        <Link href="/resurse-gratuite" className="text-gray-300 hover:text-white transition-colors">Resurse gratuite</Link>
+        <Link href="/despre-mine" className="text-gray-300 hover:text-white transition-colors">Despre mine</Link>
+        <Link href="/recenzii" className="text-gray-300 hover:text-white transition-colors">Recenzii</Link>
+        <Link href="/contact" className="text-gray-300 hover:text-white transition-colors">Contact</Link>
       </motion.div>
       
       <div className="flex items-center space-x-4">

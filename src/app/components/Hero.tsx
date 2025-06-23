@@ -65,7 +65,7 @@ export default function Hero() {
               )}
             </>
           )}
-          <Link href="/sign-in">
+          <Link href="/resurse-gratuite">
             <button className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-[#DB0073] transition-all duration-300 cursor-pointer">
               Vezi resurse gratuite
             </button>

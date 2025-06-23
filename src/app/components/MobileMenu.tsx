@@ -23,9 +23,10 @@ export default function MobileMenu() {
   }, [isOpen]);
 
   const menuItems = [
-    { href: '#features', label: 'Beneficii' },
-    { href: '#pricing', label: 'Tarife' },
-    { href: '#contact', label: 'Contact' }
+    { href: '/resurse-gratuite', label: 'Resurse gratuite' },
+    { href: '/despre-mine', label: 'Despre mine' },
+    { href: '/recenzii', label: 'Recenzii' },
+    { href: '/contact', label: 'Contact' }
   ];
 
   return (
@@ -92,17 +93,20 @@ export default function MobileMenu() {
 
               <nav className="space-y-6">
                 {menuItems.map((item, index) => (
-                  <motion.a
+                  <motion.div
                     key={item.href}
-                    href={item.href}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="block text-xl text-gray-300 hover:text-white transition-colors"
-                    onClick={() => setIsOpen(false)}
                   >
-                    {item.label}
-                  </motion.a>
+                    <Link
+                      href={item.href}
+                      className="block text-xl text-gray-300 hover:text-white transition-colors"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.div>
                 ))}
                 
                 {isLoaded && (
