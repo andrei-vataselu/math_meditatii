@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AuthProvider } from '@/contexts/AuthContext';
+import AuthErrorBoundary from './components/AuthErrorBoundary';
+import AuthDebug from './components/AuthDebug';
 import "./globals.css";
 import CookieBanner from "./components/CookieBanner";
 
@@ -30,10 +32,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>
-          {children}
-          <CookieBanner />
-        </AuthProvider>
+        <AuthErrorBoundary>
+          <AuthProvider>
+            {children}
+            <CookieBanner />
+            <AuthDebug />
+          </AuthProvider>
+        </AuthErrorBoundary>
       </body>
     </html>
   );

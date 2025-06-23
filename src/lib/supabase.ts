@@ -4,7 +4,13 @@ import { z } from 'zod'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-export const supabase = createClient(supabaseUrl, supabaseKey)
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true
+  }
+})
 
 interface SignUpFormData {
   email: string;
@@ -16,67 +22,146 @@ interface SignUpFormData {
 
 // Sign up a user, profile is created by a trigger
 export const signUp = async (formData: SignUpFormData) => {
-  const { data, error } = await supabase.auth.signUp({
-    email: formData.email,
-    password: formData.password,
-    options: {
-      data: {
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        phone_number: formData.phoneNumber
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+      options: {
+        data: {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          phone_number: formData.phoneNumber
+        }
       }
+    });
+    
+    if (error) {
+      console.error('Sign up error:', error)
+      return { data: null, error }
     }
-  });
-  return { data, error };
+    
+    return { data, error: null };
+  } catch (error) {
+    console.error('Sign up failed:', error)
+    return { data: null, error: { message: 'Eroare la înregistrare' } }
+  }
 }
 
 export const signIn = async (email: string, password: string) => {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password
-  })
-  return { data, error }
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    })
+    
+    if (error) {
+      console.error('Sign in error:', error)
+      return { data: null, error }
+    }
+    
+    return { data, error: null }
+  } catch (error) {
+    console.error('Sign in failed:', error)
+    return { data: null, error: { message: 'Eroare la conectare' } }
+  }
 }
 
 export const signOut = async () => {
-  const { error } = await supabase.auth.signOut()
-  return { error }
+  try {
+    const { error } = await supabase.auth.signOut()
+    
+    if (error) {
+      console.error('Sign out error:', error)
+      return { error }
+    }
+    
+    return { error: null }
+  } catch (error) {
+    console.error('Sign out failed:', error)
+    return { error: { message: 'Eroare la deconectare' } }
+  }
 }
 
 export const getCurrentUser = async () => {
-  const { data: { user }, error } = await supabase.auth.getUser()
-  return { user, error }
+  try {
+    const { data: { user }, error } = await supabase.auth.getUser()
+    
+    if (error) {
+      console.error('Get user error:', error)
+      return { user: null, error }
+    }
+    
+    return { user, error: null }
+  } catch (error) {
+    console.error('Get user failed:', error)
+    return { user: null, error: { message: 'Eroare la încărcarea utilizatorului' } }
+  }
 }
 
 export const getSession = async () => {
-  const { data: { session }, error } = await supabase.auth.getSession()
-  return { session, error }
+  try {
+    const { data: { session }, error } = await supabase.auth.getSession()
+    
+    if (error) {
+      console.error('Get session error:', error)
+      return { session: null, error }
+    }
+    
+    return { session, error: null }
+  } catch (error) {
+    console.error('Get session failed:', error)
+    return { session: null, error: { message: 'Eroare la încărcarea sesiunii' } }
+  }
 }
 
 // Reset password via email
 export const resetPassword = async (email: string) => {
-  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${window.location.origin}/reset-password`
-  })
-  return { data, error }
+  try {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`
+    })
+    
+    if (error) {
+      console.error('Reset password error:', error)
+      return { data: null, error }
+    }
+    
+    return { data, error: null }
+  } catch (error) {
+    console.error('Reset password failed:', error)
+    return { data: null, error: { message: 'Eroare la resetarea parolei' } }
+  }
 }
 
 // Change email functionality
 export const changeEmail = async (newEmail: string) => {
-  const { data, error } = await supabase.auth.updateUser({
-    email: newEmail
-  })
-  return { data, error }
+  try {
+    const { data, error } = await supabase.auth.updateUser({
+      email: newEmail
+    })
+    
+    if (error) {
+      console.error('Change email error:', error)
+      return { data: null, error }
+    }
+    
+    return { data, error: null }
+  } catch (error) {
+    console.error('Change email failed:', error)
+    return { data: null, error: { message: 'Eroare la schimbarea email-ului' } }
+  }
 }
 
 // Profile helpers - use only the profiles table
 export const getUserProfile = async (userId: string) => {
   try {
     const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).single();
+    
     if (error) {
-      console.error('Supabase error:', error)
+      console.error('Supabase profile error:', error)
       return { data: null, error }
     }
+    
     return { data, error: null };
   } catch (err) {
     console.error('Profile fetch error:', err)
@@ -127,6 +212,7 @@ export const updateUserProfile = async (
       console.error('Supabase update error:', error)
       return { data: null, error }
     }
+    
     return { data, error: null }
   } catch (err) {
     console.error('Profile update error:', err)
@@ -137,18 +223,22 @@ export const updateUserProfile = async (
 // Create a minimal user profile if missing
 export const createUserProfile = async (user: User) => {
   if (!user) return { data: null, error: { message: 'User not provided' } };
-  const { id, email, user_metadata } = user;
-  const first_name = user_metadata?.first_name || 'Prenume';
-  const last_name = user_metadata?.last_name || 'Nume';
-  const phone_number = user_metadata?.phone_number || '0700000000';
+  
   try {
+    const { id, email, user_metadata } = user;
+    const first_name = user_metadata?.first_name || 'Prenume';
+    const last_name = user_metadata?.last_name || 'Nume';
+    const phone_number = user_metadata?.phone_number || '0700000000';
+    
     const { data, error } = await supabase.from('profiles').insert([
       { id, email, first_name, last_name, phone_number }
     ]).select().single();
+    
     if (error) {
       console.error('Supabase profile create error:', error);
       return { data: null, error };
     }
+    
     return { data, error: null };
   } catch (err) {
     console.error('Profile create error:', err);

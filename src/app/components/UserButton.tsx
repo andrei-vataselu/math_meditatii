@@ -6,12 +6,13 @@ import { useAuth } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 
 export default function UserButton() {
-  const { user, profile, signOut } = useAuth()
+  const { user, profile, signOut, error } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
   const [signingOut, setSigningOut] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
-  console.log('[UserButton] Rendered', { user, profile, signingOut });
+  
+  console.log('[UserButton] Rendered', { user, profile, signingOut, error });
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -25,13 +26,20 @@ export default function UserButton() {
   }, [])
 
   const handleSignOut = async () => {
-    setSigningOut(true)
-    setIsOpen(false)
-    console.log('[UserButton] signOut called');
-    await signOut()
-    await router.push('/')
-    setSigningOut(false)
-    console.log('[UserButton] signOut finished');
+    try {
+      setSigningOut(true)
+      setIsOpen(false)
+      console.log('[UserButton] Starting sign out...')
+      
+      await signOut()
+      
+      // Don't navigate immediately, let the auth state change handle it
+      console.log('[UserButton] Sign out completed successfully')
+    } catch (error) {
+      console.error('[UserButton] Sign out failed:', error)
+    } finally {
+      setSigningOut(false)
+    }
   }
 
   const getInitials = () => {
@@ -55,6 +63,11 @@ export default function UserButton() {
       return profile.first_name
     }
     return user?.email || 'User'
+  }
+
+  // Don't render if there's an error
+  if (error) {
+    return null
   }
 
   return (
@@ -120,7 +133,7 @@ export default function UserButton() {
               <button
                 onClick={handleSignOut}
                 disabled={signingOut}
-                className="w-full text-left px-3 py-2 text-red-300 hover:text-red-200 hover:bg-red-500/10 rounded-md transition-colors"
+                className="w-full text-left px-3 py-2 text-red-300 hover:text-red-200 hover:bg-red-500/10 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {signingOut ? 'Deconectare...' : 'Deconectează-te'}
               </button>

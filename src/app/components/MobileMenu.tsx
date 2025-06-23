@@ -9,7 +9,7 @@ import Design from './Design';
 
 export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const { isSignedIn, isLoaded } = useUser();
+  const { isSignedIn, isLoaded, error } = useUser();
 
   useEffect(() => {
     if (isOpen) {
@@ -70,7 +70,7 @@ export default function MobileMenu() {
             }}
             onClick={() => setIsOpen(false)}
           >
-    <Design/>
+            <Design/>
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
@@ -109,7 +109,7 @@ export default function MobileMenu() {
                   </motion.div>
                 ))}
                 
-                {isLoaded && (
+                {isLoaded && !error && (
                   <>
                     {isSignedIn ? (
                       <>
@@ -152,6 +152,20 @@ export default function MobileMenu() {
                       </>
                     )}
                   </>
+                )}
+
+                {/* Show loading indicator when auth is loading */}
+                {!isLoaded && (
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.3 }}
+                    className="pt-4 border-t border-white/20"
+                  >
+                    <div className="flex items-center justify-center">
+                      <div className="w-6 h-6 border-2 border-[#FEBFD2] border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  </motion.div>
                 )}
               </nav>
             </motion.div>

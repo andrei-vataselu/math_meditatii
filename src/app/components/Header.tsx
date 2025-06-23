@@ -7,8 +7,8 @@ import MobileMenu from './MobileMenu';
 import UserButton from './UserButton';
 
 export default function Header() {
-  const { isSignedIn, isLoaded, user, profileError } = useUser();
-  console.log('[Header] Rendered', { isSignedIn, isLoaded, user, profileError });
+  const { isSignedIn, isLoaded, user, error } = useUser();
+  console.log('[Header] Rendered', { isSignedIn, isLoaded, user, error });
 
   return (
     <nav className="relative flex justify-between items-center p-6 md:p-8" style={{ background: 'none' }}>
@@ -37,7 +37,7 @@ export default function Header() {
       </motion.div>
       
       <div className="flex items-center space-x-4">
-        {isLoaded && (
+        {isLoaded && !error && (
           <>
             {isSignedIn ? (
               <>
@@ -72,6 +72,18 @@ export default function Header() {
             )}
           </>
         )}
+        
+        {/* Show loading indicator when auth is loading */}
+        {!isLoaded && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="hidden md:block"
+          >
+            <div className="w-6 h-6 border-2 border-[#FEBFD2] border-t-transparent rounded-full animate-spin"></div>
+          </motion.div>
+        )}
+        
         <MobileMenu />
       </div>
     </nav>

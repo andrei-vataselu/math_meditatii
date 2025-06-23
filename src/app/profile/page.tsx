@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useAuth } from '@/contexts/AuthContext'
 import { resetPassword } from '@/lib/supabase'
-import { useRouter } from 'next/navigation'
 import Header from '../components/Header'
 import Design from '../components/Design'
+import { useAuthNavigation } from '@/hooks/useAuthNavigation'
 import { z } from 'zod'
 
 const profileSchema = z.object({
@@ -30,9 +30,8 @@ const profileSchema = z.object({
     )
 })
 
-export default function ProfilePage() {
-  const { user, profile, loading: authLoading, updateProfile } = useAuth()
-  const router = useRouter()
+function ProfileContent() {
+  const { user, profile, updateProfile } = useAuth()
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -48,19 +47,15 @@ export default function ProfilePage() {
   const [passwordSuccess, setPasswordSuccess] = useState('')
 
   useEffect(() => {
-    if (!authLoading) {
-      if (!user) {
-        router.push('/sign-in')
-      } else {
-        setFormData({
-          firstName: profile?.first_name || '',
-          lastName: profile?.last_name || '',
-          email: user.email || '',
-          phoneNumber: profile?.phone_number || ''
-        })
-      }
+    if (user && profile) {
+      setFormData({
+        firstName: profile?.first_name || '',
+        lastName: profile?.last_name || '',
+        email: user.email || '',
+        phoneNumber: profile?.phone_number || ''
+      })
     }
-  }, [user, profile, authLoading, router])
+  }, [user, profile])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -135,18 +130,6 @@ export default function ProfilePage() {
     }
   }
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 overflow-hidden isolate">
-        <Design />
-        <Header />
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="text-white">Se încarcă...</div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 overflow-hidden isolate">
       <Design />
@@ -218,12 +201,11 @@ export default function ProfilePage() {
                   name="email"
                   type="email"
                   value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
-                  placeholder="Adresa ta de email"
+                  disabled
+                  className="w-full bg-white/5 border border-white/10 text-gray-400 rounded-lg px-4 py-3 cursor-not-allowed"
+                  placeholder="Email-ul tău"
                 />
-                {errors?.email && <p className="text-red-400 text-xs mt-1">{errors.email[0]}</p>}
+                <p className="text-gray-400 text-xs mt-1">Email-ul nu poate fi modificat</p>
               </div>
 
               <div>
@@ -238,7 +220,7 @@ export default function ProfilePage() {
                   onChange={handleChange}
                   required
                   className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:border-[#FEBFD2] focus:ring-[#FEBFD2] focus:outline-none transition-colors"
-                  placeholder="0712 345 678"
+                  placeholder="0712345678"
                 />
                 {errors?.phoneNumber && <p className="text-red-400 text-xs mt-1">{errors.phoneNumber[0]}</p>}
               </div>
@@ -246,37 +228,87 @@ export default function ProfilePage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 py-3 rounded-lg font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-3 rounded-lg font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Se salvează...' : 'Salvează modificările'}
               </button>
             </form>
 
             <div className="mt-8 pt-6 border-t border-white/20">
-              <h2 className="text-xl font-bold text-white mb-4">Schimbă parola</h2>
+              <h2 className="text-xl font-semibold text-white mb-4">Resetare parolă</h2>
               <p className="text-gray-300 text-sm mb-4">
-                Vei primi un email cu instrucțiuni pentru resetarea parolei. Vei fi deconectat de pe toate dispozitivele.
+                Dacă ai uitat parola, poți solicita un email de resetare.
               </p>
+              
+              {passwordSuccess && (
+                <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-3 mb-4">
+                  <p className="text-green-300 text-sm">{passwordSuccess}</p>
+                </div>
+              )}
 
-            {passwordSuccess && (
-              <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-3 mb-4">
-                <p className="text-green-300 text-sm">{passwordSuccess}</p>
-              </div>
-            )}
-
-            <form onSubmit={handlePasswordReset}>
-              <button
-                type="submit"
-                disabled={passwordLoading}
-                className="w-full bg-gradient-to-r from-red-400 to-red-600 text-white py-3 rounded-lg font-semibold hover:from-red-500 hover:to-red-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {passwordLoading ? 'Se trimite...' : 'Trimite email de resetare'}
-              </button>
-            </form>
+              <form onSubmit={handlePasswordReset}>
+                <button
+                  type="submit"
+                  disabled={passwordLoading}
+                  className="bg-red-500/20 border border-red-500/30 text-red-300 px-6 py-3 rounded-lg font-semibold hover:bg-red-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {passwordLoading ? 'Se trimite...' : 'Trimite email de resetare'}
+                </button>
+              </form>
             </div>
           </div>
         </motion.div>
       </div>
     </div>
   )
+}
+
+export default function ProfilePage() {
+  const { isLoading, isNavigating, error } = useAuthNavigation(true);
+
+  // Show loading state
+  if (isLoading || isNavigating) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center"
+        >
+          <div className="text-white text-xl mb-4">
+            {isNavigating ? 'Redirecționare...' : 'Se încarcă...'}
+          </div>
+          <div className="w-8 h-8 border-2 border-[#FEBFD2] border-t-transparent rounded-full animate-spin mx-auto"></div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center max-w-md mx-auto p-6"
+        >
+          <div className="text-red-300 text-lg mb-4">
+            Eroare de autentificare
+          </div>
+          <div className="text-gray-300 text-sm mb-6">
+            {error}
+          </div>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-2 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300"
+          >
+            Reîncearcă
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  return <ProfileContent />;
 } 

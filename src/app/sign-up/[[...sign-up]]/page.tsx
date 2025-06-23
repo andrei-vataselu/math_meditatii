@@ -5,23 +5,53 @@ import Header from '../../components/Header';
 import Design from '@/app/components/Design';
 import Footer from '@/app/components/Footer';
 import SignUpForm from '@/app/components/SignUpForm';
-import { useEffect } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import { useUser } from '@/contexts/AuthContext';
+import { useAuthNavigation } from '@/hooks/useAuthNavigation';
 
 export default function SignUpPage() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const { isSignedIn, isLoaded } = useUser();
+  const { isLoading, isNavigating, error } = useAuthNavigation(false);
 
-  useEffect(() => {
-    if (isLoaded && isSignedIn && pathname !== '/reset-password') {
-      router.push('/dashboard');
-    }
-  }, [isLoaded, isSignedIn, router]);
+  // Show loading state
+  if (isLoading || isNavigating) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center"
+        >
+          <div className="text-white text-xl mb-4">
+            {isNavigating ? 'Redirecționare...' : 'Se încarcă...'}
+          </div>
+          <div className="w-8 h-8 border-2 border-[#FEBFD2] border-t-transparent rounded-full animate-spin mx-auto"></div>
+        </motion.div>
+      </div>
+    );
+  }
 
-  if (!isLoaded || isSignedIn) {
-    return null; // or a loading spinner
+  // Show error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center max-w-md mx-auto p-6"
+        >
+          <div className="text-red-300 text-lg mb-4">
+            Eroare de autentificare
+          </div>
+          <div className="text-gray-300 text-sm mb-6">
+            {error}
+          </div>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-2 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300"
+          >
+            Reîncearcă
+          </button>
+        </motion.div>
+      </div>
+    );
   }
 
   return (

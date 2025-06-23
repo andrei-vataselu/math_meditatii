@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Design from '../components/Design';
 import Footer from '../components/Footer';
-import { useUser } from '@/contexts/AuthContext';
+import { useAuthNavigation } from '@/hooks/useAuthNavigation';
 
 const plans = [
   {
@@ -54,9 +54,10 @@ const plans = [
 ];
 
 function PricingCard({ plan, index }: { plan: typeof plans[0], index: number }) {
-  const { isSignedIn, isLoaded } = useUser();
+  const { isAuthenticated, isLoading } = useAuthNavigation(false);
+  
   const handleSubscribe = () => {
-    if ((plan.planType === 'premium' || plan.planType === 'pro') && (!isLoaded || !isSignedIn)) {
+    if ((plan.planType === 'premium' || plan.planType === 'pro') && (!isAuthenticated)) {
       window.location.href = '/sign-in';
       return;
     }
@@ -112,13 +113,14 @@ function PricingCard({ plan, index }: { plan: typeof plans[0], index: number }) 
 
       <button
         onClick={handleSubscribe}
-        className={`w-full py-3 rounded-lg font-semibold transition-all duration-300 ${
+        disabled={isLoading}
+        className={`w-full py-3 rounded-lg font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
           plan.popular
             ? 'bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 hover:from-[#fef6f8] hover:to-[#fce9f0]'
             : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
         }`}
       >
-        {plan.buttonText}
+        {isLoading ? 'Se încarcă...' : plan.buttonText}
       </button>
     </motion.div>
   );
@@ -188,7 +190,33 @@ function PricingContent() {
 }
 
 export default function PricingPage() {
-  return (
-    <PricingContent />
-  );
+  const { error } = useAuthNavigation(false);
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center max-w-md mx-auto p-6"
+        >
+          <div className="text-red-300 text-lg mb-4">
+            Eroare de autentificare
+          </div>
+          <div className="text-gray-300 text-sm mb-6">
+            {error}
+          </div>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-2 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300"
+          >
+            Reîncearcă
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  return <PricingContent />;
 }

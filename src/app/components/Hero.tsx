@@ -2,12 +2,12 @@
 
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { useUser } from '@/contexts/AuthContext';
+import { useAuthNavigation } from '@/hooks/useAuthNavigation';
 import Link from 'next/link';
  
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
-  const { isSignedIn, isLoaded } = useUser();
+  const { isAuthenticated, isLoading } = useAuthNavigation(false);
 
   useEffect(() => {
     setIsVisible(true);
@@ -49,9 +49,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
-          {isLoaded && (
+          {!isLoading && (
             <>
-              {isSignedIn ? (
+              {isAuthenticated ? (
                 <Link href="/dashboard">
                   <button className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-8 py-4 rounded-full text-lg font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300 transform hover:scale-105 shadow-lg cursor-pointer">
                     Accesează Dashboard
