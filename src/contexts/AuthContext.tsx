@@ -2,8 +2,8 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode, useMemo } from 'react'
 import { User, Session } from '@supabase/supabase-js'
-import { supabase, getUserProfile, updateUserProfile } from '@/lib/supabase'
-import { useRouter } from 'next/navigation'
+import { supabase, getUserProfile, updateUserProfile, createUserProfile } from '@/lib/supabase'
+// import { useRouter } from 'next/navigation'
 
 interface UserProfile {
   id: string
@@ -28,6 +28,7 @@ interface AuthContextType {
   signOut: () => Promise<void>
   plan: PlanType
   updateProfile: (updates: Partial<{ first_name: string; last_name: string; phone_number: string }>) => Promise<{ error: { message: string } | null }>
+  profileError: string | null
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -37,7 +38,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
-  const router = useRouter()
+  const [profileError, setProfileError] = useState<string | null>(null)
+  // const router = useRouter()
 
   const updateProfile = async (updates: Partial<{ first_name: string; last_name: string; phone_number: string }>) => {
     if (!user) return { error: { message: 'User not authenticated' } };
@@ -55,9 +57,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const signOut = async () => {
-    await supabase.auth.signOut()
-    router.push('/sign-in')
+    console.log('[AuthProvider] signOut called');
+    await supabase.auth.signOut();
+    // Check if session is cleared
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      console.log('[AuthProvider] Session not cleared, forcing localStorage clear and reload');
+      localStorage.removeItem('supabase.auth.token');
+      window.location.reload();
+      return;
+    }
+    setUser(null);
+    setProfile(null);
+    setSession(null);
+    setLoading(false);
+    console.log('[AuthProvider] signOut finished, state cleared');
   }
+
+  useEffect(() => {
+    console.log('[AuthProvider] State', { user, profile, session, loading, profileError });
+  }, [user, profile, session, loading, profileError]);
 
   useEffect(() => {
     setLoading(true)
@@ -79,13 +98,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(currentUser ?? null)
 
       if (currentUser) {
-        const { data: profileData, error: profileError } = await getUserProfile(currentUser.id)
-        if (profileError) {
-          console.error('Error fetching profile:', profileError)
+        const { data: profileData, error: profileErrorObj } = await getUserProfile(currentUser.id)
+        if (profileErrorObj) {
           setProfile(null)
+          setProfileError('Profilul nu a putut fi încărcat. Încercăm să-l creăm...')
+          const { data: createdProfile } = await createUserProfile(currentUser)
+          if (createdProfile) {
+            setProfile(createdProfile)
+            setProfileError(null);
+          } else {
+            setProfileError('Eroare la crearea profilului.');
+          }
         } else {
           setProfile(profileData)
+          setProfileError(null);
         }
+      } else {
+        setProfile(null)
+        setProfileError(null);
       }
       setLoading(false)
     }
@@ -101,15 +131,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (currentUser) {
         if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
-          const { data: profileData, error: profileError } = await getUserProfile(currentUser.id)
-          if (profileError) {
+          const { data: profileData, error: profileErrorObj } = await getUserProfile(currentUser.id)
+          if (profileErrorObj) {
             setProfile(null)
+            setProfileError('Profilul nu a putut fi încărcat. Încercăm să-l creăm...')
+            const { data: createdProfile } = await createUserProfile(currentUser)
+            if (createdProfile) {
+              setProfile(createdProfile)
+              setProfileError(null);
+            } else {
+              setProfileError('Eroare la crearea profilului.');
+            }
           } else {
             setProfile(profileData)
+            setProfileError(null);
           }
         }
       } else {
         setProfile(null)
+        setProfileError(null);
       }
     })
 
@@ -126,6 +166,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signOut,
     plan: { status: 'inactive', plan_type: 'free' },
     updateProfile,
+    profileError,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
@@ -140,7 +181,7 @@ export function useAuth() {
 }
  
 export function useUser() {
-  const { user, profile, loading } = useAuth()
+  const { user, profile, loading, profileError } = useAuth()
 
   const memoizedUser = useMemo(() => {
     if (!user) return null
@@ -156,6 +197,7 @@ export function useUser() {
   return {
     isSignedIn: !!user,
     isLoaded: !loading,
-    user: memoizedUser
+    user: memoizedUser,
+    profileError,
   }
 }

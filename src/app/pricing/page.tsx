@@ -2,9 +2,9 @@
 
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
-import ProtectedRoute from '../components/ProtectedRoute';
 import Design from '../components/Design';
 import Footer from '../components/Footer';
+import { useUser } from '@/contexts/AuthContext';
 
 const plans = [
   {
@@ -54,7 +54,12 @@ const plans = [
 ];
 
 function PricingCard({ plan, index }: { plan: typeof plans[0], index: number }) {
+  const { isSignedIn, isLoaded } = useUser();
   const handleSubscribe = () => {
+    if ((plan.planType === 'premium' || plan.planType === 'pro') && (!isLoaded || !isSignedIn)) {
+      window.location.href = '/sign-in';
+      return;
+    }
     // Placeholder for payment integration
     alert(`Funcționalitatea de plată pentru planul ${plan.name} va fi implementată în curând!`);
   };
@@ -184,8 +189,6 @@ function PricingContent() {
 
 export default function PricingPage() {
   return (
-    <ProtectedRoute>
-      <PricingContent />
-    </ProtectedRoute>
+    <PricingContent />
   );
 }

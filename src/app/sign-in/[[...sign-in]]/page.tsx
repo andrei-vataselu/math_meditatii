@@ -6,15 +6,16 @@ import Footer from '@/app/components/Footer';
 import Design from '@/app/components/Design';
 import SignInForm from '@/app/components/SignInForm';
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useUser } from '@/contexts/AuthContext';
 
 export default function SignInPage() {
   const router = useRouter();
+  const pathname = usePathname();
   const { isSignedIn, isLoaded } = useUser();
 
   useEffect(() => {
-    if (isLoaded && isSignedIn) {
+    if (isLoaded && isSignedIn && pathname !== '/reset-password') {
       router.push('/dashboard');
     }
   }, [isLoaded, isSignedIn, router]);

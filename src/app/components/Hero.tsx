@@ -4,13 +4,14 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useUser } from '@/contexts/AuthContext';
 import Link from 'next/link';
-
+ 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
   const { isSignedIn, isLoaded } = useUser();
 
   useEffect(() => {
     setIsVisible(true);
+ 
   }, []);
 
   return (

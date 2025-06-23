@@ -8,8 +8,10 @@ import { useRouter } from 'next/navigation'
 export default function UserButton() {
   const { user, profile, signOut } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
+  const [signingOut, setSigningOut] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
+  console.log('[UserButton] Rendered', { user, profile, signingOut });
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -23,8 +25,13 @@ export default function UserButton() {
   }, [])
 
   const handleSignOut = async () => {
+    setSigningOut(true)
+    setIsOpen(false)
+    console.log('[UserButton] signOut called');
     await signOut()
-    router.push('/')
+    await router.push('/')
+    setSigningOut(false)
+    console.log('[UserButton] signOut finished');
   }
 
   const getInitials = () => {
@@ -112,9 +119,10 @@ export default function UserButton() {
             <div className="p-2 border-t border-white/20">
               <button
                 onClick={handleSignOut}
+                disabled={signingOut}
                 className="w-full text-left px-3 py-2 text-red-300 hover:text-red-200 hover:bg-red-500/10 rounded-md transition-colors"
               >
-                Deconectează-te
+                {signingOut ? 'Deconectare...' : 'Deconectează-te'}
               </button>
             </div>
           </motion.div>

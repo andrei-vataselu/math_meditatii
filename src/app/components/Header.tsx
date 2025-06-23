@@ -7,7 +7,8 @@ import MobileMenu from './MobileMenu';
 import UserButton from './UserButton';
 
 export default function Header() {
-  const { isSignedIn, isLoaded } = useUser();
+  const { isSignedIn, isLoaded, user, profileError } = useUser();
+  console.log('[Header] Rendered', { isSignedIn, isLoaded, user, profileError });
 
   return (
     <nav className="relative flex justify-between items-center p-6 md:p-8" style={{ background: 'none' }}>
@@ -27,9 +28,11 @@ export default function Header() {
         transition={{ duration: 0.6, delay: 0.2 }}
         className="hidden md:flex space-x-8"
       >
+        <Link href="/" className="text-gray-300 hover:text-white transition-colors">Acasă</Link>
         <Link href="/resurse-gratuite" className="text-gray-300 hover:text-white transition-colors">Resurse gratuite</Link>
         <Link href="/despre-mine" className="text-gray-300 hover:text-white transition-colors">Despre mine</Link>
         <Link href="/recenzii" className="text-gray-300 hover:text-white transition-colors">Recenzii</Link>
+        <Link href="/pricing" className="text-gray-300 hover:text-white transition-colors">Planuri</Link>
         <Link href="/contact" className="text-gray-300 hover:text-white transition-colors">Contact</Link>
       </motion.div>
       

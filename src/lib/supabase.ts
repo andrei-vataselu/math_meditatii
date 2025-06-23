@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, User } from '@supabase/supabase-js'
 import { z } from 'zod'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
@@ -56,7 +56,7 @@ export const getSession = async () => {
 // Reset password via email
 export const resetPassword = async (email: string) => {
   const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${window.location.origin}/profile`
+    redirectTo: `${window.location.origin}/reset-password`
   })
   return { data, error }
 }
@@ -131,5 +131,27 @@ export const updateUserProfile = async (
   } catch (err) {
     console.error('Profile update error:', err)
     return { data: null, error: { message: 'Eroare la actualizarea profilului' } }
+  }
+}
+
+// Create a minimal user profile if missing
+export const createUserProfile = async (user: User) => {
+  if (!user) return { data: null, error: { message: 'User not provided' } };
+  const { id, email, user_metadata } = user;
+  const first_name = user_metadata?.first_name || 'Prenume';
+  const last_name = user_metadata?.last_name || 'Nume';
+  const phone_number = user_metadata?.phone_number || '0700000000';
+  try {
+    const { data, error } = await supabase.from('profiles').insert([
+      { id, email, first_name, last_name, phone_number }
+    ]).select().single();
+    if (error) {
+      console.error('Supabase profile create error:', error);
+      return { data: null, error };
+    }
+    return { data, error: null };
+  } catch (err) {
+    console.error('Profile create error:', err);
+    return { data: null, error: { message: 'Eroare la crearea profilului' } };
   }
 }

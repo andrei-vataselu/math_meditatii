@@ -26,15 +26,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AuthProvider>
-      <html lang="ro">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+    <html lang="ro">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <AuthProvider>
           {children}
           <CookieBanner />
-        </body>
-      </html>
-    </AuthProvider>
+        </AuthProvider>
+      </body>
+    </html>
   );
 }
