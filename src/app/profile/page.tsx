@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
@@ -8,6 +8,8 @@ import Header from '../components/Header'
 import Design from '../components/Design'
 import { useAuthNavigation } from '@/hooks/useAuthNavigation'
 import { z } from 'zod'
+import { useRequireAuth } from '@/hooks/useRequireAuth'
+import { useRouter } from 'next/navigation'
 
 const profileSchema = z.object({
   firstName: z
@@ -31,7 +33,8 @@ const profileSchema = z.object({
 })
 
 function ProfileContent() {
-  const { user, profile, updateProfile } = useAuth()
+  const { isAuthenticated, isLoading } = useRequireAuth()
+  const { user, profile, updateProfile, plan } = useAuth()
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -130,6 +133,9 @@ function ProfileContent() {
     }
   }
 
+  if (isLoading) return <div>Se încarcă...</div>;
+  if (!isAuthenticated) return null;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 overflow-hidden isolate">
       <Design />
@@ -141,6 +147,29 @@ function ProfileContent() {
           transition={{ duration: 0.6 }}
           className="max-w-2xl mx-auto"
         >
+          <div className="mb-8 bg-white/10 border border-white/20 rounded-lg p-4">
+            <h2 className="text-lg font-semibold text-white mb-2">Planul tău actual</h2>
+            <div className="text-gray-300">
+              {plan?.plan_type === 'free' && 'Plan Gratuit (activ)'}
+              {plan?.plan_type === 'premium' && plan.status === 'active' && 'Plan Premium (activ)'}
+              {plan?.plan_type === 'pro' && plan.status === 'active' && 'Plan Pro (activ)'}
+              {plan?.status !== 'active' && plan?.plan_type !== 'free' && (
+                <>Plan {plan?.plan_type} (inactiv)</>
+              )}
+            </div>
+            {(plan as { end_date?: string })?.end_date && (
+              <div className="text-gray-400 text-sm mt-1">
+                Valabil până la: {new Date((plan as { end_date?: string }).end_date!).toISOString().slice(0, 10)}
+              </div>
+            )}
+            {plan?.plan_type === 'free' && (
+              <a href="/pricing">
+                <button className="mt-4 bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-2 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300">
+                  Upgradează la plan premium
+                </button>
+              </a>
+            )}
+          </div>
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
             <h1 className="text-3xl font-bold text-white mb-6">Profilul meu</h1>
 
@@ -263,6 +292,18 @@ function ProfileContent() {
   )
 }
 
+function ReloadButton() {
+  const router = useRouter();
+  return (
+    <button
+      onClick={() => router.refresh()}
+      className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-2 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300"
+    >
+      Reîncarcă
+    </button>
+  );
+}
+
 export default function ProfilePage() {
   const { isLoading, isNavigating, error } = useAuthNavigation(true);
 
@@ -299,12 +340,7 @@ export default function ProfilePage() {
           <div className="text-gray-300 text-sm mb-6">
             {error}
           </div>
-          <button
-            onClick={() => window.location.reload()}
-            className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-2 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300"
-          >
-            Reîncearcă
-          </button>
+          <ReloadButton />
         </motion.div>
       </div>
     );

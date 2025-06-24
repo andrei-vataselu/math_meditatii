@@ -5,6 +5,8 @@ import Header from '../components/Header';
 import Design from '../components/Design';
 import Footer from '../components/Footer';
 import { useAuthNavigation } from '@/hooks/useAuthNavigation';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 const plans = [
   {
@@ -31,34 +33,26 @@ const plans = [
       'Suport priorititar',
       'Acces la materiale exclusive'
     ],
-    buttonText: 'Alege Premium',
-    popular: true,
-    planType: 'premium'
-  },
-  {
-    name: 'Plan Pro',
-    price: '250',
-    period: 'lunar',
-    features: [
-      'Toate resursele premium',
-      'Exerciții practice nelimitate',
-      'Ședințe de meditații (4/lună)',
-      'Suport priorititar',
-      'Acces la materiale exclusive',
-      'Consultanță personalizată'
-    ],
     buttonText: 'Alege Pro',
-    popular: false,
+    popular: true,
     planType: 'pro'
   }
 ];
 
 function PricingCard({ plan, index }: { plan: typeof plans[0], index: number }) {
   const { isAuthenticated, isLoading } = useAuthNavigation(false);
+  const { plan: userPlan } = useAuth();
+  const router = useRouter();
+  const isCurrent = userPlan?.plan_type === plan.planType && userPlan?.status === 'active';
+  const isFreeAndCurrent = plan.planType === 'free' && userPlan?.plan_type === 'free' && isAuthenticated;
   
   const handleSubscribe = () => {
+    if (plan.planType === 'free' && !isAuthenticated) {
+      router.push('/sign-in');
+      return;
+    }
     if ((plan.planType === 'premium' || plan.planType === 'pro') && (!isAuthenticated)) {
-      window.location.href = '/sign-in';
+      router.push('/sign-in');
       return;
     }
     // Placeholder for payment integration
@@ -113,14 +107,14 @@ function PricingCard({ plan, index }: { plan: typeof plans[0], index: number }) 
 
       <button
         onClick={handleSubscribe}
-        disabled={isLoading}
+        disabled={isLoading || isCurrent || isFreeAndCurrent}
         className={`w-full py-3 rounded-lg font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
           plan.popular
             ? 'bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 hover:from-[#fef6f8] hover:to-[#fce9f0]'
             : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
         }`}
       >
-        {isLoading ? 'Se încarcă...' : plan.buttonText}
+        {isFreeAndCurrent ? 'Planul tău actual' : isCurrent ? 'Planul tău actual' : (isLoading ? 'Se încarcă...' : plan.buttonText)}
       </button>
     </motion.div>
   );
@@ -157,7 +151,7 @@ function PricingContent() {
             </motion.p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 justify-center">
             {plans.map((plan, index) => (
               <PricingCard key={plan.name} plan={plan} index={index} />
             ))}
@@ -191,6 +185,7 @@ function PricingContent() {
 
 export default function PricingPage() {
   const { error } = useAuthNavigation(false);
+  const router = useRouter();
 
   // Show error state
   if (error) {
@@ -208,7 +203,7 @@ export default function PricingPage() {
             {error}
           </div>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => router.refresh()}
             className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-2 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300"
           >
             Reîncearcă

@@ -43,7 +43,7 @@ export function useAuthNavigation(requireAuth: boolean = false) {
 
   return {
     isAuthenticated: !!user,
-    isLoading: loading || !initialized,
+    isLoading: (loading || !initialized) && !(user === null && !loading && initialized),
     isNavigating,
     error,
     user

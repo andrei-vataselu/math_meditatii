@@ -26,6 +26,9 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 -- Email should be unique in the profiles table as well for data consistency.
 email TEXT UNIQUE,
 
+-- Stripe customer id for Stripe integration
+stripe_customer_id TEXT UNIQUE,
+
 -- Names are required and cannot be empty.
 first_name TEXT NOT NULL CHECK (
     char_length(trim(first_name)) > 0
@@ -48,15 +51,22 @@ CREATE TABLE IF NOT EXISTS public.user_plans (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
 
 -- Each user should only have one plan entry.
-
-
 user_id UUID REFERENCES auth.users (id) ON DELETE CASCADE NOT NULL UNIQUE,
-    
-    plan_type public.plan_type_enum NOT NULL DEFAULT 'free',
-    status public.plan_status_enum NOT NULL DEFAULT 'active',
-    
-    start_date TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    end_date TIMESTAMP WITH TIME ZONE,
+plan_type public.plan_type_enum NOT NULL DEFAULT 'free',
+status public.plan_status_enum NOT NULL DEFAULT 'active',
+start_date TIMESTAMP
+WITH
+    TIME ZONE DEFAULT NOW(),
+    end_date TIMESTAMP
+WITH
+    TIME ZONE,
+
+-- Stripe subscription id for Stripe integration
+
+
+stripe_subscription_id TEXT,
+-- Stripe price id for Stripe integration
+stripe_price_id TEXT,
     
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()

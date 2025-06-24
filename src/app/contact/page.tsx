@@ -1,11 +1,17 @@
-'use client'
+"use client"
 import Design from '../components/Design';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { FaWhatsapp, FaInstagram, FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
 import { AiFillTikTok } from 'react-icons/ai';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 export default function Contact() {
+  const { isAuthenticated, isLoading } = useRequireAuth();
+  if (isLoading) return <LoadingSpinner />;
+  if (!isAuthenticated) return null;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 overflow-hidden isolate">
       <Design />
