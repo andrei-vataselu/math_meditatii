@@ -158,8 +158,8 @@ export const getUserProfile = async (userId: string) => {
     const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).single();
     
     if (error) {
-      console.error('Supabase profile error:', error)
-      return { data: null, error }
+      console.error('Supabase profile error:', JSON.stringify(error) || error?.message || error)
+      return { data: null, error: { message: error?.message || 'Eroare la încărcarea profilului' } }
     }
     
     return { data, error: null };
@@ -235,8 +235,8 @@ export const createUserProfile = async (user: User) => {
     ]).select().single();
     
     if (error) {
-      console.error('Supabase profile create error:', error);
-      return { data: null, error };
+      console.error('Supabase profile create error:', JSON.stringify(error) || error?.message || error);
+      return { data: null, error: { message: error?.message || 'Eroare la crearea profilului' } };
     }
     
     return { data, error: null };

@@ -34,7 +34,7 @@ const profileSchema = z.object({
 
 function ProfileContent() {
   const { isAuthenticated, isLoading } = useRequireAuth()
-  const { user, profile, updateProfile, plan } = useAuth()
+  const { user, profile, updateProfile, plan, refreshProfile } = useAuth()
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -48,6 +48,11 @@ function ProfileContent() {
   const [errors, setErrors] = useState<z.ZodError['formErrors']['fieldErrors'] | null>(null)
   const [passwordLoading, setPasswordLoading] = useState(false)
   const [passwordSuccess, setPasswordSuccess] = useState('')
+  const [cancelStatus, setCancelStatus] = useState<string | null>(null)
+  const [cancelLoading, setCancelLoading] = useState(false)
+  const [nextPayment, setNextPayment] = useState<string | null>(null)
+  const [subscriptionStatus, setSubscriptionStatus] = useState<string | null>(null)
+  const [cancelAtPeriodEnd, setCancelAtPeriodEnd] = useState<boolean>(false)
 
   useEffect(() => {
     if (user && profile) {
@@ -59,6 +64,37 @@ function ProfileContent() {
       })
     }
   }, [user, profile])
+
+  // Fetch next payment date and status if on paid plan
+  useEffect(() => {
+    async function fetchStripeStatus() {
+      if ((plan?.plan_type === 'premium' || plan?.plan_type === 'pro') && plan.status === 'active') {
+        // Get Supabase access token from localStorage
+        const tokenObj = typeof window !== 'undefined' ? localStorage.getItem('sb-ibakhrivgjeokfndyvhu-auth-token') : null;
+        const accessToken = tokenObj ? JSON.parse(tokenObj).access_token : null;
+        if (!accessToken) return;
+        const res = await fetch('/api/stripe/cancel-subscription', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${accessToken}` },
+        });
+        const data = await res.json();
+        if (data.current_period_end) {
+          setNextPayment(data.current_period_end);
+        } else if (plan.end_date) {
+          setNextPayment(plan.end_date);
+        }
+        if (data.status) {
+          setSubscriptionStatus(data.status);
+        }
+        if (typeof data.cancel_at_period_end !== 'undefined') {
+          setCancelAtPeriodEnd(data.cancel_at_period_end);
+        }
+      } else if (plan.end_date) {
+        setNextPayment(plan.end_date);
+      }
+    }
+    fetchStripeStatus();
+  }, [plan]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -133,6 +169,45 @@ function ProfileContent() {
     }
   }
 
+  const handleCancelSubscription = async () => {
+    setCancelLoading(true);
+    setCancelStatus(null);
+    // Get Supabase access token from localStorage
+    const tokenObj = typeof window !== 'undefined' ? localStorage.getItem('sb-ibakhrivgjeokfndyvhu-auth-token') : null;
+    const accessToken = tokenObj ? JSON.parse(tokenObj).access_token : null;
+    if (!accessToken) {
+      setCancelStatus('Eroare de autentificare.');
+      setCancelLoading(false);
+      return;
+    }
+    try {
+      const res = await fetch('/api/stripe/cancel-subscription?cancel=true', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+      });
+      const data = await res.json();
+      if (data.canceled) {
+        setCancelStatus('Abonamentul tău va fi anulat la finalul perioadei plătite.');
+        if (data.current_period_end) {
+          setNextPayment(data.current_period_end);
+        }
+        if (data.status) {
+          setSubscriptionStatus(data.status);
+        }
+        if (typeof data.cancel_at_period_end !== 'undefined') {
+          setCancelAtPeriodEnd(data.cancel_at_period_end);
+        }
+        refreshProfile();
+      } else {
+        setCancelStatus(data.error || 'Eroare la anularea abonamentului.');
+      }
+    } catch {
+      setCancelStatus('Eroare la anularea abonamentului.');
+    } finally {
+      setCancelLoading(false);
+    }
+  };
+
   if (isLoading) return <div>Se încarcă...</div>;
   if (!isAuthenticated) return null;
 
@@ -157,17 +232,40 @@ function ProfileContent() {
                 <>Plan {plan?.plan_type} (inactiv)</>
               )}
             </div>
-            {(plan as { end_date?: string })?.end_date && (
-              <div className="text-gray-400 text-sm mt-1">
-                Valabil până la: {new Date((plan as { end_date?: string }).end_date!).toISOString().slice(0, 10)}
-              </div>
-            )}
-            {plan?.plan_type === 'free' && (
-              <a href="/pricing">
-                <button className="mt-4 bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-2 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300">
-                  Upgradează la plan premium
-                </button>
-              </a>
+            {(plan?.plan_type === 'premium' || plan?.plan_type === 'pro') && nextPayment && (
+              <>
+                <div className="text-gray-400 text-sm mt-1">
+                  {(() => {
+                    const daysLeft = Math.max(0, Math.ceil((new Date(nextPayment).getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
+                    if (subscriptionStatus === 'active' && !cancelAtPeriodEnd) {
+                      return <>
+                        Următoarea plată: <b>{new Date(nextPayment).toLocaleString('ro-RO')}</b>
+                        {' '}({daysLeft} zile rămase)
+                      </>;
+                    } else {
+                      return <>
+                        Abonamentul tău va expira la: <b>{new Date(nextPayment).toLocaleString('ro-RO')}</b>
+                        {' '}({daysLeft} zile rămase)
+                      </>;
+                    }
+                  })()}
+                </div>
+                {!cancelAtPeriodEnd && subscriptionStatus === 'active' && (
+                  <button
+                    className="mt-4 bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-2 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300"
+                    onClick={handleCancelSubscription}
+                    disabled={cancelLoading}
+                  >
+                    {cancelLoading ? 'Se anulează...' : 'Anulează abonamentul'}
+                  </button>
+                )}
+                {cancelAtPeriodEnd && (
+                  <div className="text-yellow-300 text-sm mt-2">Abonamentul tău va fi anulat la finalul perioadei plătite.</div>
+                )}
+                {cancelStatus && cancelStatus !== 'Abonamentul tău va fi anulat la finalul perioadei plătite.' && (
+                  <div className="text-red-300 text-sm mt-2">{cancelStatus}</div>
+                )}
+              </>
             )}
           </div>
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">

@@ -17,6 +17,7 @@ interface UserProfile {
 interface PlanType {
   status: string;
   plan_type: string;
+  end_date?: string | null;
 }
 
 interface AuthState {
@@ -39,6 +40,18 @@ interface AuthContextType extends AuthState {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
+async function getUserPlan(userId: string): Promise<PlanType> {
+  const { data, error } = await supabase
+    .from('user_plans')
+    .select('plan_type, status, end_date')
+    .eq('user_id', userId)
+    .maybeSingle();
+  if (error || !data) {
+    return { status: 'inactive', plan_type: 'free' };
+  }
+  return data as PlanType;
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>({
     user: null,
@@ -48,6 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     error: null,
     initialized: false
   })
+  const [plan, setPlan] = useState<PlanType>({ status: 'inactive', plan_type: 'free' });
 
   const clearError = useCallback(() => {
     setState(prev => ({ ...prev, error: null }))
@@ -86,6 +100,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         profile: profileData, 
         error: null 
       }))
+
+      // Refresh plan after profile refresh (e.g., after payment)
+      const userPlan = await getUserPlan(state.user.id);
+      setPlan(userPlan);
     } catch (error) {
       console.error('Profile refresh failed:', error)
       setState(prev => ({ 
@@ -143,6 +161,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         error: null,
         initialized: true
       })
+      setPlan({ status: 'inactive', plan_type: 'free' });
 
       console.log('[AuthProvider] Sign out successful, state cleared')
     } catch (error) {
@@ -178,12 +197,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           profile: createdProfile, 
           error: null 
         }))
+        setPlan({ status: 'inactive', plan_type: 'free' });
       } else {
         setState(prev => ({ 
           ...prev, 
           profile: profileData, 
           error: null 
         }))
+        // Load plan after loading profile
+        const userPlan = await getUserPlan(user.id);
+        setPlan(userPlan);
       }
     } catch (error) {
       console.error('Profile loading failed:', error)
@@ -191,6 +214,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         ...prev, 
         error: 'Eroare la încărcarea profilului' 
       }))
+      setPlan({ status: 'inactive', plan_type: 'free' });
     }
   }, [])
 
@@ -327,12 +351,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const contextValue = useMemo(() => ({
     ...state,
     signOut,
-    plan: { status: 'inactive', plan_type: 'free' },
+    plan,
     updateProfile,
     clearError,
     refreshProfile,
     resetAuth
-  }), [state, signOut, updateProfile, clearError, refreshProfile, resetAuth])
+  }), [state, signOut, updateProfile, clearError, refreshProfile, resetAuth, plan])
 
   return (
     <AuthContext.Provider value={contextValue}>
