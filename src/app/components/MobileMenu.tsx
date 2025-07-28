@@ -2,14 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useUser } from '@/contexts/AuthContext';
 import Link from 'next/link';
-import UserButton from './UserButton';
 import Design from './Design';
 
 export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const { isSignedIn, isLoaded, error } = useUser();
 
   useEffect(() => {
     if (isOpen) {
@@ -23,9 +20,12 @@ export default function MobileMenu() {
   }, [isOpen]);
 
   const menuItems = [
+    { href: '/', label: 'Acasă' },
     { href: '/resurse-gratuite', label: 'Resurse gratuite' },
+    { href: '/course-info', label: 'Despre curs' },
     { href: '/despre-mine', label: 'Despre mine' },
     { href: '/recenzii', label: 'Recenzii' },
+    { href: '/pricing', label: 'Planuri' },
     { href: '/contact', label: 'Contact' }
   ];
 
@@ -108,65 +108,6 @@ export default function MobileMenu() {
                     </Link>
                   </motion.div>
                 ))}
-                
-                {isLoaded && !error && (
-                  <>
-                    {isSignedIn ? (
-                      <>
-                        <motion.div
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: 0.3 }}
-                          className="pt-4 border-t border-white/20"
-                        >
-                          <Link 
-                            href="/dashboard"
-                            className="block text-xl text-gray-300 hover:text-white transition-colors mb-4"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            Dashboard
-                          </Link>
-                          <div className="flex items-center justify-between">
-                            <span className="text-xl text-gray-300">Contul tău</span>
-                            <UserButton />
-                          </div>
-                        </motion.div>
-                      </>
-                    ) : (
-                      <>
-                        <motion.div
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: 0.3 }}
-                          className="pt-4 border-t border-white/20"
-                        >
-                          <Link href="/sign-up">
-                            <button 
-                              className="w-full bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-3 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300"
-                              onClick={() => setIsOpen(false)}
-                            >
-                              Începe acum
-                            </button>
-                          </Link>
-                        </motion.div>
-                      </>
-                    )}
-                  </>
-                )}
-
-                {/* Show loading indicator when auth is loading */}
-                {!isLoaded && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: 0.3 }}
-                    className="pt-4 border-t border-white/20"
-                  >
-                    <div className="flex items-center justify-center">
-                      <div className="w-6 h-6 border-2 border-[#FEBFD2] border-t-transparent rounded-full animate-spin"></div>
-                    </div>
-                  </motion.div>
-                )}
               </nav>
             </motion.div>
           </motion.div>

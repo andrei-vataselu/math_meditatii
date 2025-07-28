@@ -15,27 +15,30 @@ export default function DespreMine() {
           <div className="w-40 h-40 sm:w-52 sm:h-52 rounded-full overflow-hidden border-4 border-[#FEBFD2] shadow-lg mb-4">
             <Image src="/denisa/denisa.jpg" alt="Denisa" width={208} height={208} className="object-cover w-full h-full" />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">Denisa stanciu</h2>
+          <h2 className="text-2xl font-bold text-white mb-2">Nita Denisa Stefania</h2>
           <p className="text-gray-200 text-base sm:text-lg mb-4">
-            Sunt Denisa, profesor de matematică pasionată de educație și de a face matematica accesibilă tuturor. Am peste 8 ani de experiență în lucrul cu elevi de toate vârstele, de la clasele V–VIII până la liceu și Bacalaureat. Cred cu tărie că oricine poate învăța matematica dacă are parte de explicații potrivite și de susținere constantă.
+            Sunt Denisa, studentă în anul II la Universitatea Națională de Știință și Tehnologie Politehnica București, în cadrul Facultății de Științe, Educație Fizică și Informatică – Departamentul Matematică-Informatică.
+            De peste doi ani ofer meditații la Matematică și am ajutat aproximativ 50 de elevi să înțeleagă materia cu încredere și claritate. Majoritatea elevilor mei au obținut note între 7 și 10 la examenul de Bacalaureat.
+            Cred cu tărie că matematica poate fi învățată de oricine, atunci când explicațiile sunt adaptate, iar susținerea este constantă.
+
           </p>
           <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-8 justify-center">
             <div className="flex-1 bg-white/20 rounded-xl p-4 text-white">
               <span className="block text-lg font-semibold mb-1">Educație</span>
-              <span className="block text-sm">Facultatea de Matematică, Universitatea București</span>
+              <span className="block text-sm">U.N.S.T.P.B, în cadrul Facultății de Științe, Educație Fizică și Informatică – Departamentul Matematică-Informatică. </span>
             </div>
             <div className="flex-1 bg-white/20 rounded-xl p-4 text-white">
               <span className="block text-lg font-semibold mb-1">Experiență</span>
-              <span className="block text-sm">8+ ani meditații, rezultate excelente la examene</span>
+              <span className="block text-sm">50+ elevi pregătiți alături de mine, cu rezultate excelente la examene</span>
             </div>
           </div>
           <div className="w-full bg-white/5 rounded-xl p-4 mt-4 text-white text-left">
-            <span className="block text-lg font-semibold mb-2">Fun facts:</span>
+            <span className="block text-lg font-semibold mb-2">Despre mine:</span>
             <ul className="list-disc list-inside text-gray-200 text-base">
-              <li>Îmi place să explic matematica folosind exemple din viața reală.</li>
-              <li>Am ajutat peste 150 de elevi să își depășească teama de matematică.</li>
-              <li>Cred că răbdarea și empatia sunt cheia succesului la orice materie.</li>
-              <li>În timpul liber, ador să citesc și să rezolv puzzle-uri logice.</li>
+              <li>Sunt o persoană răbdătoare, calmă și prietenoasă – creez mereu un spațiu sigur în care elevii se simt încurajați să întrebe și să greșească.</li>
+              <li>Îmi place să explic matematica pas cu pas, cu exemple clare și accesibile.</li>
+              <li>Cred că încrederea vine odată cu înțelegerea, nu cu memorarea.</li>
+              <li>Îmi place să cunosc fiecare elev și să adaptez explicațiile în funcție de stilul lui de învățare.</li>
             </ul>
           </div>
         </div>

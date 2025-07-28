@@ -28,7 +28,7 @@ This README provides detailed documentation for every API endpoint in the backen
   "password": "Password1!",
   "firstName": "John",
   "lastName": "Doe",
-  "phoneNumber": "0712345678"
+  "phoneNumber": "0731979588"
 }
 ```
 
@@ -45,7 +45,7 @@ This README provides detailed documentation for every API endpoint in the backen
       "email": "user@gmail.com",
       "firstName": "John",
       "lastName": "Doe",
-      "phoneNumber": "0712345678"
+      "phoneNumber": "0731979588"
     }
   }
   ```
@@ -84,7 +84,7 @@ This README provides detailed documentation for every API endpoint in the backen
       "email": "user@gmail.com",
       "firstName": "John",
       "lastName": "Doe",
-      "phoneNumber": "0712345678"
+      "phoneNumber": "0731979588"
     }
   }
   ```
@@ -135,7 +135,7 @@ This README provides detailed documentation for every API endpoint in the backen
       "email": "user@gmail.com",
       "firstName": "John",
       "lastName": "Doe",
-      "phoneNumber": "0712345678",
+      "phoneNumber": "0731979588",
       "plan": "Free"
     }
   }
@@ -179,7 +179,7 @@ This README provides detailed documentation for every API endpoint in the backen
 {
   "firstName": "Jane",
   "lastName": "Smith",
-  "phoneNumber": "0712345678"
+  "phoneNumber": "0731979588"
 }
 ```
 
@@ -197,7 +197,7 @@ This README provides detailed documentation for every API endpoint in the backen
       "email": "user@gmail.com",
       "firstName": "Jane",
       "lastName": "Smith",
-      "phoneNumber": "0712345678"
+      "phoneNumber": "0731979588"
     }
   }
   ```

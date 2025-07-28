@@ -1,1 +1,0 @@
-// Deprecated: Supabase logic removed. Please use authApi.ts for all authentication and profile logic.

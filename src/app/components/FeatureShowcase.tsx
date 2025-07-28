@@ -6,11 +6,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
 const showcaseImages = [
-  '/recenzii/img.png',
-  '/recenzii/img2.png',
-  '/recenzii/img3.png',
-  '/recenzii/img4.png',
-  '/recenzii/im5.png',
+  '/recenzii/img.jpeg',
+  '/recenzii/img2.jpeg',
+  '/recenzii/img3.jpeg',
+  '/recenzii/img4.jpeg',
+  '/recenzii/im5.jpeg',
 ];
 
 export default function FeatureShowcase() {

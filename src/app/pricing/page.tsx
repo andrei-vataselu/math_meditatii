@@ -4,9 +4,6 @@ import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Design from '../components/Design';
 import Footer from '../components/Footer';
-import { useAuthNavigation } from '@/hooks/useAuthNavigation';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
 import React from 'react';
 
 const plans = [
@@ -25,12 +22,12 @@ const plans = [
   },
   {
     name: 'Plan Premium',
-    price: '150',
+    price: '350',
     period: 'lunar',
     features: [
       'Toate resursele premium',
       'Exerciții practice nelimitate',
-      'Ședințe de meditații (2/lună)',
+      'Ședințe de meditații (4/lună)',
       'Suport priorititar',
       'Acces la materiale exclusive'
     ],
@@ -41,56 +38,7 @@ const plans = [
 ];
 
 function PricingCard({ plan, index }: { plan: typeof plans[0], index: number }) {
-  const { isAuthenticated, isLoading } = useAuthNavigation(false);
-  const { plan: userPlan } = useAuth();
-  const router = useRouter();
-  const isCurrent = userPlan?.name?.toLowerCase() === plan.planType || (plan.planType === 'free' && userPlan?.price === 0);
-  const isFreeAndCurrent = plan.planType === 'free' && (userPlan?.name?.toLowerCase() === 'free' || userPlan?.price === 0) && isAuthenticated;
-  const isPaidAndCurrent = (plan.planType === 'premium' || plan.planType === 'pro') && (userPlan?.name?.toLowerCase() === 'premium' || userPlan?.price === 150);
-  
-  const [loading, setLoading] = React.useState(false);
-
   const handleSubscribe = async () => {
-    if (plan.planType === 'free' && !isAuthenticated) {
-      router.push('/sign-in');
-      return;
-    }
-    if ((plan.planType === 'premium' || plan.planType === 'pro') && (!isAuthenticated)) {
-      router.push('/sign-in');
-      return;
-    }
-    if (isPaidAndCurrent) {
-      // Go to profile to manage/cancel subscription
-      router.push('/profile');
-      return;
-    }
-    if (plan.planType === 'free' && isFreeAndCurrent) {
-      // Already on free plan
-      return;
-    }
-    if (plan.planType === 'premium' || plan.planType === 'pro') {
-      try {
-        setLoading(true);
-        // Get Supabase access token from localStorage
-        const tokenObj = typeof window !== 'undefined' ? localStorage.getItem('sb-ibakhrivgjeokfndyvhu-auth-token') : null;
-        const accessToken = tokenObj ? JSON.parse(tokenObj).access_token : null;
-        const res = await fetch('/api/stripe/create-checkout-session', {
-          method: 'POST',
-          headers: accessToken ? { 'Authorization': `Bearer ${accessToken}` } : {},
-        });
-        const data = await res.json();
-        if (data.url) {
-          window.location.href = data.url;
-        } else {
-          alert(data.error || 'Eroare la inițializarea plății.');
-        }
-      } catch {
-        alert('Eroare la inițializarea plății.');
-      } finally {
-        setLoading(false);
-      }
-      return;
-    }
     // Placeholder for payment integration
     alert(`Funcționalitatea de plată pentru planul ${plan.name} va fi implementată în curând!`);
   };
@@ -100,11 +48,10 @@ function PricingCard({ plan, index }: { plan: typeof plans[0], index: number }) 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className={`relative bg-white/10 backdrop-blur-lg rounded-2xl p-8 border ${
-        plan.popular 
-          ? 'border-[#FEBFD2] shadow-lg shadow-[#FEBFD2]/20' 
-          : 'border-white/20'
-      }`}
+      className={`relative bg-white/10 backdrop-blur-lg rounded-2xl p-8 border ${plan.popular
+        ? 'border-[#FEBFD2] shadow-lg shadow-[#FEBFD2]/20'
+        : 'border-white/20'
+        }`}
     >
       {plan.popular && (
         <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
@@ -143,20 +90,12 @@ function PricingCard({ plan, index }: { plan: typeof plans[0], index: number }) 
 
       <button
         onClick={handleSubscribe}
-        disabled={isLoading || loading || isFreeAndCurrent}
-        className={`w-full py-3 rounded-lg font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
-          plan.popular
-            ? 'bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 hover:from-[#fef6f8] hover:to-[#fce9f0]'
-            : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
-        }`}
+        className={`w-full py-3 rounded-lg font-semibold transition-all duration-300 ${plan.popular
+          ? 'bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 hover:from-[#fef6f8] hover:to-[#fce9f0]'
+          : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
+          }`}
       >
-        {loading
-          ? 'Se redirecționează...'
-          : isFreeAndCurrent
-            ? 'Planul tău actual'
-            : isPaidAndCurrent
-              ? 'Abonament activ (Gestionează)'
-              : plan.buttonText}
+        {plan.buttonText}
       </button>
     </motion.div>
   );
@@ -192,7 +131,7 @@ function PricingContent() {
               Deblochează accesul la toate resursele și ședințele.
             </motion.p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-8 justify-center">
             {plans.map((plan, index) => (
               <PricingCard key={plan.name} plan={plan} index={index} />
@@ -209,12 +148,12 @@ function PricingContent() {
               Ai întrebări despre planuri? Contactează-ne pentru asistență personalizată.
             </p>
             <div className="flex justify-center space-x-4">
-              <a href="mailto:denisa.stanciu@example.com" className="text-[#FEBFD2] hover:text-[#FAD4E4]">
-                denisa.stanciu@example.com
+              <a href="mailto:denisanita08@gmail.com" className="text-[#FEBFD2] hover:text-[#FAD4E4]">
+                denisanita08@gmail.com
               </a>
               <span className="text-gray-500">|</span>
-              <a href="tel:+40712345678" className="text-[#FEBFD2] hover:text-[#FAD4E4]">
-                +40 712 345 678
+              <a href="tel:+40731979588" className="text-[#FEBFD2] hover:text-[#FAD4E4]">
+                +40 731 979 588
               </a>
             </div>
           </motion.div>
@@ -226,34 +165,5 @@ function PricingContent() {
 }
 
 export default function PricingPage() {
-  const { error } = useAuthNavigation(false);
-  const router = useRouter();
-
-  // Show error state
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center max-w-md mx-auto p-6"
-        >
-          <div className="text-red-300 text-lg mb-4">
-            Eroare de autentificare
-          </div>
-          <div className="text-gray-300 text-sm mb-6">
-            {error}
-          </div>
-          <button
-            onClick={() => router.refresh()}
-            className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-2 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300"
-          >
-            Reîncearcă
-          </button>
-        </motion.div>
-      </div>
-    );
-  }
-
   return <PricingContent />;
 }
