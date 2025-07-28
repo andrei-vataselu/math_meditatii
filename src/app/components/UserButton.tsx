@@ -6,14 +6,12 @@ import { useAuth } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 
 export default function UserButton() {
-  const { user, profile, signOut, error } = useAuth()
+  const { user, signOut, error } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
   const [signingOut, setSigningOut] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   
-  console.log('[UserButton] Rendered', { user, profile, signingOut, error });
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -43,11 +41,11 @@ export default function UserButton() {
   }
 
   const getInitials = () => {
-    if (profile?.first_name && profile?.last_name) {
-      return `${profile.first_name[0]}${profile.last_name[0]}`.toUpperCase()
+    if (user?.firstName && user?.lastName) {
+      return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase()
     }
-    if (profile?.first_name) {
-      return profile.first_name[0].toUpperCase()
+    if (user?.firstName) {
+      return user.firstName[0].toUpperCase()
     }
     if (user?.email) {
       return user.email[0].toUpperCase()
@@ -56,11 +54,11 @@ export default function UserButton() {
   }
 
   const getDisplayName = () => {
-    if (profile?.first_name && profile?.last_name) {
-      return `${profile.first_name} ${profile.last_name}`
+    if (user?.firstName && user?.lastName) {
+      return `${user.firstName} ${user.lastName}`
     }
-    if (profile?.first_name) {
-      return profile.first_name
+    if (user?.firstName) {
+      return user.firstName
     }
     return user?.email || 'User'
   }
@@ -92,8 +90,8 @@ export default function UserButton() {
             <div className="p-4 border-b border-white/20">
               <p className="text-white font-medium">{getDisplayName()}</p>
               <p className="text-gray-300 text-sm">{user?.email}</p>
-              {profile?.phone_number && (
-                <p className="text-gray-300 text-sm mt-1">{profile.phone_number}</p>
+              {user?.phoneNumber && (
+                <p className="text-gray-300 text-sm mt-1">{user.phoneNumber}</p>
               )}
             </div>
             

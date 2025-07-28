@@ -53,8 +53,7 @@ function NoSubscription() {
 function DashboardContent() {
   const { user } = useUser();
   const { plan } = useAuth();
-  const hasActiveSubscription = plan && plan.status === 'active' && plan.plan_type !== 'free';
-
+  const hasActiveSubscription = plan && plan.isActive && plan.name !== 'Free';
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 overflow-hidden isolate">
       <Design />
@@ -104,10 +103,15 @@ function DashboardContent() {
 }
 
 export default function DashboardPage() {
-  const { isAuthenticated, isLoading } = useRequireAuth();
-
-  if (isLoading) return <LoadingSpinner />;
+  const { isLoading, isAuthenticated } = useRequireAuth();
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900 overflow-hidden isolate flex items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
   if (!isAuthenticated) return null;
-
+  // Only render DashboardContent, do not render user object directly
   return <DashboardContent />;
 } 

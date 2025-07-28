@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import { useAuth } from '@/contexts/AuthContext'
 import { motion } from 'framer-motion'
-import { signUp } from '@/lib/supabase'
+import { signUp } from '@/lib/authApi'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { z } from 'zod'
@@ -53,6 +54,7 @@ export default function SignUpForm() {
   const [serverError, setServerError] = useState('')
   const [success, setSuccess] = useState(false)
   const router = useRouter()
+  const { refreshProfile } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -85,9 +87,8 @@ export default function SignUpForm() {
       }
       if (data?.user) {
         setSuccess(true)
-        setTimeout(() => {
-          router.push('/dashboard')
-        }, 2000)
+        await refreshProfile();
+        router.push('/');
       }
     } catch (err) {
       console.error('Sign up error:', err)

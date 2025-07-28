@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useAuth } from '@/contexts/AuthContext'
-import { resetPassword } from '@/lib/supabase'
 import Header from '../components/Header'
 import Design from '../components/Design'
 import { useAuthNavigation } from '@/hooks/useAuthNavigation'
@@ -34,7 +33,7 @@ const profileSchema = z.object({
 
 function ProfileContent() {
   const { isAuthenticated, isLoading } = useRequireAuth()
-  const { user, profile, updateProfile, plan, refreshProfile } = useAuth()
+  const { user, profile, updateProfile, plan } = useAuth()
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -46,55 +45,20 @@ function ProfileContent() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [errors, setErrors] = useState<z.ZodError['formErrors']['fieldErrors'] | null>(null)
-  const [passwordLoading, setPasswordLoading] = useState(false)
-  const [passwordSuccess, setPasswordSuccess] = useState('')
-  const [cancelStatus, setCancelStatus] = useState<string | null>(null)
-  const [cancelLoading, setCancelLoading] = useState(false)
-  const [nextPayment, setNextPayment] = useState<string | null>(null)
-  const [subscriptionStatus, setSubscriptionStatus] = useState<string | null>(null)
-  const [cancelAtPeriodEnd, setCancelAtPeriodEnd] = useState<boolean>(false)
 
   useEffect(() => {
-    if (user && profile) {
+    if (user) {
       setFormData({
-        firstName: profile?.first_name || '',
-        lastName: profile?.last_name || '',
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
         email: user.email || '',
-        phoneNumber: profile?.phone_number || ''
+        phoneNumber: user.phoneNumber || ''
       })
     }
-  }, [user, profile])
+  }, [user])
 
   // Fetch next payment date and status if on paid plan
-  useEffect(() => {
-    async function fetchStripeStatus() {
-      if ((plan?.plan_type === 'premium' || plan?.plan_type === 'pro') && plan.status === 'active') {
-        // Get Supabase access token from localStorage
-        const tokenObj = typeof window !== 'undefined' ? localStorage.getItem('sb-ibakhrivgjeokfndyvhu-auth-token') : null;
-        const accessToken = tokenObj ? JSON.parse(tokenObj).access_token : null;
-        if (!accessToken) return;
-        const res = await fetch('/api/stripe/cancel-subscription', {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${accessToken}` },
-        });
-        const data = await res.json();
-        if (data.current_period_end) {
-          setNextPayment(data.current_period_end);
-        } else if (plan.end_date) {
-          setNextPayment(plan.end_date);
-        }
-        if (data.status) {
-          setSubscriptionStatus(data.status);
-        }
-        if (typeof data.cancel_at_period_end !== 'undefined') {
-          setCancelAtPeriodEnd(data.cancel_at_period_end);
-        }
-      } else if (plan.end_date) {
-        setNextPayment(plan.end_date);
-      }
-    }
-    fetchStripeStatus();
-  }, [plan]);
+  // Removed legacy Stripe status logic
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -117,24 +81,20 @@ function ProfileContent() {
     if (!validationResult.success) {
       setErrors(validationResult.error.formErrors.fieldErrors)
       setLoading(false)
-      return
+      return;
     }
-
     try {
       const { error: updateError } = await updateProfile({
-        first_name: validationResult.data.firstName,
-        last_name: validationResult.data.lastName,
-        phone_number: validationResult.data.phoneNumber
+        firstName: validationResult.data!.firstName,
+        lastName: validationResult.data!.lastName,
+        phoneNumber: validationResult.data!.phoneNumber
       })
 
       if (updateError) {
         throw updateError
       }
-      
       setSuccess('Profilul a fost actualizat cu succes!')
-
     } catch (err) {
-      console.error('Profile update error:', err)
       const error = err as Error
       setError(error.message || 'Eroare la actualizarea profilului')
     } finally {
@@ -142,71 +102,8 @@ function ProfileContent() {
     }
   }
 
-  const handlePasswordReset = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!user || !user.email) {
-      setError('Email-ul utilizatorului nu a fost găsit.')
-      setPasswordLoading(false)
-      return
-    }
+  // Removed legacy password reset logic
 
-    setPasswordLoading(true)
-    setError('')
-    setPasswordSuccess('')
-
-    try {
-      const { error } = await resetPassword(user.email)
-      if (error) {
-        setError(error.message)
-      } else {
-        setPasswordSuccess('Email-ul de resetare a fost trimis! Vei fi deconectat de pe toate dispozitivele.')
-      }
-    } catch (err) {
-      console.error('Password reset error:', err)
-      setError('Eroare la trimiterea email-ului de resetare')
-    } finally {
-      setPasswordLoading(false)
-    }
-  }
-
-  const handleCancelSubscription = async () => {
-    setCancelLoading(true);
-    setCancelStatus(null);
-    // Get Supabase access token from localStorage
-    const tokenObj = typeof window !== 'undefined' ? localStorage.getItem('sb-ibakhrivgjeokfndyvhu-auth-token') : null;
-    const accessToken = tokenObj ? JSON.parse(tokenObj).access_token : null;
-    if (!accessToken) {
-      setCancelStatus('Eroare de autentificare.');
-      setCancelLoading(false);
-      return;
-    }
-    try {
-      const res = await fetch('/api/stripe/cancel-subscription?cancel=true', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${accessToken}` },
-      });
-      const data = await res.json();
-      if (data.canceled) {
-        setCancelStatus('Abonamentul tău va fi anulat la finalul perioadei plătite.');
-        if (data.current_period_end) {
-          setNextPayment(data.current_period_end);
-        }
-        if (data.status) {
-          setSubscriptionStatus(data.status);
-        }
-        if (typeof data.cancel_at_period_end !== 'undefined') {
-          setCancelAtPeriodEnd(data.cancel_at_period_end);
-        }
-        refreshProfile();
-      } else {
-        setCancelStatus(data.error || 'Eroare la anularea abonamentului.');
-      }
-    } catch {
-      setCancelStatus('Eroare la anularea abonamentului.');
-    } finally {
-      setCancelLoading(false);
-    }
-  };
 
   if (isLoading) return <div>Se încarcă...</div>;
   if (!isAuthenticated) return null;
@@ -224,48 +121,29 @@ function ProfileContent() {
         >
           <div className="mb-8 bg-white/10 border border-white/20 rounded-lg p-4">
             <h2 className="text-lg font-semibold text-white mb-2">Planul tău actual</h2>
-            <div className="text-gray-300">
-              {plan?.plan_type === 'free' && 'Plan Gratuit (activ)'}
-              {plan?.plan_type === 'premium' && plan.status === 'active' && 'Plan Premium (activ)'}
-              {plan?.plan_type === 'pro' && plan.status === 'active' && 'Plan Pro (activ)'}
-              {plan?.status !== 'active' && plan?.plan_type !== 'free' && (
-                <>Plan {plan?.plan_type} (inactiv)</>
-              )}
-            </div>
-            {(plan?.plan_type === 'premium' || plan?.plan_type === 'pro') && nextPayment && (
-              <>
-                <div className="text-gray-400 text-sm mt-1">
-                  {(() => {
-                    const daysLeft = Math.max(0, Math.ceil((new Date(nextPayment).getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
-                    if (subscriptionStatus === 'active' && !cancelAtPeriodEnd) {
-                      return <>
-                        Următoarea plată: <b>{new Date(nextPayment).toLocaleString('ro-RO')}</b>
-                        {' '}({daysLeft} zile rămase)
-                      </>;
-                    } else {
-                      return <>
-                        Abonamentul tău va expira la: <b>{new Date(nextPayment).toLocaleString('ro-RO')}</b>
-                        {' '}({daysLeft} zile rămase)
-                      </>;
-                    }
-                  })()}
+            {plan ? (
+              <div className="text-gray-300">
+                <div>
+                  <b>
+                    {plan.name?.toLowerCase() === 'free' || plan.price === 0 ? 'Gratuit' : 'Premium'}
+                  </b>
+                  ({plan.price === 0 ? 'Gratuit' : `${plan.price} RON/lună`})
                 </div>
-                {!cancelAtPeriodEnd && subscriptionStatus === 'active' && (
-                  <button
-                    className="mt-4 bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-2 rounded-full font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300"
-                    onClick={handleCancelSubscription}
-                    disabled={cancelLoading}
-                  >
-                    {cancelLoading ? 'Se anulează...' : 'Anulează abonamentul'}
-                  </button>
+                <div className="mt-2 text-sm text-gray-400">{plan.features?.join(', ')}</div>
+                {/* Show upgrade button if free plan */}
+                {(plan.name?.toLowerCase() === 'free' || plan.price === 0) && (
+                  <div className="mt-4">
+                    <button
+                      className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-2 rounded-full font-semibold shadow-lg hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300 cursor-pointer"
+                      onClick={() => window.location.href = '/pricing'}
+                    >
+                      Upgrade la Premium
+                    </button>
+                  </div>
                 )}
-                {cancelAtPeriodEnd && (
-                  <div className="text-yellow-300 text-sm mt-2">Abonamentul tău va fi anulat la finalul perioadei plătite.</div>
-                )}
-                {cancelStatus && cancelStatus !== 'Abonamentul tău va fi anulat la finalul perioadei plătite.' && (
-                  <div className="text-red-300 text-sm mt-2">{cancelStatus}</div>
-                )}
-              </>
+              </div>
+            ) : (
+              <div className="text-gray-400">Nu ai niciun plan activ.</div>
             )}
           </div>
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
@@ -362,26 +240,7 @@ function ProfileContent() {
             </form>
 
             <div className="mt-8 pt-6 border-t border-white/20">
-              <h2 className="text-xl font-semibold text-white mb-4">Resetare parolă</h2>
-              <p className="text-gray-300 text-sm mb-4">
-                Dacă ai uitat parola, poți solicita un email de resetare.
-              </p>
-              
-              {passwordSuccess && (
-                <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-3 mb-4">
-                  <p className="text-green-300 text-sm">{passwordSuccess}</p>
-                </div>
-              )}
-
-              <form onSubmit={handlePasswordReset}>
-                <button
-                  type="submit"
-                  disabled={passwordLoading}
-                  className="bg-red-500/20 border border-red-500/30 text-red-300 px-6 py-3 rounded-lg font-semibold hover:bg-red-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {passwordLoading ? 'Se trimite...' : 'Trimite email de resetare'}
-                </button>
-              </form>
+              {/* Resetare parolă UI removed, see commit for details. */}
             </div>
           </div>
         </motion.div>

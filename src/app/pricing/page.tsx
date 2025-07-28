@@ -44,9 +44,9 @@ function PricingCard({ plan, index }: { plan: typeof plans[0], index: number }) 
   const { isAuthenticated, isLoading } = useAuthNavigation(false);
   const { plan: userPlan } = useAuth();
   const router = useRouter();
-  const isCurrent = userPlan?.plan_type === plan.planType && userPlan?.status === 'active';
-  const isFreeAndCurrent = plan.planType === 'free' && userPlan?.plan_type === 'free' && isAuthenticated;
-  const isPaidAndCurrent = (plan.planType === 'premium' || plan.planType === 'pro') && (userPlan?.plan_type === 'premium' || userPlan?.plan_type === 'pro') && userPlan?.status === 'active';
+  const isCurrent = userPlan?.name?.toLowerCase() === plan.planType || (plan.planType === 'free' && userPlan?.price === 0);
+  const isFreeAndCurrent = plan.planType === 'free' && (userPlan?.name?.toLowerCase() === 'free' || userPlan?.price === 0) && isAuthenticated;
+  const isPaidAndCurrent = (plan.planType === 'premium' || plan.planType === 'pro') && (userPlan?.name?.toLowerCase() === 'premium' || userPlan?.price === 150);
   
   const [loading, setLoading] = React.useState(false);
 
@@ -59,12 +59,13 @@ function PricingCard({ plan, index }: { plan: typeof plans[0], index: number }) 
       router.push('/sign-in');
       return;
     }
-    if ((plan.planType === 'premium' || plan.planType === 'pro') && (userPlan?.plan_type === 'premium' || userPlan?.plan_type === 'pro') && userPlan?.status === 'active') {
-      alert('Ai deja un abonament activ.');
+    if (isPaidAndCurrent) {
+      // Go to profile to manage/cancel subscription
+      router.push('/profile');
       return;
     }
-    if (plan.planType === 'free' && (userPlan?.plan_type === 'premium' || userPlan?.plan_type === 'pro') && userPlan?.status === 'active') {
-      router.push('/profile');
+    if (plan.planType === 'free' && isFreeAndCurrent) {
+      // Already on free plan
       return;
     }
     if (plan.planType === 'premium' || plan.planType === 'pro') {
@@ -142,14 +143,20 @@ function PricingCard({ plan, index }: { plan: typeof plans[0], index: number }) 
 
       <button
         onClick={handleSubscribe}
-        disabled={isLoading || isCurrent || isFreeAndCurrent || isPaidAndCurrent || loading}
+        disabled={isLoading || loading || isFreeAndCurrent}
         className={`w-full py-3 rounded-lg font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
           plan.popular
             ? 'bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 hover:from-[#fef6f8] hover:to-[#fce9f0]'
             : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
         }`}
       >
-        {loading ? 'Se redirecționează...' : isFreeAndCurrent ? 'Planul tău actual' : isCurrent ? 'Planul tău actual' : isPaidAndCurrent ? 'Abonament activ' : (isLoading ? 'Se încarcă...' : plan.buttonText)}
+        {loading
+          ? 'Se redirecționează...'
+          : isFreeAndCurrent
+            ? 'Planul tău actual'
+            : isPaidAndCurrent
+              ? 'Abonament activ (Gestionează)'
+              : plan.buttonText}
       </button>
     </motion.div>
   );

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { signIn } from '@/lib/supabase'
+import { signIn } from '@/lib/authApi'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
@@ -24,7 +24,7 @@ export default function SignInForm() {
       if (error) {
         setError(error.message)
       } else {
-        router.push('/dashboard')
+        window.location.href = '/';
       }
     } catch {
       setError('A apărut o eroare. Te rog să încerci din nou.')
