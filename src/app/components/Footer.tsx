@@ -71,11 +71,11 @@ export default function Footer() {
           <FaInstagram size={32} color="#C13584" />
           </a>
           <a
-            href="https://chat.whatsapp.com/KXZcwE814NtLImYiBYkOBd"
+            href="https://wa.me/40731979588"
             target="_blank"
             rel="noopener noreferrer"
             className="w-8 h-8 flex items-center justify-center"
-            aria-label="Instagram"
+            aria-label="WhatsApp"
           >
           <FaWhatsapp size={32} color="#25D366" />
           </a>

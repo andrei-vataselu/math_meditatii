@@ -32,7 +32,7 @@ function PrivacyContent() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-gray-400 mb-6"
             >
-              Ultima actualizare: 13.09.2022
+              Ultima actualizare: 29.07.2025
             </motion.p>
           </div>
 
@@ -46,18 +46,17 @@ function PrivacyContent() {
               <h2 className="text-2xl font-semibold text-white mb-4">1. Introducere</h2>
               <p className="mb-6 text-gray-300 ml-5">
                 Această Politică de Confidențialitate descrie modul în care DS Math Center colectează, utilizează, 
-                dezvăluie și protejează informațiile pe care ni le furnizați atunci când utilizați site-ul nostru www.dsmathcenter.ro.
+                dezvăluie și protejează informațiile pe care ni le furnizați atunci când utilizați site-ul nostru www.matebac.com.
               </p>
 
               <h2 className="text-2xl font-semibold text-white mb-4">2. Datele pe care le colectăm</h2>
               <p className="mb-6 text-gray-300 ml-5">
-                Colectăm informații personale pe care ni le furnizați direct, cum ar fi:
+                Colectăm informații personale pe care ni le furnizați direct (nu prin site), cum ar fi:
               </p>
               <ul className="list-disc pl-6 mb-6 space-y-2 text-gray-300 ml-5">
                 <li>Nume și prenume</li>
                 <li>Adresă de email</li>
                 <li>Număr de telefon</li>
-                <li>Date de plată (procesate exclusiv prin procesatorii de plăți)</li>
                 <li>Alte informații necesare pentru furnizarea serviciilor noastre</li>
               </ul>
 
@@ -67,7 +66,6 @@ function PrivacyContent() {
               </p>
               <ul className="list-disc pl-6 mb-6 space-y-2 text-gray-300 ml-5">
                 <li>Furnizarea și îmbunătățirea serviciilor noastre</li>
-                <li>Procesarea tranzacțiilor</li>
                 <li>Comunicarea cu dumneavoastră</li>
                 <li>Asigurarea securității și împotriva fraudelor</li>
                 <li>Conformitatea cu obligațiile legale</li>
@@ -78,7 +76,6 @@ function PrivacyContent() {
                 Nu vindem sau închiriem informațiile dumneavoastră personale terților. Datele pot fi partajate cu:
               </p>
               <ul className="list-disc pl-6 mb-6 space-y-2 text-gray-300 ml-5">
-                <li>Furnizori de servicii care ne ajută în activitatea noastră (ex: procesatori de plăți)</li>
                 <li>Autorități competente, atunci când este necesar prin lege</li>
                 <li>Alte terțe părți cu consimțământul dumneavoastră</li>
               </ul>
@@ -104,26 +101,35 @@ function PrivacyContent() {
 
               <h2 className="text-2xl font-semibold text-white mb-4">7. Cookie-uri</h2>
               <p className="mb-6 text-gray-300 ml-5">
-                Site-ul nostru utilizează cookie-uri pentru a îmbunătăți experiența de navigare. Puteți gestiona preferințele 
-                pentru cookie-uri în setările browserului dumneavoastră.
+                Site-ul nostru NU utilizează cookie-uri pentru a îmbunătăți experiența de navigare.
               </p>
 
-              <h2 className="text-2xl font-semibold text-white mb-4">8. Modificări ale politicii</h2>
+
+              <h2 className="text-2xl font-semibold text-white mb-4">8. Date de identificare</h2>
+              <ul className="list-disc pl-6 mb-6 space-y-2 text-gray-300 ml-5">
+                <li><strong>Nume:</strong> Denisa Nita</li>
+                <li><strong>Tip firmă:</strong> SRL</li>
+                <li><strong>CUI:</strong> 51249651</li>
+                <li><strong>Email:</strong> denisanita08@gmail.com</li>
+                <li><strong>Telefon/WhatsApp:</strong> 0731 979 588</li>
+              </ul>
+
+              <h2 className="text-2xl font-semibold text-white mb-4">9. Modificări ale politicii</h2>
               <p className="mb-6 text-gray-300 ml-5">
                 Ne rezervăm dreptul de a actualiza această Politică de Confidențialitate periodic. Orice modificări vor fi 
                 publicate pe această pagină cu o dată de actualizare revizuită.
               </p>
 
-              <h2 className="text-2xl font-semibold text-white mb-4">9. Contact</h2>
+              <h2 className="text-2xl font-semibold text-white mb-4">10. Contact</h2>
               <p className="mb-6 text-gray-300 ml-5">
                 Pentru întrebări sau solicitări legate de confidențialitate, vă rugăm să ne contactați la:<br />
-                Email: stanciu.denisa@gmail.com<br />
-                Telefon: 0751812610
+                Email: denisanita08@gmail.com<br />
+                Telefon: 0731 979 588
               </p>
 
               <div className="text-sm text-gray-400 mt-8">
                 <p>
-                  Prin utilizarea site-ului www.dsmathcenter.ro, sunteți de acord cu această Politică de Confidențialitate.
+                  Prin utilizarea site-ului www.matebac.com, sunteți de acord cu această Politică de Confidențialitate.
                 </p>
               </div>
             </div>

@@ -37,7 +37,7 @@ export default function CookieBanner() {
     >
       <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="text-sm text-gray-300 text-center md:text-left">
-          Folosim cookie-uri pentru a îmbunătăți experiența ta. Continuând, ești de acord cu{' '}
+        Continuând, ești de acord cu{' '}
           <Link href="/politica-cookies" className="text-[#FEBFD2] hover:underline">
             Politica noastră de utilizare cookie-uri
           </Link>.
