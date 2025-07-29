@@ -16,12 +16,13 @@ const plans = [
       'Exerciții practice limitate',
       'Suport prin email'
     ],
-    buttonText: 'Cont gratuit',
+    buttonText: 'Gratuit',
     popular: false,
-    planType: 'free'
+    planType: 'free',
+    signup: 'resurse-gratuite'
   },
   {
-    name: 'Plan Premium',
+    name: 'Plan Meditații',
     price: '350',
     period: 'lunar',
     features: [
@@ -31,18 +32,14 @@ const plans = [
       'Suport priorititar',
       'Acces la materiale exclusive'
     ],
-    buttonText: 'Alege Pro',
+    buttonText: 'Înscrie-te pe WhatsApp',
     popular: true,
-    planType: 'pro'
+    planType: 'pro',
+    whatsapp: 'https://wa.me/40731979588?text=Salut!%20Vreau%20s%C4%83%20m%C4%83%20%C3%AEnscriu%20la%20DS%20Math%20Center%20pentru%20planul%20de%20350%20RON.'
   }
 ];
 
 function PricingCard({ plan, index }: { plan: typeof plans[0], index: number }) {
-  const handleSubscribe = async () => {
-    // Placeholder for payment integration
-    alert(`Funcționalitatea de plată pentru planul ${plan.name} va fi implementată în curând!`);
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -64,17 +61,7 @@ function PricingCard({ plan, index }: { plan: typeof plans[0], index: number }) 
       <div className="text-center mb-8">
         <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
         <div className="mb-4">
-          {plan.planType === 'premium' ? (
-            <>
-              <span className="text-2xl font-semibold text-gray-400 line-through mr-2">{Math.round(Number(plan.price) / 0.8)}</span>
-              <span className="text-4xl font-bold text-[#FF4D4F]">{plan.price}</span>
-              <span className="ml-2 text-sm text-green-400 font-semibold bg-green-900/30 px-2 py-1 rounded">Reducere 20%</span>
-            </>
-          ) : (
-            <>
-              <span className="text-4xl font-bold text-white">{plan.price}</span>
-            </>
-          )}
+          <span className="text-4xl font-bold text-white">{plan.price}</span>
           <span className="text-gray-300"> RON/{plan.period}</span>
         </div>
       </div>
@@ -88,15 +75,32 @@ function PricingCard({ plan, index }: { plan: typeof plans[0], index: number }) 
         ))}
       </ul>
 
-      <button
-        onClick={handleSubscribe}
-        className={`w-full py-3 rounded-lg font-semibold transition-all duration-300 ${plan.popular
-          ? 'bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 hover:from-[#fef6f8] hover:to-[#fce9f0]'
-          : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
-          }`}
-      >
-        {plan.buttonText}
-      </button>
+      {plan.planType === 'pro' ? (
+        <>
+          <a
+            href={plan.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`w-full block text-center py-3 rounded-lg font-semibold transition-all duration-300 ${plan.popular
+              ? 'bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 hover:from-[#fef6f8] hover:to-[#fce9f0]'
+              : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
+              }`}
+          >
+            {plan.buttonText}
+          </a>
+          <p className="text-xs text-gray-400 mt-2 text-center">Pentru înscriere apasă pe butonul de WhatsApp!</p>
+        </>
+      ) : (
+        <>
+          <a
+            href={plan.signup}
+            className="w-full block text-center py-3 rounded-lg font-semibold transition-all duration-300 bg-white/10 text-white border border-white/20 hover:bg-white/20"
+          >
+            {plan.buttonText}
+          </a>
+          <p className="text-xs text-gray-400 mt-2 text-center">Accesul gratuit se face din secțiunea Resurse Gratuite.</p>
+        </>
+      )}
     </motion.div>
   );
 }

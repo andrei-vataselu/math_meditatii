@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DSMath Center - Meditații Bacalaureat Matematică | Clasa a XII-a",
+  title: "DS Math Center - Meditații Bacalaureat Matematică | Clasa a XII-a",
   description: "Pregătire specializată pentru examenul de Bacalaureat la Matematică, dedicată elevilor de clasa a XII-a. Explicații clare și metode adaptate fiecărui profil: Mate-Info, Științe, Tehnologic și Pedagogic.",
   metadataBase: new URL('https://matebac.com'),
   alternates: {
@@ -25,10 +25,10 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'DSMath Center - Meditații Bacalaureat Matematică',
+    title: 'DS Math Center - Meditații Bacalaureat Matematică',
     description: 'Pregătire la matematică pentru Bacalaureat, clasa a XII-a. Metode moderne, suport PDF, grupuri pe profil.',
     url: 'https://matebac.com',
-    siteName: 'DSMath Center',
+    siteName: 'DS Math Center',
     locale: 'ro_RO',
     type: 'website',
     images: [
@@ -36,13 +36,13 @@ export const metadata: Metadata = {
         url: '/logo.svg',
         width: 512,
         height: 512,
-        alt: 'DSMath Center Logo',
+        alt: 'DS Math Center Logo',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'DSMath Center - Meditații Bacalaureat Matematică',
+    title: 'DS Math Center - Meditații Bacalaureat Matematică',
     description: 'Pregătire la matematică pentru Bacalaureat, clasa a XII-a. Metode moderne, suport PDF, grupuri pe profil.',
     site: '@dsmathcenter',
     images: ['https://matebac.com/logo.png'],
@@ -73,7 +73,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Organization',
-            name: 'DSMath Center',
+            name: 'DS Math Center',
             url: 'https://matebac.com',
             logo: 'https://matebac.com/logo.svg',
             email: 'denisanita08@gmail.com',

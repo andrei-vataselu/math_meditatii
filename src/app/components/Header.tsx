@@ -15,7 +15,7 @@ export default function Header() {
         className="text-2xl font-bold text-white"
       >
         <Link href="/" className="hover:text-[#FEBFD2] transition-colors">
-          DSMath Center
+          DS Math Center
         </Link>
       </motion.div>
       <motion.div

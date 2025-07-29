@@ -10,20 +10,20 @@ import Design from './components/Design';
 
 const features = [
   {
-    title: "Exerciții interactive",
-    description: "Învață conceptele matematice prin aplicații practice și jocuri logice.",
+    title: "Exerciții pentru Bac structurate pe tipuri de subiecte",
+    description: "Rezolvă exerciții specifice tiparului de la Bac, organizate pe capitole și niveluri de dificultate.",
     icon: "🧮",
     color: "from-[#FEBFD2] to-[#FAD4E4]"
   },
   {
-    title: "Plan personalizat de învățare",
-    description: "Adaptat ritmului tău, creat de Denisa pentru rezultate reale.",
+    title: "Plan de învățare pentru Bac, adaptat nivelului tău",
+    description: "Urmezi un plan structurat, conceput de Denisa, care acoperă toată programa și te ajută să recuperezi rapid lacunele.",
     icon: "🎯",
     color: "from-[#FAD4E4] to-[#DB0073]"
   },
   {
-    title: "Urmărirea progresului",
-    description: "Vezi cum evoluezi cu feedback simplu și constant.",
+    title: "Monitorizarea progresului pentru rezultate reale",
+    description: "Vezi clar cum evoluezi, unde ai dificultăți și ce ai de îmbunătățit pentru a-ți atinge ținta la Bac.",
     icon: "📊",
     color: "from-[#FEBFD2] to-[#DB0073]"
   }

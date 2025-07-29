@@ -23,7 +23,7 @@ export default function CourseInfoPage() {
             "description": "Pregătire intensivă online pentru Bacalaureat la Matematică, explicată clar, cu suport PDF, grupe pe profil și simulări. Profesor: Denisa Nita.",
             "provider": {
               "@type": "Organization",
-              "name": "DSMath Center",
+              "name": "DS Math Center",
               "url": "https://matebac.com"
             },
             "educationalLevel": "High School",

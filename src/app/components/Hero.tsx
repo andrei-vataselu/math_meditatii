@@ -45,14 +45,21 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          className="flex flex-col gap-3 justify-center items-center"
         >
-
           <Link href="/resurse-gratuite">
             <button className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-[#DB0073] transition-all duration-300 cursor-pointer">
               Vezi resurse gratuite
             </button>
           </Link>
+          <a
+            href="https://wa.me/40731979588?text=Salut!%20Vreau%20o%20ședință%20gratuită%20la%20DS%20Math%20Center."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-2 rounded-full text-base font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300 shadow-md border-2 border-white/80"
+          >
+            Programează o ședință gratuită
+          </a>
         </motion.div>
       </motion.div>
     </main>

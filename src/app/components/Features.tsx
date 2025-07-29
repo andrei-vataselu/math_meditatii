@@ -24,7 +24,7 @@ export default function Features({ features }: FeaturesProps) {
         className="max-w-6xl mx-auto"
       >
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">De ce să alegi DSMath?</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">De ce să alegi DS Math Center?</h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             Cu o experiență solidă în predare, îți ofer explicații logice, pașii simpli și încrederea de care ai nevoie ca să înțelegi matematica.
           </p>
