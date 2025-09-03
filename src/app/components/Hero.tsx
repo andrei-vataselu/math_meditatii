@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
@@ -37,8 +37,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto"
         >
-          Pregătire specializată pentru examenul de Bacalaureat la Matematică, dedicată elevilor de clasa a XII-a. Explicații clare și metode adaptate fiecărui profil: Mate-Info, Științe, Tehnologic și Pedagogic.
-
+          Pregătire specializată pentru examenul de Bacalaureat la Matematică,
+          dedicată elevilor de clasa a XII-a. Explicații clare și metode
+          adaptate fiecărui profil: Mate-Info, Științe, Tehnologic și Pedagogic.
         </motion.p>
 
         <motion.div
@@ -58,10 +59,10 @@ export default function Hero() {
             rel="noopener noreferrer"
             className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-6 py-2 rounded-full text-base font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300 shadow-md border-2 border-white/80"
           >
-            Programează o ședință gratuită
+            Programează o ședință de consultanță gratuită
           </a>
         </motion.div>
       </motion.div>
     </main>
   );
-} 
+}

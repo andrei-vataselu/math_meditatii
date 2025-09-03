@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 export default function CTA() {
   return (
@@ -12,9 +12,12 @@ export default function CTA() {
         viewport={{ once: true }}
         className="max-w-4xl mx-auto text-center"
       >
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Te pregătești de BAC? Hai să-l luăm împreună!</h2>
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          Te pregătești de BAC? Hai să-l luăm împreună!
+        </h2>
         <p className="text-xl text-gray-300 mb-8">
-          Descoperă cum matematica poate fi înțeleasă ușor și aplicată cu încredere la examen.
+          Descoperă cum matematica poate fi înțeleasă ușor și aplicată cu
+          încredere la examen.
         </p>
         <a
           href="https://wa.me/40731979588"
@@ -27,4 +30,4 @@ export default function CTA() {
       </motion.div>
     </section>
   );
-} 
+}
