@@ -1,32 +1,35 @@
 "use client";
-import Header from './components/Header';
-import Hero from './components/Hero';
-import Features from './components/Features';
-import FeatureShowcase from './components/FeatureShowcase';
-import Statistics from './components/Statistics';
-import CTA from './components/CTA';
-import Footer from './components/Footer';
-import Design from './components/Design';
+import Header from "./components/Header";
+import Hero from "./components/Hero";
+import Features from "./components/Features";
+import FeatureShowcase from "./components/FeatureShowcase";
+import Statistics from "./components/Statistics";
+import CTA from "./components/CTA";
+import Footer from "./components/Footer";
+import Design from "./components/Design";
 
 const features = [
   {
-    title: "Exerciții pentru Bac structurate pe tipuri de subiecte",
-    description: "Rezolvă exerciții specifice tiparului de la Bac, organizate pe capitole și niveluri de dificultate.",
+    title: "Exerciții pentru EN și Bac structurate pe tipuri de subiecte",
+    description:
+      "Rezolvă exerciții specifice tiparului de la EN sau Bac, organizate pe capitole și niveluri de dificultate.",
     icon: "🧮",
-    color: "from-[#FEBFD2] to-[#FAD4E4]"
+    color: "from-[#FEBFD2] to-[#FAD4E4]",
   },
   {
-    title: "Plan de învățare pentru Bac, adaptat nivelului tău",
-    description: "Urmezi un plan structurat, conceput de Denisa, care acoperă toată programa și te ajută să recuperezi rapid lacunele.",
+    title: "Plan de învățare pentru EN și Bac, adaptat nivelului tău",
+    description:
+      "Urmezi un plan structurat, conceput de Denisa, care acoperă toată programa și te ajută să recuperezi rapid lacunele.",
     icon: "🎯",
-    color: "from-[#FAD4E4] to-[#DB0073]"
+    color: "from-[#FAD4E4] to-[#DB0073]",
   },
   {
     title: "Monitorizarea progresului pentru rezultate reale",
-    description: "Vezi clar cum evoluezi, unde ai dificultăți și ce ai de îmbunătățit pentru a-ți atinge ținta la Bac.",
+    description:
+      "Vezi clar cum evoluezi, unde ai dificultăți și ce ai de îmbunătățit pentru a-ți atinge ținta la EN sau Bac.",
     icon: "📊",
-    color: "from-[#FEBFD2] to-[#DB0073]"
-  }
+    color: "from-[#FEBFD2] to-[#DB0073]",
+  },
 ];
 
 export default function Home() {

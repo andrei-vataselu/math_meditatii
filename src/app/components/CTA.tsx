@@ -13,7 +13,7 @@ export default function CTA() {
         className="max-w-4xl mx-auto text-center"
       >
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-          Te pregătești de BAC? Hai să-l luăm împreună!
+          Te pregătești de EN sau BAC? Hai să-l luăm împreună!
         </h2>
         <p className="text-xl text-gray-300 mb-8">
           Descoperă cum matematica poate fi înțeleasă ușor și aplicată cu

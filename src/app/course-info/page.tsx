@@ -1,12 +1,17 @@
 "use client";
 
-import Design from '../components/Design';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import { FaWhatsapp } from 'react-icons/fa';
+import Design from "../components/Design";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import { FaWhatsapp } from "react-icons/fa";
 
 const whatsappNumber = "40731979588";
-const whatsappUrl = `https://wa.me/${whatsappNumber}`;
+// add a prefilled message (URL-encoded)
+const whatsappText = encodeURIComponent(
+  "Bună! Sunt interesat(ă) de pregătirea la Matematică. Vă rog mai multe detalii despre grupe și preț."
+);
+// use wa.me with text param
+const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappText}`;
 
 export default function CourseInfoPage() {
   return (
@@ -16,125 +21,213 @@ export default function CourseInfoPage() {
       <main className="relative flex flex-col items-center justify-center min-h-[70vh] px-2 sm:px-6 py-8 sm:py-16 text-center">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Course",
-            "name": "Pregătire Bacalaureat Matematică clasa a XII-a",
-            "description": "Pregătire intensivă online pentru Bacalaureat la Matematică, explicată clar, cu suport PDF, grupe pe profil și simulări. Profesor: Denisa Nita.",
-            "provider": {
-              "@type": "Organization",
-              "name": "DS Math Center",
-              "url": "https://matebac.com"
-            },
-            "educationalLevel": "High School",
-            "instructor": {
-              "@type": "Person",
-              "name": "Denisa Nita"
-            },
-            "audience": {
-              "@type": "EducationalAudience",
-              "educationalRole": "student",
-              "audienceType": "Clasa a XII-a, Bacalaureat"
-            },
-            "startDate": "2025-09-15",
-            "courseMode": "Online",
-            "url": "https://matebac.com/course-info"
-          }) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Course",
+              name: "Pregătire Bacalaureat Matematică clasa a XII-a",
+              description:
+                "Pregătire intensivă online pentru Bacalaureat la Matematică, explicată clar, cu suport PDF, grupe pe profil și simulări. Profesor: Denisa Nita.",
+              provider: {
+                "@type": "Organization",
+                name: "DS Math Center",
+                url: "https://matebac.com",
+              },
+              educationalLevel: "High School",
+              instructor: {
+                "@type": "Person",
+                name: "Denisa Nita",
+              },
+              audience: {
+                "@type": "EducationalAudience",
+                educationalRole: "student",
+                audienceType: "Clasa a XII-a, Bacalaureat",
+              },
+              startDate: "2025-09-15",
+              courseMode: "Online",
+              url: "https://matebac.com/course-info",
+            }),
+          }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "Cui se adresează acest curs?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Elevilor de clasa a XII-a care se pregătesc pentru Bacalaureat la Matematică, pe toate profilurile: Mate-Info, Științe, Tehnologic, Pedagogic."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Cum se desfășoară cursul?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Cursul durează 26 de săptămâni, cu 4 ședințe pe lună (o ședință pe săptămână), toate lecțiile sunt înregistrate și primești suport PDF după fiecare ședință."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Ce beneficii oferă cursul?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Explicații clare, metode logice, suport continuu, grupe pe profil, simulări și recapitulări pentru Bac."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Cât costă și cum mă înscriu?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Prețul este lunar și include 4 ședințe. Plata se face lunar, înscrierile sunt deschise până la începerea cursului. Contact prin WhatsApp: +40731979588."
-                }
-              }
-            ]
-          }) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "Cui se adresează acest curs?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Elevilor de clasa a XII-a care se pregătesc pentru Bacalaureat la Matematică, pe toate profilurile: Mate-Info, Științe, Tehnologic, Pedagogic.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Cum se desfășoară cursul?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Cursul durează 26 de săptămâni, cu 4 ședințe pe lună (o ședință pe săptămână), toate lecțiile sunt înregistrate și primești suport PDF după fiecare ședință.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Ce beneficii oferă cursul?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Explicații clare, metode logice, suport continuu, grupe pe profil, simulări și recapitulări pentru Bac.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Cât costă și cum mă înscriu?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Prețul este lunar și include 4 ședințe. Plata se face lunar, înscrierile sunt deschise până la începerea cursului. Contact prin WhatsApp: +40731979588.",
+                  },
+                },
+              ],
+            }),
+          }}
         />
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Despre curs</h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          Despre meditații
+        </h1>
         <div className="w-full max-w-3xl mx-auto bg-white/10 backdrop-blur-lg rounded-2xl p-6 sm:p-10 border border-white/20 shadow-2xl flex flex-col items-center gap-6">
-          <h2 className="text-2xl font-bold text-white mb-2"> Ești gata să faci pasul decisiv spre succesul la Bacalaureat?</h2>
+          <h2 className="text-2xl font-bold text-white mb-2">
+            {" "}
+            Ești gata să faci pasul decisiv spre succesul la Evaluarea Națională
+            sau Bacalaureat?
+          </h2>
           <p className="text-lg text-gray-300 mb-4">
-            Pregătirea intensivă pentru examenul de Matematică începe pe <span className="font-bold text-[#FEBFD2]">15 septembrie</span>, într-un format <span className="font-bold">100% ONLINE</span>, care îți oferă libertatea de a învăța eficient, din confortul propriei case. Alătură-te unei experiențe educaționale interactive, adaptate nevoilor tale, și transformă-ți temerile în încredere pentru ziua examenului!
+            Pregătirea intensivă pentru examenele de Matematică se desfășoară
+            într-un format{" "}
+            <span className="font-bold text-[#FEBFD2]">100% ONLINE</span>, care
+            îți oferă libertatea de a învăța eficient, din confortul propriei
+            case. Alătură-te unei experiențe educaționale interactive, adaptate
+            nevoilor tale, și transformă-ți temerile în încredere pentru ziua
+            examenului! Te poți alătura oricând pe parcursul anului, ritmul
+            fiind adaptat momentului în care te înscrii.
           </p>
 
           <div className="text-left w-full">
-            <h2 className="text-2xl font-bold text-white mb-2">Pentru cine este acest curs?</h2>
-            <p className="text-gray-200 mb-2">Cursul este dedicat exclusiv elevilor de clasa a XII-a, care se pregătesc pentru examenul de Bacalaureat la Matematică. Vom forma grupe separate, adaptate fiecărui profil:</p>
+            <h2 className="text-2xl font-bold text-white mb-2">
+              Pentru cine sunt aceste meditații?
+            </h2>
+            <p className="text-gray-200 mb-2">
+              Meditațiile sunt dedicate elevilor care se pregătesc pentru
+              examenele naționale, fie că este vorba de clasa a VIII-a sau a
+              XII-a. Vom forma grupe separate, adaptate fiecărui nivel și
+              profil:
+            </p>
             <ul className="list-disc list-inside text-gray-200 mb-4">
-              <li><span className="font-semibold">Mate-Info (M1)</span></li>
-              <li><span className="font-semibold">Științe ale Naturii (M2)</span></li>
-              <li><span className="font-semibold">Tehnologic</span></li>
-              <li><span className="font-semibold">Pedagogic</span></li>
+              <li>
+                <span className="font-semibold">
+                  Evaluarea Națională (Clasa a VIII-a)
+                </span>
+              </li>
+              <li>
+                <span className="font-semibold">
+                  Bacalaureat (Clasa a XII-a):
+                </span>
+                <ul className="list-disc list-inside text-gray-200 ml-6 mt-2">
+                  <li>
+                    <span className="font-semibold">Mate-Info (M1)</span>
+                  </li>
+                  <li>
+                    <span className="font-semibold">
+                      Științe ale Naturii (M2)
+                    </span>
+                  </li>
+                  <li>
+                    <span className="font-semibold">Tehnologic</span>
+                  </li>
+                  <li>
+                    <span className="font-semibold">Pedagogic</span>
+                  </li>
+                </ul>
+              </li>
             </ul>
           </div>
 
           <div className="text-left w-full">
-            <h2 className="text-2xl font-bold text-white mb-2">Cum se desfășoară?</h2>
+            <h2 className="text-2xl font-bold text-white mb-2">
+              Cum se desfășoară?
+            </h2>
             <ul className="list-disc list-inside text-gray-200 mb-4">
-              <li>Cursul durează <span className="font-semibold">26 de săptămâni</span>, acoperind toată materia necesară pentru Bac.</li>
-              <li>Vei participa la <span className="font-semibold">4 ședințe pe lună</span> (o ședință pe săptămână).</li>
-              <li>Toate lecțiile sunt <span className="font-semibold">înregistrate</span>, astfel încât, dacă nu poți participa live, poți recupera oricând.</li>
-              <li>Vei primi după fiecare ședință un suport de curs complet, în format PDF, pe care îl poți păstra și consulta oricând.</li>
+              <li>
+                Meditațiile continuă până la finalul anului școlar, acoperind
+                toată materia necesară pentru examen.
+              </li>
+              <li>
+                Vei participa la{" "}
+                <span className="font-semibold">4 ședințe pe lună</span> (o
+                ședință pe săptămână).
+              </li>
+              <li>
+                Accentul este pus pe prezența activă și interacțiunea în timp
+                real.
+              </li>
+              <li>
+                Vei primi după fiecare ședință un suport de curs complet, în
+                format PDF, pe care îl poți păstra și consulta oricând pentru
+                recapitulare.
+              </li>
             </ul>
           </div>
 
           <div className="text-left w-full">
-            <h2 className="text-2xl font-bold text-white mb-2">Ce vei face în curs?</h2>
+            <h2 className="text-2xl font-bold text-white mb-2">
+              Ce vei face la meditații?
+            </h2>
             <ul className="list-disc list-inside text-gray-200 mb-4">
-              <li>Parcurgerea temeinică a materiei pentru Bac, adaptată profilului tău.</li>
+              <li>
+                Parcurgerea temeinică a materiei pentru Evaluarea Națională sau
+                Bacalaureat, adaptată nivelului tău.
+              </li>
               <li>Exerciții și teste practice, bazate pe subiecte oficiale.</li>
-              <li>Simulări pentru a-ți evalua nivelul și a-ți îmbunătăți performanța.</li>
+              <li>
+                Simulări pentru a-ți evalua nivelul și a-ți îmbunătăți
+                performanța.
+              </li>
               <li>Recapitulări și consolidări înainte de examen.</li>
             </ul>
           </div>
 
           <div className="text-left w-full">
-            <h2 className="text-2xl font-bold text-white mb-2">De ce să alegi acest curs?</h2>
+            <h2 className="text-2xl font-bold text-white mb-2">
+              De ce să alegi aceste meditații?{" "}
+            </h2>
             <ul className="list-disc list-inside text-gray-200 mb-4">
-              <li>Experiență cu peste <span className="font-semibold">50 de elevi</span> pregătiți cu succes pentru Bac.</li>
-              <li>Grupe separate pentru a aborda cerințele specifice fiecărui profil.</li>
+              <li>
+                Experiență cu peste{" "}
+                <span className="font-semibold">50 de elevi</span> pregătiți cu
+                succes pentru examene.
+              </li>
+              <li>
+                Grupe separate pentru a aborda cerințele specifice (Gimnaziu vs.
+                Liceu/Profiluri).
+              </li>
               <li>Explicații clare, metode logice și fără stres.</li>
-              <li>Suport continuu și înregistrări disponibile.</li>
+              <li>Suport constant din partea profesorului.</li>
             </ul>
           </div>
 
           <div className="text-left w-full">
-            <h2 className="text-2xl font-bold text-white mb-2">Cost și înscriere</h2>
+            <h2 className="text-2xl font-bold text-white mb-2">
+              Cost și înscriere
+            </h2>
             <ul className="list-disc list-inside text-gray-200 mb-4">
-              <li>Prețul abonamentului este lunar și include 4 ședințe pe lună.</li>
-              <li>Plata se face lunar, iar înscrierile sunt deschise până la începerea cursului.</li>
+              <li>
+                Prețul abonamentului este lunar și include 4 ședințe pe lună.
+              </li>
+              <li>
+                Plata se face lunar, iar înscrierile sunt deschise pe tot
+                parcursul anului școlar – te poți alătura oricând dorești să
+                începi pregătirea.
+              </li>
             </ul>
           </div>
 
@@ -146,8 +239,6 @@ export default function CourseInfoPage() {
           >
             <FaWhatsapp size={24} /> Programează o ședință gratuită
           </a>
-
-
         </div>
       </main>
       <Footer />

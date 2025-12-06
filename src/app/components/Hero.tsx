@@ -37,9 +37,10 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto"
         >
-          Pregătire specializată pentru examenul de Bacalaureat la Matematică,
-          dedicată elevilor de clasa a XII-a. Explicații clare și metode
-          adaptate fiecărui profil: Mate-Info, Științe, Tehnologic și Pedagogic.
+          Pregătire specializată pentru examenele de Evaluare Națională și
+          Bacalaureat la Matematică, dedicată elevilor de clasa a VIII-a și a
+          XII-a. Explicații clare și metode adaptate fiecărui nivel și profil:
+          Mate-Info, Științe, Tehnologic și Pedagogic.
         </motion.p>
 
         <motion.div
