@@ -39,7 +39,7 @@ export default function MobileMenu() {
       ],
     },
     { href: "/pricing", label: "Planuri" },
-    { href: "/resurse-gratuite", label: "Resurse gratuite" },
+    { href: "/resurse-gratuite", label: "Culegeri BAC" },
     { href: "/recenzii", label: "Recenzii" },
     { href: "/contact", label: "Contact" },
   ];
