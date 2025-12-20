@@ -89,9 +89,6 @@ export default function SubiecteOficialeBac() {
                   <h2 className="text-xl font-semibold text-white mb-3">
                     {category}
                   </h2>
-                  <p className="text-gray-300 mb-4 text-sm">
-                    Colecție de subiecte oficiale organizată pe ani.
-                  </p>
 
                   <div className="space-y-3 text-left">
                     {Object.entries(yearData)
