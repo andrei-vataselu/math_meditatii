@@ -15,23 +15,25 @@ interface SearchableContentProps {
   yearData: YearData;
 }
 
-export default function SearchableContent({ yearData }: SearchableContentProps) {
+export default function SearchableContent({
+  yearData,
+}: SearchableContentProps) {
   const [searchTerm, setSearchTerm] = useState("");
 
   // Helper function to normalize text for fuzzy search
   const normalizeText = (text: string): string => {
     return text
       .toLowerCase()
-      .replace(/\.pdf$/i, '') // Remove .pdf extension
-      .replace(/[^a-z0-9]/g, ' ') // Replace special chars with spaces
-      .replace(/\s+/g, ' ') // Collapse multiple spaces
+      .replace(/\.pdf$/i, "") // Remove .pdf extension
+      .replace(/[^a-z0-9]/g, " ") // Replace special chars with spaces
+      .replace(/\s+/g, " ") // Collapse multiple spaces
       .trim();
   };
 
   // Helper function to check if text matches search terms
   const matchesSearch = (text: string, searchTerms: string[]): boolean => {
     const normalized = normalizeText(text);
-    return searchTerms.every(term => normalized.includes(term));
+    return searchTerms.every((term) => normalized.includes(term));
   };
 
   // Filter years based on search term
@@ -39,7 +41,7 @@ export default function SearchableContent({ yearData }: SearchableContentProps) 
     if (!searchTerm.trim()) return yearData;
 
     // Split search into individual terms and normalize
-    const searchTerms = normalizeText(searchTerm).split(' ').filter(Boolean);
+    const searchTerms = normalizeText(searchTerm).split(" ").filter(Boolean);
     const filtered: YearData = {};
 
     Object.entries(yearData).forEach(([year, pdfs]) => {
@@ -99,45 +101,42 @@ export default function SearchableContent({ yearData }: SearchableContentProps) 
             </p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 lg:gap-12">
-            {Object.entries(filteredYearData)
-              .sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))
-              .map(([year, pdfs]) => (
-                <section
-                  key={year}
-                  className="bg-white/5 rounded-2xl p-6 sm:p-8 lg:p-10 border border-white/10 shadow-lg"
-                >
-                  <h2 className="text-xl font-semibold text-white mb-3">
-                    {year}
-                  </h2>
-                  <div className="space-y-3 text-left">
-                    <div className="bg-white/3 rounded-lg p-3 sm:p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-medium text-white">
-                          Documente
-                        </span>
-                        <span className="text-xs text-gray-400">
-                          {pdfs.length} PDF
-                        </span>
+              {Object.entries(filteredYearData)
+                .sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))
+                .map(([year, pdfs]) => (
+                  <section
+                    key={year}
+                    className="bg-white/5 rounded-2xl p-6 sm:p-8 lg:p-10 border border-white/10 shadow-lg"
+                  >
+                    <h2 className="text-xl font-semibold text-white mb-3">
+                      {year}
+                    </h2>
+                    <div className="space-y-3 text-left">
+                      <div className="bg-white/3 rounded-lg p-3 sm:p-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs text-gray-400">
+                            {pdfs.length} PDF
+                          </span>
+                        </div>
+                        <ul className="mt-2 space-y-2">
+                          {pdfs.map((pdf: YearPDF, index: number) => (
+                            <li key={index}>
+                              <a
+                                href={pdf.path}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#FEBFD2] hover:underline text-sm break-words flex items-center gap-2"
+                              >
+                                <span>📄</span>
+                                {pdf.name}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      <ul className="mt-2 space-y-2">
-                        {pdfs.map((pdf: YearPDF, index: number) => (
-                          <li key={index}>
-                            <a
-                              href={pdf.path}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-[#FEBFD2] hover:underline text-sm break-words flex items-center gap-2"
-                            >
-                              <span>📄</span>
-                              {pdf.name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
                     </div>
-                  </div>
-                </section>
-              ))}
+                  </section>
+                ))}
             </div>
           )}
         </div>
