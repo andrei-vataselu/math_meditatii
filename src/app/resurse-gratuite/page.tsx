@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PhotoCarousel from "../components/PhotoCarousel";
 import { FaWhatsapp } from "react-icons/fa";
+import GoldOfferBanner from "../components/GoldOfferBanner";
 
 export default function ResurseGratuite() {
   // Photos from culegeri directories
@@ -43,6 +44,9 @@ export default function ResurseGratuite() {
           Culegeri pentru Bacalaureat
         </h1>
 
+        {/* Gold offer banner with sparkles */}
+        <GoldOfferBanner />
+
         {/* Three boxes grid - responsive */}
         <div className="w-full max-w-full mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 px-4 sm:px-8">
           {/* Box 1: Photo Carousel */}
@@ -54,6 +58,13 @@ export default function ResurseGratuite() {
               Parcurge probleme și exerciții din culegerea de Mate-Info
             </p>
             <PhotoCarousel photos={photosMateInfo} />
+
+            {/* Price badge */}
+            <div className="mt-1 sm:mt-2 -mb-4 sm:-mb-5">
+              <span className="inline-block bg-gradient-to-r from-[#F7D66E] via-[#F1C24E] to-[#EAA93A] text-amber-900 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-lg sm:text-xl font-extrabold shadow-lg">
+                100 lei
+              </span>
+            </div>
 
             {/* Comanda acum button */}
             <div className="mt-6">
@@ -79,6 +90,13 @@ export default function ResurseGratuite() {
             </p>
             <PhotoCarousel photos={photosStiunte} />
 
+            {/* Price badge */}
+            <div className="mt-1 sm:mt-2 -mb-4 sm:-mb-5">
+              <span className="inline-block bg-gradient-to-r from-[#F7D66E] via-[#F1C24E] to-[#EAA93A] text-amber-900 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-lg sm:text-xl font-extrabold shadow-lg">
+                100 lei
+              </span>
+            </div>
+
             {/* Comanda acum button */}
             <div className="mt-6">
               <a
@@ -102,6 +120,13 @@ export default function ResurseGratuite() {
               Parcurge probleme și exerciții din culegerea de Tehnologic
             </p>
             <PhotoCarousel photos={photosTehnologic} />
+
+            {/* Price badge */}
+            <div className="mt-1 sm:mt-2 -mb-4 sm:-mb-5">
+              <span className="inline-block bg-gradient-to-r from-[#F7D66E] via-[#F1C24E] to-[#EAA93A] text-amber-900 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-lg sm:text-xl font-extrabold shadow-lg">
+                100 lei
+              </span>
+            </div>
 
             {/* Comanda acum button */}
             <div className="mt-6">
