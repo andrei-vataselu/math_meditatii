@@ -59,13 +59,6 @@ export default function ResurseGratuite() {
             </p>
             <PhotoCarousel photos={photosMateInfo} />
 
-            {/* Price badge */}
-            <div className="mt-1 sm:mt-2 -mb-4 sm:-mb-5">
-              <span className="inline-block bg-gradient-to-r from-[#F7D66E] via-[#F1C24E] to-[#EAA93A] text-amber-900 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-lg sm:text-xl font-extrabold shadow-lg">
-                100 lei
-              </span>
-            </div>
-
             {/* Comanda acum button */}
             <div className="mt-6">
               <a
@@ -90,13 +83,6 @@ export default function ResurseGratuite() {
             </p>
             <PhotoCarousel photos={photosStiunte} />
 
-            {/* Price badge */}
-            <div className="mt-1 sm:mt-2 -mb-4 sm:-mb-5">
-              <span className="inline-block bg-gradient-to-r from-[#F7D66E] via-[#F1C24E] to-[#EAA93A] text-amber-900 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-lg sm:text-xl font-extrabold shadow-lg">
-                100 lei
-              </span>
-            </div>
-
             {/* Comanda acum button */}
             <div className="mt-6">
               <a
@@ -120,13 +106,6 @@ export default function ResurseGratuite() {
               Parcurge probleme și exerciții din culegerea de Tehnologic
             </p>
             <PhotoCarousel photos={photosTehnologic} />
-
-            {/* Price badge */}
-            <div className="mt-1 sm:mt-2 -mb-4 sm:-mb-5">
-              <span className="inline-block bg-gradient-to-r from-[#F7D66E] via-[#F1C24E] to-[#EAA93A] text-amber-900 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-lg sm:text-xl font-extrabold shadow-lg">
-                100 lei
-              </span>
-            </div>
 
             {/* Comanda acum button */}
             <div className="mt-6">
