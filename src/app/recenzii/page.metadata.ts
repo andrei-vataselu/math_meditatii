@@ -1,28 +1,33 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from "next";
 
 const metadata: Metadata = {
-  title: 'Recenzii | DSMath Center – Păreri Elevi Meditații',
+  title: "Recenzii | DSMath Center - Pareri Elevi Meditatii",
   description:
-    'Vezi recenzii și păreri reale de la elevii care au participat la meditațiile de matematică cu Denisa Nita pentru Bacalaureat.',
+    "Vezi recenzii si pareri reale de la elevii care au participat la meditatiile de matematica cu Denisa Nita, inclusiv elevi din Pitesti, pentru Bacalaureat.",
+  keywords: [
+    "recenzii meditatii matematica",
+    "pareri elevi bac matematica",
+    "testimoniale dsmath center",
+  ],
   openGraph: {
-    title: 'Recenzii | DSMath Center – Păreri Elevi Meditații',
+    title: "Recenzii | DSMath Center - Pareri Elevi Meditatii",
     description:
-      'Vezi recenzii și păreri reale de la elevii care au participat la meditațiile de matematică cu Denisa Nita pentru Bacalaureat.',
-    url: 'https://matebac.com/recenzii',
-    siteName: 'DSMath Center',
+      "Vezi recenzii si pareri reale de la elevii care au participat la meditatiile de matematica cu Denisa Nita, inclusiv elevi din Pitesti, pentru Bacalaureat.",
+    url: "https://matebac.com/recenzii",
+    siteName: "DSMath Center",
     images: [
       {
-        url: '/logo.svg',
+        url: "/logo.svg",
         width: 1200,
         height: 630,
-        alt: 'DSMath Center Logo',
+        alt: "DSMath Center Logo",
       },
     ],
-    locale: 'ro_RO',
-    type: 'article',
+    locale: "ro_RO",
+    type: "article",
   },
   alternates: {
-    canonical: 'https://matebac.com/recenzii',
+    canonical: "https://matebac.com/recenzii",
   },
   robots: {
     index: true,
@@ -31,3 +36,5 @@ const metadata: Metadata = {
 };
 
 export default metadata;
+
+

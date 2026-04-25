@@ -40,14 +40,14 @@ export default function Header() {
           Despre mine
         </Link>
         <Link
-          href="/course-info"
+          href="/despre-meditatii"
           className="text-gray-300 hover:text-white transition-colors"
         >
           Despre meditații
         </Link>
         <HeaderSubiecte />
         <Link
-          href="/pricing"
+          href="/planuri"
           className="text-gray-300 hover:text-white transition-colors"
         >
           Planuri

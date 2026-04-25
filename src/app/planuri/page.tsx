@@ -19,7 +19,7 @@ const plans = [
     buttonText: 'Gratuit',
     popular: false,
     planType: 'free',
-    signup: 'resurse-gratuite'
+    signup: '/resurse-gratuite'
   },
   {
     name: 'Plan Meditații',

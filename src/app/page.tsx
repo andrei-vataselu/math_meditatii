@@ -1,4 +1,4 @@
-"use client";
+import homeMetadata from "./page.metadata";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Features from "./components/Features";
@@ -7,6 +7,8 @@ import Statistics from "./components/Statistics";
 import CTA from "./components/CTA";
 import Footer from "./components/Footer";
 import Design from "./components/Design";
+
+export const metadata = homeMetadata;
 
 const features = [
   {

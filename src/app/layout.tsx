@@ -19,6 +19,16 @@ export const metadata: Metadata = {
   description:
     "Pregătire specializată pentru examenele de Evaluare Națională și Bacalaureat la Matematică, dedicată elevilor de clasa a VIII-a și a XII-a. Explicații clare și metode adaptate fiecărui nivel și profil: Mate-Info, Științe, Tehnologic și Pedagogic.",
   metadataBase: new URL("https://matebac.com"),
+  keywords: [
+    "meditații matematică",
+    "meditatii pitesti",
+    "meditatii matematica pitesti",
+    "pregatire bac pitesti",
+    "meditații bacalaureat",
+    "evaluare națională matematică",
+    "pregătire EN și Bac",
+    "DS Math Center",
+  ],
   alternates: {
     canonical: "/",
     languages: {
@@ -29,7 +39,7 @@ export const metadata: Metadata = {
     title:
       "DS Math Center - Meditații Matematică Evaluare Națională și Bacalaureat",
     description:
-      "Pregătire la matematică pentru Evaluare Națională și Bacalaureat, clasa a VII-a și a XII-a. Metode moderne, suport PDF, grupuri pe profil.",
+      "Pregătire la matematică pentru Evaluare Națională și Bacalaureat, clasa a VIII-a și a XII-a. Metode moderne, suport PDF, grupuri pe profil.",
     url: "https://matebac.com",
     siteName: "DS Math Center",
     locale: "ro_RO",

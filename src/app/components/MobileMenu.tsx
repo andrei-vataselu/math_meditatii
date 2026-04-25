@@ -27,7 +27,7 @@ export default function MobileMenu() {
   const menuItems = [
     { href: "/", label: "Acasă" },
     { href: "/despre-mine", label: "Despre mine" },
-    { href: "/course-info", label: "Despre meditații" },
+    { href: "/despre-meditatii", label: "Despre meditații" },
     {
       label: "Subiecte Oficiale",
       sub: [
@@ -38,7 +38,7 @@ export default function MobileMenu() {
         },
       ],
     },
-    { href: "/pricing", label: "Planuri" },
+    { href: "/planuri", label: "Planuri" },
     { href: "/resurse-gratuite", label: "Culegeri BAC" },
     { href: "/recenzii", label: "Recenzii" },
     { href: "/contact", label: "Contact" },

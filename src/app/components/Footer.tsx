@@ -9,9 +9,10 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto text-center space-y-6">
         {/* Legal / Policy Links */}
         <nav aria-label="Legal" className="flex flex-col sm:flex-row justify-center gap-6 text-sm text-gray-100 items-center">
-          <a href="/tos" className="hover:text-white transition-colors">Termeni și condiții</a>
+          <a href="/termeni-si-conditii" className="hover:text-white transition-colors">Termeni și condiții</a>
           <a href="/privacy" className="hover:text-white transition-colors">Politica de confidențialitate</a>
           <a href="/politica-cookies" className="hover:text-white transition-colors">Politica de utilizare cookie-uri</a>
+          <a href="/sitemap" className="hover:text-white transition-colors">Site Map</a>
         </nav>
 
         {/* Authority Logos */}
