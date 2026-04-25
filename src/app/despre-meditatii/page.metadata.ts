@@ -39,5 +39,3 @@ const metadata: Metadata = {
 };
 
 export default metadata;
-
-
