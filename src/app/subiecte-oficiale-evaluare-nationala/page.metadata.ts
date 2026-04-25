@@ -2,14 +2,21 @@ import type { Metadata } from "next";
 
 const metadata: Metadata = {
   title:
-    "Subiecte Oficiale - Evaluarea Națională | DSMath Center – Meditații Matematică",
+    "Subiecte Oficiale Evaluarea Națională | DSMath Center – Matematică",
   description:
-    "Colecție de subiecte oficiale pentru Evaluarea Națională. În curând disponibil pe DSMath Center.",
+    "Accesează subiecte oficiale la matematică pentru Evaluarea Națională, structurate pe ani, cu bareme și resurse utile pentru pregătirea examenului.",
+  keywords: [
+    "subiecte evaluare nationala matematica",
+    "barem evaluare nationala",
+    "subiecte oficiale en",
+    "pregatire evaluare nationala",
+    "examen clasa a 8 a matematica",
+  ],
   openGraph: {
     title:
-      "Subiecte Oficiale - Evaluarea Națională | DSMath Center – Meditații Matematică",
+      "Subiecte Oficiale Evaluarea Națională | DSMath Center – Matematică",
     description:
-      "Colecție de subiecte oficiale pentru Evaluarea Națională. În curând disponibil pe DSMath Center.",
+      "Accesează subiecte oficiale la matematică pentru Evaluarea Națională, structurate pe ani, cu bareme și resurse utile pentru pregătirea examenului.",
     url: "https://matebac.com/subiecte-oficiale-evaluare-nationala",
     siteName: "DSMath Center",
     images: [

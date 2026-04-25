@@ -1,14 +1,20 @@
 import type { Metadata } from "next";
 
 const metadata: Metadata = {
-  title: "Subiecte Oficiale | DSMath Center – Meditații Bacalaureat Matematică",
+  title: "Subiecte Oficiale Bacalaureat | DSMath Center – Matematică",
   description:
-    "Colecție de subiecte oficiale și rezolvări pentru Bacalaureat și Evaluare Națională. În curând disponibil pe DSMath Center.",
+    "Accesează subiecte oficiale la matematică pentru Bacalaureat, organizate pe profiluri și ani, împreună cu bareme și materiale utile de recapitulare.",
+  keywords: [
+    "subiecte bac matematica",
+    "barem bac matematica",
+    "subiecte oficiale bacalaureat",
+    "mate info tehnologic pedagogic",
+    "pregatire bac matematica",
+  ],
   openGraph: {
-    title:
-      "Subiecte Oficiale | DSMath Center – Meditații Bacalaureat Matematică",
+    title: "Subiecte Oficiale Bacalaureat | DSMath Center – Matematică",
     description:
-      "Colecție de subiecte oficiale și rezolvări pentru Bacalaureat și Evaluare Națională. În curând disponibil pe DSMath Center.",
+      "Accesează subiecte oficiale la matematică pentru Bacalaureat, organizate pe profiluri și ani, împreună cu bareme și materiale utile de recapitulare.",
     url: "https://matebac.com/subiecte-oficiale-bacalaureat",
     siteName: "DSMath Center",
     images: [

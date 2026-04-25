@@ -45,7 +45,7 @@ export default function CourseInfoPage() {
               },
               startDate: "2025-09-15",
               courseMode: "Online",
-              url: "https://matebac.com/course-info",
+              url: "https://matebac.com/despre-meditatii",
             }),
           }}
         />

@@ -7,7 +7,7 @@ const ContentSecurityPolicy = `
   img-src * blob: data:;
   connect-src *;
   font-src 'self' data:;
-  frame-src 'none';
+  frame-src 'self' https://www.google.com https://www.google.ro https://maps.google.com;
 `.replace(/\n/g, '');
 
 const securityHeaders = [
@@ -34,6 +34,25 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/course-info",
+        destination: "/despre-meditatii",
+        permanent: true,
+      },
+      {
+        source: "/pricing",
+        destination: "/planuri",
+        permanent: true,
+      },
+      {
+        source: "/tos",
+        destination: "/termeni-si-conditii",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
