@@ -1,32 +1,40 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import CookieBanner from "./components/CookieBanner";
+import { siteConfig } from "@/config/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  adjustFontFallback: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  adjustFontFallback: true,
 });
 
+const layoutTitle = "DS Math Center | Matematică Bac și EN, Pitești";
+const layoutDescription =
+  "Meditații la matematică pentru Bac și Evaluare Națională, online sau la Pitești. Explicații clare, plan personalizat, resurse gratuite pe site.";
+
 export const metadata: Metadata = {
-  title:
-    "DS Math Center - Meditații Matematică Evaluare Națională și Bacalaureat | Clasa a VIII-a și Clasa a XII-a",
-  description:
-    "Pregătire specializată pentru examenele de Evaluare Națională și Bacalaureat la Matematică, dedicată elevilor de clasa a VIII-a și a XII-a. Explicații clare și metode adaptate fiecărui nivel și profil: Mate-Info, Științe, Tehnologic și Pedagogic.",
+  title: {
+    default: layoutTitle,
+    template: "%s | DS Math Center",
+  },
+  description: layoutDescription,
   metadataBase: new URL("https://matebac.com"),
   keywords: [
     "meditații matematică",
     "meditatii pitesti",
-    "meditatii matematica pitesti",
     "pregatire bac pitesti",
     "meditații bacalaureat",
     "evaluare națională matematică",
-    "pregătire EN și Bac",
     "DS Math Center",
   ],
   alternates: {
@@ -36,10 +44,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title:
-      "DS Math Center - Meditații Matematică Evaluare Națională și Bacalaureat",
-    description:
-      "Pregătire la matematică pentru Evaluare Națională și Bacalaureat, clasa a VIII-a și a XII-a. Metode moderne, suport PDF, grupuri pe profil.",
+    title: layoutTitle,
+    description: layoutDescription,
     url: "https://matebac.com",
     siteName: "DS Math Center",
     locale: "ro_RO",
@@ -55,9 +61,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "DS Math Center - Meditații Bacalaureat Matematică",
-    description:
-      "Pregătire la matematică pentru Bacalaureat, clasa a XII-a. Metode moderne, suport PDF, grupuri pe profil.",
+    title: layoutTitle,
+    description: layoutDescription,
     site: "@dsmathcenter",
     images: ["https://matebac.com/logo.png"],
   },
@@ -72,6 +77,63 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#5f0032",
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteConfig.url}/#organization`,
+      name: siteConfig.name,
+      url: siteConfig.url,
+      logo: `${siteConfig.url}/logo.svg`,
+      email: siteConfig.email,
+      telephone: siteConfig.phoneE164,
+      sameAs: [
+        siteConfig.social.instagram,
+        siteConfig.social.tiktok,
+        siteConfig.social.whatsapp,
+        siteConfig.social.x,
+        siteConfig.social.facebook,
+        siteConfig.social.linkedin,
+        siteConfig.social.youtube,
+      ],
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          email: siteConfig.email,
+          telephone: siteConfig.phoneE164,
+          contactType: "customer support",
+          availableLanguage: ["Romanian"],
+        },
+      ],
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": `${siteConfig.url}/#localbusiness`,
+      name: siteConfig.name,
+      image: `${siteConfig.url}/logo.svg`,
+      url: siteConfig.url,
+      telephone: siteConfig.phoneE164,
+      email: siteConfig.email,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: siteConfig.address.streetAddress,
+        addressLocality: siteConfig.address.addressLocality,
+        addressRegion: siteConfig.address.addressRegion,
+        postalCode: siteConfig.address.postalCode,
+        addressCountry: siteConfig.address.addressCountry,
+      },
+      parentOrganization: { "@id": `${siteConfig.url}/#organization` },
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -83,29 +145,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "DS Math Center",
-              url: "https://matebac.com",
-              logo: "https://matebac.com/logo.svg",
-              email: "denisanita08@gmail.com",
-              telephone: "+40731979588",
-              sameAs: [
-                "https://www.instagram.com/dsmathcenter",
-                "https://www.tiktok.com/@dsmathcenter",
-                "https://wa.me/40731979588",
-              ],
-              contactPoint: [
-                {
-                  "@type": "ContactPoint",
-                  email: "denisanita08@gmail.com",
-                  telephone: "+40731979588",
-                  contactType: "customer support",
-                  availableLanguage: ["Romanian"],
-                },
-              ],
-            }),
+            __html: JSON.stringify(jsonLd),
           }}
         />
       </head>

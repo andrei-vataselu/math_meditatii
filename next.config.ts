@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval' *.vercel-insights.com;
+  script-src 'self' 'unsafe-inline' 'unsafe-eval';
   style-src 'self' 'unsafe-inline';
   img-src * blob: data:;
   connect-src *;
@@ -34,8 +34,28 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
+  productionBrowserSourceMaps: false,
+  experimental: {
+    optimizePackageImports: ["framer-motion", "react-icons"],
+  },
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
+  compiler: {
+    removeConsole:
+      process.env.NODE_ENV === "production"
+        ? { exclude: ["error", "warn"] }
+        : false,
+  },
   async redirects() {
     return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.matebac.com" }],
+        destination: "https://matebac.com/:path*",
+        permanent: true,
+      },
       {
         source: "/course-info",
         destination: "/despre-meditatii",

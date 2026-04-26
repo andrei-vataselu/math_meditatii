@@ -1,26 +1,26 @@
 ﻿import type { Metadata } from "next";
 
 const metadata: Metadata = {
-  title: "Termeni si Conditii | DSMath Center",
+  title: "Termeni și Condiții | DS Math Center",
   description:
-    "Citeste termenii si conditiile de utilizare a site-ului DSMath Center: drepturi, obligatii, livrare, plati, confidentialitate si contact.",
+    "Termeni DS MATH CENTER S.R.L. pentru matebac.com: servicii, plată, livrare digitală, retragere OUG 34/2014, proprietate intelectuală, litigii. 17.04.2026.",
   keywords: [
     "termeni si conditii",
     "conditii utilizare site",
     "drepturi obligatii cursuri online",
   ],
   openGraph: {
-    title: "Termeni si Conditii | DSMath Center",
+    title: "Termeni și Condiții | DS Math Center",
     description:
-      "Citeste termenii si conditiile de utilizare a site-ului DSMath Center: drepturi, obligatii, livrare, plati, confidentialitate si contact.",
+      "Termeni DS MATH CENTER S.R.L. pentru matebac.com: servicii, plată, livrare digitală, retragere OUG 34/2014, proprietate intelectuală, litigii. 17.04.2026.",
     url: "https://matebac.com/termeni-si-conditii",
-    siteName: "DSMath Center",
+    siteName: "DS Math Center",
     images: [
       {
         url: "/logo.svg",
         width: 1200,
         height: 630,
-        alt: "DSMath Center Logo",
+        alt: "DS Math Center Logo",
       },
     ],
     locale: "ro_RO",

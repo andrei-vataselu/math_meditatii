@@ -25,9 +25,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight"
         >
-          Pregătire la Matematică
+          Meditații la matematică
           <span className="block bg-gradient-to-r from-[#DB0073] to-[#FEBFD2] bg-clip-text text-transparent">
-            alături de Denisa
+            Bac și EN cu Denisa Niță
           </span>
         </motion.h1>
 
@@ -37,10 +37,13 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto"
         >
-          Pregătire specializată pentru examenele de Evaluare Națională și
-          Bacalaureat la Matematică, dedicată elevilor de clasa a VIII-a și a
-          XII-a. Explicații clare și metode adaptate fiecărui nivel și profil:
-          Mate-Info, Științe, Tehnologic și Pedagogic.
+          <strong className="text-white">DS Math Center</strong> — meditații la
+          matematică pentru <strong className="text-white">Bacalaureat</strong>{" "}
+          și <strong className="text-white">Evaluarea Națională</strong>, cu{" "}
+          <strong className="text-white">Denisa Niță</strong>. Pregătire pentru
+          clasele a VIII-a și a XII-a, online sau la Pitești: explicații clare,
+          plan adaptat profilului tău (Mate-Info, Științe, Tehnologic, Pedagogic)
+          și resurse gratuite pe site.
         </motion.p>
 
         <motion.div

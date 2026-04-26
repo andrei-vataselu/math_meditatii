@@ -79,11 +79,7 @@ export default function MobileMenu() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 overflow-hidden"
-            style={{
-              background:
-                "linear-gradient(to bottom right, #0f172a, #5f0032, #0f172a)",
-            }}
+            className="fixed inset-0 z-50 overflow-hidden bg-gradient-to-br from-slate-900 via-[#5f0032] to-slate-900"
             onClick={() => setIsOpen(false)}
           >
             <Design />

@@ -7,10 +7,7 @@ import MobileMenu from "./MobileMenu";
 
 export default function Header() {
   return (
-    <nav
-      className="relative flex justify-between items-center p-6 md:p-8"
-      style={{ background: "none" }}
-    >
+    <nav className="relative flex justify-between items-center p-6 md:p-8 bg-transparent">
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}

@@ -58,11 +58,17 @@ export default function FloatingMathSymbols() {
   }>>([]);
 
   useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
     setMounted(true);
-    
-    // Generate initial symbols without collision
+
     const initialSymbols: typeof activeSymbols = [];
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 6; i++) {
       const newSymbol = generateNewSymbol(initialSymbols);
       if (newSymbol) {
         initialSymbols.push(newSymbol);
@@ -70,17 +76,15 @@ export default function FloatingMathSymbols() {
     }
     setActiveSymbols(initialSymbols);
 
-    // Continuously add new symbols
     const interval = setInterval(() => {
-      setActiveSymbols(prev => {
+      setActiveSymbols((prev) => {
         const newSymbol = generateNewSymbol(prev);
         if (newSymbol) {
-          // Keep only the last 12 symbols to prevent too many
-          return [...prev, newSymbol].slice(-12);
+          return [...prev, newSymbol].slice(-8);
         }
         return prev;
       });
-    }, 3000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);

@@ -1,14 +1,17 @@
+import dynamic from "next/dynamic";
 import homeMetadata from "./page.metadata";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
-import Features from "./components/Features";
-import FeatureShowcase from "./components/FeatureShowcase";
-import Statistics from "./components/Statistics";
-import CTA from "./components/CTA";
-import Footer from "./components/Footer";
-import Design from "./components/Design";
+import HomeSeoContent from "./components/HomeSeoContent";
 
 export const metadata = homeMetadata;
+
+const Design = dynamic(() => import("./components/Design"));
+const Features = dynamic(() => import("./components/Features"));
+const FeatureShowcase = dynamic(() => import("./components/FeatureShowcase"));
+const Statistics = dynamic(() => import("./components/Statistics"));
+const CTA = dynamic(() => import("./components/CTA"));
+const Footer = dynamic(() => import("./components/Footer"));
 
 const features = [
   {
@@ -43,6 +46,7 @@ export default function Home() {
       <Features features={features} />
       <FeatureShowcase />
       <Statistics />
+      <HomeSeoContent />
       <CTA />
       <Footer />
     </div>

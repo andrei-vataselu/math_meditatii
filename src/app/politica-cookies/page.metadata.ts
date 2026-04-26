@@ -1,26 +1,26 @@
 ﻿import type { Metadata } from "next";
 
 const metadata: Metadata = {
-  title: "Politica de Cookie-uri | DSMath Center",
+  title: "Politica privind utilizarea Cookie-urilor | DS Math Center",
   description:
-    "Afla cum foloseste DSMath Center cookie-uri pentru a imbunatati experienta pe site. Detalii despre tipuri de cookie-uri, scop si gestionare.",
+    "Fără cookie-uri de tracking. Informare despre localStorage pentru preferința din banner, server logs și link-uri WhatsApp — DS MATH CENTER S.R.L.",
   keywords: [
     "politica cookies",
     "cookie-uri site educatie",
     "setari cookies dsmath center",
   ],
   openGraph: {
-    title: "Politica de Cookie-uri | DSMath Center",
+    title: "Politica privind utilizarea Cookie-urilor | DS Math Center",
     description:
-      "Afla cum foloseste DSMath Center cookie-uri pentru a imbunatati experienta pe site. Detalii despre tipuri de cookie-uri, scop si gestionare.",
+      "Fără cookie-uri de tracking. Informare despre localStorage pentru preferința din banner, server logs și link-uri WhatsApp — DS MATH CENTER S.R.L.",
     url: "https://matebac.com/politica-cookies",
-    siteName: "DSMath Center",
+    siteName: "DS Math Center",
     images: [
       {
         url: "/logo.svg",
         width: 1200,
         height: 630,
-        alt: "DSMath Center Logo",
+        alt: "DS Math Center Logo",
       },
     ],
     locale: "ro_RO",

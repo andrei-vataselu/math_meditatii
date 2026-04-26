@@ -1,0 +1,48 @@
+DS Math Center (matebac.com) — rezumat post-implementare
+================================================================================
+Data orientativă: aprilie 2026
+
+NOTĂ
+----
+pdf_image.png din /public este o ilustrație, nu un raport de performanță.
+
+CE S-A REZOLVAT ÎN COD (rezumat)
+--------------------------------
+SEO: titluri/meta, canonical, redirect www→apex, conținut lung + FAQ pe
+acasă, NAP + schema Organization/LocalBusiness, llms.txt, o singură rută
+sitemap la /sitemap.xml (config mutată în src/lib/seo — fără dublură
+/seo-optimization/sitemap.xml), /robots.txt.
+
+Fără tracking (Pixel / analytics terțe). Banner cookie + politici la zi
+(inclusiv localStorage cookieConsent — vezi /politica-cookies).
+
+Performanță: code-split pe homepage, optimizePackageImports, imagini AVIF/WebP,
+fonturi swap, viewport, reducere stiluri inline unde s-a putut, etc.
+
+CE NU SE POATE REZOLVA DOAR DIN COD (îți revine ție / echipei)
+--------------------------------------------------------------
+1. SEO off-site: backlink-uri de calitate, mențiuni locale, presă/parteneri;
+   evită „farms” de link-uri din rapoarte vechi. Google Business Profile creat,
+   completat și legat de site.
+
+2. DNS / e-mail: înregistrare DMARC (TXT) la registrar pentru domeniul de pe
+   care trimiți mesaje — nu e în repository.
+
+3. Hosting: confirmă în producție (curl -I / DevTools) protocol HTTP/2 sau
+   HTTP/3; depinde de Vercel/CDN, nu de Next.js.
+
+4. Date reale de utilizare: Core Web Vitals în Search Console pot rămâne
+   „insuficiente” până crește traficul legitim — nu e defect de cod.
+
+5. Rețele sociale: verifică în viața reală că URL-urile Facebook / LinkedIn /
+   YouTube din footer sunt conturile corecte; actualizează src/config/site.ts
+   sau variabilele NEXT_PUBLIC_* pe Vercel dacă schimbă ceva.
+
+6. Juridic / business: revizuire periodică a termenilor și politicilor la
+   avocat când schimbi servicii, prețuri sau fluxuri de date.
+
+VERIFICARE DUPĂ DEPLOY
+----------------------
+- https://matebac.com/sitemap.xml și https://matebac.com/robots.txt → 200
+- PageSpeed (mobil + desktop) pe URL-ul canonic
+- Un singur hop canonic (www → apex dacă folosești ambele domenii pe Vercel)
