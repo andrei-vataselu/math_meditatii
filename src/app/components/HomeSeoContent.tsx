@@ -22,12 +22,16 @@ export default function HomeSeoContent() {
             Meditații la matematică pentru Bac și Evaluare Națională la {name}
           </h2>
           <p className="text-lg leading-relaxed">
-            La <strong className="text-white">{name}</strong>,{" "}
-            <strong className="text-white">Denisa Niță</strong> pregătește
+            <span className="text-white font-bold">Meditații la matematică Bac și EN</span>{" "}
+            cu <span className="text-white font-bold">Denisa Niță</span> la{" "}
+            <strong className="text-white">{name}</strong>: pregătire pentru
+            Evaluarea Națională și Bacalaureatul la matematică, cu aceeași rigoare
+            ca la meditațiile din fața tablului. Pregătește
             elevi de clasa a VIII-a și a XII-a pentru{" "}
-            <strong className="text-white">Evaluarea Națională</strong> și{" "}
-            <strong className="text-white">Bacalaureatul la matematică</strong>.
-            Oferim <strong className="text-white">meditații la matematică</strong>{" "}
+            <span className="text-white font-bold">Evaluarea Națională</span> și{" "}
+            <span className="text-white font-bold">Bacalaureatul la matematică</span>.
+            Oferim{" "}
+            <span className="text-white font-bold">meditații la matematică</span>{" "}
             online și întâlniri la Pitești, cu explicații structurate și materiale
             care urmăresc programa oficială și tipurile de subiecte de la examen.
           </p>
@@ -47,21 +51,21 @@ export default function HomeSeoContent() {
               href="/resurse-gratuite"
               className="text-[#FEBFD2] underline underline-offset-2 hover:text-white"
             >
-              resurse gratuite
+              materiale gratuite pentru pregătire
             </Link>{" "}
             și subiectele organizate pe{" "}
             <Link
               href="/subiecte-oficiale-bacalaureat"
               className="text-[#FEBFD2] underline underline-offset-2 hover:text-white"
             >
-              Bacalaureat
+              subiecte model pentru Bacalaureat
             </Link>{" "}
             și{" "}
             <Link
               href="/subiecte-oficiale-evaluare-nationala"
               className="text-[#FEBFD2] underline underline-offset-2 hover:text-white"
             >
-              Evaluare Națională
+              modele pentru Evaluarea Națională
             </Link>
             .
           </p>
@@ -71,22 +75,22 @@ export default function HomeSeoContent() {
               href="/despre-meditatii"
               className="text-[#FEBFD2] underline underline-offset-2 hover:text-white"
             >
-              despre meditații
+              formatul ședințelor și abordarea
             </Link>{" "}
             și{" "}
             <Link
               href="/planuri"
               className="text-[#FEBFD2] underline underline-offset-2 hover:text-white"
             >
-              planurile disponibile
+              tarife și pachete
             </Link>
             . Dacă vrei să ne cunoaștem, poți solicita o consultație pe WhatsApp
-            sau prin pagina de{" "}
+            sau{" "}
             <Link
               href="/contact"
               className="text-[#FEBFD2] underline underline-offset-2 hover:text-white"
             >
-              contact
+              trimite un mesaj din pagina de contact
             </Link>
             .
           </p>

@@ -38,9 +38,10 @@ export default function Hero() {
           className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto"
         >
           <strong className="text-white">DS Math Center</strong> — meditații la
-          matematică pentru <strong className="text-white">Bacalaureat</strong>{" "}
-          și <strong className="text-white">Evaluarea Națională</strong>, cu{" "}
-          <strong className="text-white">Denisa Niță</strong>. Pregătire pentru
+          matematică pentru{" "}
+          <span className="text-white font-bold">Bacalaureat</span> și{" "}
+          <span className="text-white font-bold">Evaluarea Națională</span>, cu{" "}
+          <span className="text-white font-bold">Denisa Niță</span>. Pregătire pentru
           clasele a VIII-a și a XII-a, online sau la Pitești: explicații clare,
           plan adaptat profilului tău (Mate-Info, Științe, Tehnologic, Pedagogic)
           și resurse gratuite pe site.

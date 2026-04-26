@@ -2,7 +2,7 @@
 
 const titleText = "Meditații matematică Bac, Pitești | DS Math Center";
 const description =
-  "Pregătire Bac la matematică cu Denisa Niță la DS Math Center: meditații la Pitești sau online, plan personalizat, explicații clare și resurse gratuite. WhatsApp — consultație gratuită.";
+  "Meditații matematică Bac și EN cu Denisa Niță, DS Math Center — Pitești sau online, plan personalizat, resurse gratuite. Consultație gratuită pe WhatsApp.";
 
 const metadata: Metadata = {
   title: { absolute: titleText },
