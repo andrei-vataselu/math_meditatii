@@ -17,7 +17,7 @@ const metadata: Metadata = {
       "Subiecte Oficiale Evaluarea Națională | DSMath Center – Matematică",
     description:
       "Accesează subiecte oficiale la matematică pentru Evaluarea Națională, structurate pe ani, cu bareme și resurse utile pentru pregătirea examenului.",
-    url: "https://matebac.com/subiecte-oficiale-evaluare-nationala",
+    url: "https://www.matebac.com/subiecte-oficiale-evaluare-nationala",
     siteName: "DSMath Center",
     images: [
       {
@@ -31,7 +31,7 @@ const metadata: Metadata = {
     type: "article",
   },
   alternates: {
-    canonical: "https://matebac.com/subiecte-oficiale-evaluare-nationala",
+    canonical: "https://www.matebac.com/subiecte-oficiale-evaluare-nationala",
   },
   robots: {
     index: true,

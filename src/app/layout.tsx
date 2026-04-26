@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s | DS Math Center",
   },
   description: layoutDescription,
-  metadataBase: new URL("https://matebac.com"),
+  metadataBase: new URL(siteConfig.url),
   keywords: [
     "meditații matematică",
     "meditatii pitesti",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: layoutTitle,
     description: layoutDescription,
-    url: "https://matebac.com",
+    url: siteConfig.url,
     siteName: "DS Math Center",
     locale: "ro_RO",
     type: "website",
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     title: layoutTitle,
     description: layoutDescription,
     site: "@dsmathcenter",
-    images: ["https://matebac.com/logo.png"],
+    images: [`${siteConfig.url}/logo.png`],
   },
   robots: {
     index: true,

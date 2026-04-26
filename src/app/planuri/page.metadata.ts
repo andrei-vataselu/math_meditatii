@@ -16,7 +16,7 @@ const metadata: Metadata = {
     title: "Preturi | DSMath Center - Meditatii Matematica Bacalaureat",
     description:
       "Alege planul potrivit pentru pregatirea la matematica in Pitesti si online: plan gratuit sau premium cu acces la resurse, sedinte si suport dedicat.",
-    url: "https://matebac.com/planuri",
+    url: "https://www.matebac.com/planuri",
     siteName: "DSMath Center",
     images: [
       {
@@ -30,7 +30,7 @@ const metadata: Metadata = {
     type: "website",
   },
   alternates: {
-    canonical: "https://matebac.com/planuri",
+    canonical: "https://www.matebac.com/planuri",
   },
   robots: {
     index: true,

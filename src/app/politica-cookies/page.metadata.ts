@@ -13,7 +13,7 @@ const metadata: Metadata = {
     title: "Politica privind utilizarea Cookie-urilor | DS Math Center",
     description:
       "Fără cookie-uri de tracking. Informare despre localStorage pentru preferința din banner, server logs și link-uri WhatsApp — DS MATH CENTER S.R.L.",
-    url: "https://matebac.com/politica-cookies",
+    url: "https://www.matebac.com/politica-cookies",
     siteName: "DS Math Center",
     images: [
       {
@@ -27,7 +27,7 @@ const metadata: Metadata = {
     type: "article",
   },
   alternates: {
-    canonical: "https://matebac.com/politica-cookies",
+    canonical: "https://www.matebac.com/politica-cookies",
   },
   robots: {
     index: true,

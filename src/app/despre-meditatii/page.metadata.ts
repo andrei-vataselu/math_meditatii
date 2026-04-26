@@ -16,7 +16,7 @@ const metadata: Metadata = {
     title: "Despre Curs | DSMath Center - Meditatii Bacalaureat Matematica",
     description:
       "Afla detalii despre cursul intensiv de matematica pentru Bacalaureat oferit de Denisa Nita, cu pregatire online si optiune de intalniri in Pitesti: structura, beneficii, program si inscriere.",
-    url: "https://matebac.com/despre-meditatii",
+    url: "https://www.matebac.com/despre-meditatii",
     siteName: "DSMath Center",
     images: [
       {
@@ -30,7 +30,7 @@ const metadata: Metadata = {
     type: "article",
   },
   alternates: {
-    canonical: "https://matebac.com/despre-meditatii",
+    canonical: "https://www.matebac.com/despre-meditatii",
   },
   robots: {
     index: true,

@@ -8,7 +8,9 @@ pdf_image.png din /public este o ilustrație, nu un raport de performanță.
 
 CE S-A REZOLVAT ÎN COD (rezumat)
 --------------------------------
-SEO: titluri/meta, canonical, redirect www→apex, conținut lung + FAQ pe
+SEO: titluri/meta, canonical (fără redirect www în next.config — evită buclă cu
+Vercel; setează o singură regulă „www ↔ apex” în dashboard Vercel), conținut
+lung + FAQ pe
 acasă, NAP + schema Organization/LocalBusiness, llms.txt, o singură rută
 sitemap la /sitemap.xml (config mutată în src/lib/seo — fără dublură
 /seo-optimization/sitemap.xml), /robots.txt.
@@ -43,6 +45,9 @@ CE NU SE POATE REZOLVA DOAR DIN COD (îți revine ție / echipei)
 
 VERIFICARE DUPĂ DEPLOY
 ----------------------
-- https://matebac.com/sitemap.xml și https://matebac.com/robots.txt → 200
+- https://www.matebac.com/sitemap.xml și https://www.matebac.com/robots.txt → 200
+  (matebac.com fără www trebuie să facă un singur 307 către www, ca în Vercel)
 - PageSpeed (mobil + desktop) pe URL-ul canonic
-- Un singur hop canonic (www → apex dacă folosești ambele domenii pe Vercel)
+- Un singur hop canonic: în Vercel → Project → Settings → Domains, alege
+  domeniul principal și „Redirect” pentru celălalt (NU dubla cu redirect în
+  next.config)

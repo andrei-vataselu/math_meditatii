@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 
 const titleText = "Meditații matematică Bac, Pitești | DS Math Center";
 const description =
@@ -19,7 +19,7 @@ const metadata: Metadata = {
   openGraph: {
     title: titleText,
     description,
-    url: "https://matebac.com/",
+    url: "https://www.matebac.com/",
     siteName: "DS Math Center",
     images: [
       {
@@ -37,7 +37,7 @@ const metadata: Metadata = {
     title: titleText,
     description,
     site: "@dsmathcenter",
-    images: ["https://matebac.com/logo.png"],
+    images: ["https://www.matebac.com/logo.png"],
   },
   alternates: {
     canonical: "/",

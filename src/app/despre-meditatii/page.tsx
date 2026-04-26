@@ -31,7 +31,7 @@ export default function CourseInfoPage() {
               provider: {
                 "@type": "Organization",
                 name: "DS Math Center",
-                url: "https://matebac.com",
+                url: "https://www.matebac.com",
               },
               educationalLevel: "High School",
               instructor: {
@@ -45,7 +45,7 @@ export default function CourseInfoPage() {
               },
               startDate: "2025-09-15",
               courseMode: "Online",
-              url: "https://matebac.com/despre-meditatii",
+              url: "https://www.matebac.com/despre-meditatii",
             }),
           }}
         />

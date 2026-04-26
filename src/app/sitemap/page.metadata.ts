@@ -14,7 +14,7 @@ const metadata: Metadata = {
     title: "Site Map | DSMath Center",
     description:
       "Harta site-ului DSMath Center cu toate paginile importante: informatii despre meditatii, planuri, subiecte oficiale, resurse si pagini legale.",
-    url: "https://matebac.com/sitemap",
+    url: "https://www.matebac.com/sitemap",
     siteName: "DSMath Center",
     images: [
       {
@@ -28,7 +28,7 @@ const metadata: Metadata = {
     type: "website",
   },
   alternates: {
-    canonical: "https://matebac.com/sitemap",
+    canonical: "https://www.matebac.com/sitemap",
   },
   robots: {
     index: true,

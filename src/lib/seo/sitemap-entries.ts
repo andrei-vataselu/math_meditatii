@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
+import { siteConfig } from "@/config/site";
 
-const SITE_URL = "https://matebac.com";
+const SITE_URL = siteConfig.url;
 
 export const sitemapEntries: MetadataRoute.Sitemap = [
   { url: `${SITE_URL}/`, changeFrequency: "weekly", priority: 1 },

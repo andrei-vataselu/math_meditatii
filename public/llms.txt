@@ -3,20 +3,20 @@
 > Meditații la matematică pentru Bacalaureat și Evaluarea Națională — online sau la Pitești, România.
 
 ## Contact
-- Site: https://matebac.com
+- Site: https://www.matebac.com
 - Email: denisanita08@gmail.com
 - Telefon: +40731979588
 - Adresă: Bulevardul I. C. Brătianu 24, 110003 Pitești, Argeș, România
 
 ## Pagini utile
-- Acasă: https://matebac.com/
-- Contact: https://matebac.com/contact
-- Planuri / prețuri: https://matebac.com/planuri
-- Despre meditații: https://matebac.com/despre-meditatii
-- Despre Denisa Niță: https://matebac.com/despre-mine
-- Resurse gratuite: https://matebac.com/resurse-gratuite
-- Subiecte oficiale Bac: https://matebac.com/subiecte-oficiale-bacalaureat
-- Subiecte oficiale EN: https://matebac.com/subiecte-oficiale-evaluare-nationala
+- Acasă: https://www.matebac.com/
+- Contact: https://www.matebac.com/contact
+- Planuri / prețuri: https://www.matebac.com/planuri
+- Despre meditații: https://www.matebac.com/despre-meditatii
+- Despre Denisa Niță: https://www.matebac.com/despre-mine
+- Resurse gratuite: https://www.matebac.com/resurse-gratuite
+- Subiecte oficiale Bac: https://www.matebac.com/subiecte-oficiale-bacalaureat
+- Subiecte oficiale EN: https://www.matebac.com/subiecte-oficiale-evaluare-nationala
 
 ## Rețele sociale
 - Instagram: https://www.instagram.com/dsmathcenter
@@ -25,6 +25,3 @@
 
 ## Limbi
 - Conținut principal: română (ro).
-
-## Notă pentru administratori (DNS / email)
-- Pentru domeniul folosit la e-mail, este recomandată o înregistrare **DMARC** (TXT) la registrar — nu ține de codul site-ului, ci de DNS.

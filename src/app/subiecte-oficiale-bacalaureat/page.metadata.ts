@@ -15,7 +15,7 @@ const metadata: Metadata = {
     title: "Subiecte Oficiale Bacalaureat | DSMath Center – Matematică",
     description:
       "Accesează subiecte oficiale la matematică pentru Bacalaureat, organizate pe profiluri și ani, împreună cu bareme și materiale utile de recapitulare.",
-    url: "https://matebac.com/subiecte-oficiale-bacalaureat",
+    url: "https://www.matebac.com/subiecte-oficiale-bacalaureat",
     siteName: "DSMath Center",
     images: [
       {
@@ -29,7 +29,7 @@ const metadata: Metadata = {
     type: "article",
   },
   alternates: {
-    canonical: "https://matebac.com/subiecte-oficiale-bacalaureat",
+    canonical: "https://www.matebac.com/subiecte-oficiale-bacalaureat",
   },
   robots: {
     index: true,

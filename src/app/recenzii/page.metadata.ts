@@ -13,7 +13,7 @@ const metadata: Metadata = {
     title: "Recenzii | DSMath Center - Pareri Elevi Meditatii",
     description:
       "Vezi recenzii si pareri reale de la elevii care au participat la meditatiile de matematica cu Denisa Nita, inclusiv elevi din Pitesti, pentru Bacalaureat.",
-    url: "https://matebac.com/recenzii",
+    url: "https://www.matebac.com/recenzii",
     siteName: "DSMath Center",
     images: [
       {
@@ -27,7 +27,7 @@ const metadata: Metadata = {
     type: "article",
   },
   alternates: {
-    canonical: "https://matebac.com/recenzii",
+    canonical: "https://www.matebac.com/recenzii",
   },
   robots: {
     index: true,

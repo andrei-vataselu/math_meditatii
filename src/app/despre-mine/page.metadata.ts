@@ -14,7 +14,7 @@ const metadata: Metadata = {
     title: "Despre Mine | Denisa Nita - DSMath Center",
     description:
       "Afla cine este Denisa Nita, fondatoarea DSMath Center: experienta, educatie, rezultate si abordarea in pregatirea la matematica pentru Bacalaureat.",
-    url: "https://matebac.com/despre-mine",
+    url: "https://www.matebac.com/despre-mine",
     siteName: "DSMath Center",
     images: [
       {
@@ -28,7 +28,7 @@ const metadata: Metadata = {
     type: "profile",
   },
   alternates: {
-    canonical: "https://matebac.com/despre-mine",
+    canonical: "https://www.matebac.com/despre-mine",
   },
   robots: {
     index: true,

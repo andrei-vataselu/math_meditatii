@@ -13,7 +13,7 @@ const metadata: Metadata = {
     title: "Politica de Confidențialitate | DS Math Center",
     description:
       "GDPR: DS MATH CENTER S.R.L. — date colectate, temei legal, drepturi, durată, cookie-uri și localStorage pentru banner. Actualizare 17.04.2026.",
-    url: "https://matebac.com/privacy",
+    url: "https://www.matebac.com/privacy",
     siteName: "DS Math Center",
     images: [
       {
@@ -27,7 +27,7 @@ const metadata: Metadata = {
     type: "article",
   },
   alternates: {
-    canonical: "https://matebac.com/privacy",
+    canonical: "https://www.matebac.com/privacy",
   },
   robots: {
     index: true,

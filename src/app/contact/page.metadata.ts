@@ -17,7 +17,7 @@ const metadata: Metadata = {
     title: "Contact | DSMath Center - Meditatii Bacalaureat Matematica",
     description:
       "Ia legatura cu DSMath Center pentru meditatii la matematica pentru Evaluarea Nationala si Bacalaureat, cu prezenta in Pitesti. Contact rapid prin email, telefon, WhatsApp, Instagram si TikTok.",
-    url: "https://matebac.com/contact",
+    url: "https://www.matebac.com/contact",
     siteName: "DSMath Center",
     images: [
       {
@@ -31,7 +31,7 @@ const metadata: Metadata = {
     type: "website",
   },
   alternates: {
-    canonical: "https://matebac.com/contact",
+    canonical: "https://www.matebac.com/contact",
   },
   robots: {
     index: true,

@@ -2,7 +2,7 @@
 
 export const siteConfig = {
   name: "DS Math Center",
-  url: "https://matebac.com",
+  url: "https://www.matebac.com",
   phoneE164: "+40731979588",
   phoneDisplay: "0731 979 588",
   email: "denisanita08@gmail.com",

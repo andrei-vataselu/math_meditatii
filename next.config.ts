@@ -51,12 +51,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.matebac.com" }],
-        destination: "https://matebac.com/:path*",
-        permanent: true,
-      },
-      {
         source: "/course-info",
         destination: "/despre-meditatii",
         permanent: true,

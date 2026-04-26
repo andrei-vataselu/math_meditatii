@@ -14,7 +14,7 @@ const metadata: Metadata = {
     title: "Resurse Gratuite | DSMath Center - Subiecte Bac Matematica",
     description:
       "Descarca sau vizualizeaza gratuit subiecte de Bacalaureat la matematica, materiale PDF si resurse utile pentru pregatirea examenului in Pitesti si la nivel national.",
-    url: "https://matebac.com/resurse-gratuite",
+    url: "https://www.matebac.com/resurse-gratuite",
     siteName: "DSMath Center",
     images: [
       {
@@ -28,7 +28,7 @@ const metadata: Metadata = {
     type: "article",
   },
   alternates: {
-    canonical: "https://matebac.com/resurse-gratuite",
+    canonical: "https://www.matebac.com/resurse-gratuite",
   },
   robots: {
     index: true,

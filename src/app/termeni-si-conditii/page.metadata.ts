@@ -13,7 +13,7 @@ const metadata: Metadata = {
     title: "Termeni și Condiții | DS Math Center",
     description:
       "Termeni DS MATH CENTER S.R.L. pentru matebac.com: servicii, plată, livrare digitală, retragere OUG 34/2014, proprietate intelectuală, litigii. 17.04.2026.",
-    url: "https://matebac.com/termeni-si-conditii",
+    url: "https://www.matebac.com/termeni-si-conditii",
     siteName: "DS Math Center",
     images: [
       {
@@ -27,7 +27,7 @@ const metadata: Metadata = {
     type: "article",
   },
   alternates: {
-    canonical: "https://matebac.com/termeni-si-conditii",
+    canonical: "https://www.matebac.com/termeni-si-conditii",
   },
   robots: {
     index: true,
