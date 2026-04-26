@@ -1,22 +1,24 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
+
+const titleText = "Meditații matematică Bac, Pitești | DS Math Center";
+const description =
+  "Pregătire Bac la matematică cu Denisa Niță la DS Math Center: meditații la Pitești sau online, plan personalizat, explicații clare și resurse gratuite. WhatsApp — consultație gratuită.";
 
 const metadata: Metadata = {
-  title: "DS Math Center | Meditatii Matematica Bacalaureat - Denisa Nita",
-  description:
-    "Pregatire la matematica pentru Bacalaureat cu Denisa Nita, cu sedinte online si posibilitate de intalniri fizice in Pitesti. Explicatii clare, resurse gratuite si suport dedicat pentru elevii de clasa a XII-a.",
+  title: { absolute: titleText },
+  description,
   keywords: [
-    "meditatii matematica",
-    "meditatii pitesti",
-    "meditatii matematica pitesti",
-    "bacalaureat matematica",
-    "evaluare nationala matematica",
-    "dsmath center",
-    "denisa nita",
+    "meditații matematică",
+    "meditații matematică Pitești",
+    "pregătire bac matematică",
+    "Denisa Niță",
+    "DS Math Center",
+    "evaluare națională matematică",
+    "bacalaureat matematică",
   ],
   openGraph: {
-    title: "DS Math Center | Meditatii Matematica Bacalaureat - Denisa Nita",
-    description:
-      "Pregatire la matematica pentru Bacalaureat cu Denisa Nita, cu sedinte online si posibilitate de intalniri fizice in Pitesti. Explicatii clare, resurse gratuite si suport dedicat pentru elevii de clasa a XII-a.",
+    title: titleText,
+    description,
     url: "https://matebac.com/",
     siteName: "DS Math Center",
     images: [
@@ -30,8 +32,15 @@ const metadata: Metadata = {
     locale: "ro_RO",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: titleText,
+    description,
+    site: "@dsmathcenter",
+    images: ["https://matebac.com/logo.png"],
+  },
   alternates: {
-    canonical: "https://matebac.com/",
+    canonical: "/",
   },
   robots: {
     index: true,
@@ -40,5 +49,3 @@ const metadata: Metadata = {
 };
 
 export default metadata;
-
-

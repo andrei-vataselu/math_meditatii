@@ -1,0 +1,89 @@
+DS Math Center (matebac.com) — ce mai rămâne după optimizări în cod
+================================================================================
+Data orientativă: aprilie 2026
+
+NOTĂ DESPRE pdf_image.png
+-------------------------
+Fișierul public/pdf_image.png este o ilustrație (icon „PDF” cu formule), NU un
+raport de performanță. Recomandările de mai jos pentru „ce mai rămâne” se bazează
+pe auditul MiWeb (Website+SEO20MATEBAC.pdf), pe capturile Seobility trimise
+anterior și pe PageSpeed / uzabilitate din acel PDF.
+
+CE S-A PUTUT FACE ÎN COD (deja implementat, pe scurt)
+-----------------------------------------------------
+SEO on-page: titluri/meta mai scurte, canonical + redirect www→apex, text lung
+și FAQ pe homepage, aliniere H1/conținut, NAP în footer, schema Organization +
+LocalBusiness, llms.txt, robots + sitemap.
+
+Fără tracking: fără Meta Pixel, fără Vercel Analytics; banner cookie păstrat.
+
+Performanță / uzabilitate (ultima rundă):
+- next.config: optimizePackageImports pentru framer-motion și react-icons;
+  imagini AVIF/WebP; removeConsole în producție (păstrează error/warn).
+- Homepage: încărcare dinamică (code-split) pentru Design, Features,
+  FeatureShowcase, Statistics, CTA — mai puțin JS pe primul pachet critic.
+- Design: simboluri matematice animate încărcate prin dynamic(); animație mai
+  ușoară (mai puține simboluri, interval mai mare) + respectă
+  prefers-reduced-motion.
+- Footer: imagini ANPC/SOL fără priority (nu concurează cu LCP); loading lazy.
+
+CE MAI RĂMÂNE (în afara repo-ului sau cu efort continuu)
+--------------------------------------------------------
+
+1) SEO off-site (PDF + Seobility)
+   - Backlink-uri de calitate (școli, comunitate, presă locală, parteneri).
+   - Evită „farms” de link-uri de tipul celor listate în rapoarte vechi.
+   - Google Business Profile: creare/optimizare și legare clară de site.
+
+2) DNS / email (PDF)
+   - Înregistrare DMARC (TXT) la registrar pentru domeniul de pe care trimiți
+     mail — nu se configurează în Next.js.
+
+3) Performanță găzduire (PDF: HTTP/2+)
+   - Verifică în producție (ex. curl -I sau DevTools) că răspunsul folosește
+     HTTP/2 sau HTTP/3. Pe Vercel e de obicei OK; unele unelte vechi raportează
+     eronat HTTP/1.1.
+
+4) PageSpeed Insights — mobil (PDF)
+   - Scorul laborator depinde de rețea și de bundle-ul JS (Framer Motion etc.).
+   - Pași următori posibili în cod (mai invaziv): înlocuiri parțiale ale
+     animațiilor Framer cu CSS, lazy routes pentru pagini rare, audit manual cu
+     „Coverage” / bundle analyzer.
+   - Redirecțiile multiple: redirectul www→apex e deja în next.config; verifică
+     în Vercel că ambele domenii sunt atașate proiectului.
+
+5) „Stiluri inline” în rapoarte SEO
+   - Multe unelte numără și stilurile injectate de Framer Motion la animații.
+     Eliminarea completă ar însemna rescrierea UI-ului; impact real asupra
+     utilizatorului e mic față de bundle-ul JS.
+
+6) Core Web Vitals în Search Console
+   - Google poate afișa „date insuficiente” pentru site-uri cu trafic mic; nu e
+     o eroare de cod — crește traficul legitim și re-verifică după câteva
+     săptămâni.
+
+7) Rețele sociale
+   - Confirmă că URL-urile Facebook / LinkedIn / YouTube din footer sunt
+     conturile reale; dacă nu, actualizează src/config/site.ts sau variabilele
+     NEXT_PUBLIC_* din Vercel.
+
+8) Dublură rută sitemap (opțional, curățenie)
+   - Build-ul listează și /seo-optimization/sitemap.xml — dacă nu e intenționat,
+     poți elimina ruta duplicat din app/seo-optimization ca să rămână doar
+     /sitemap.xml.
+
+9) Cookie / confidențialitate
+   - Bannerul folosește localStorage pentru preferința accept/refuz; politica de
+     cookies pe site ar trebui să descrie acest mecanism (revizuire juridică la
+     nevoie — nu e sarcină de cod).
+
+10) Stripe / Supabase (dacă există pe alte pagini)
+    - Bundle-uri mari pot apărea în Lighthouse; optimizare doar unde e folosit
+      efectiv (import dinamic la checkout etc.).
+
+VERIFICARE DUPĂ DEPLOY
+----------------------
+- PageSpeed mobil + desktop pe https://matebac.com/
+- Seobility / Rich Results Test pentru homepage
+- /robots.txt și /sitemap.xml răspund 200
+- Un singur host canonic în browser după redirect (fără dublu hop inutil)

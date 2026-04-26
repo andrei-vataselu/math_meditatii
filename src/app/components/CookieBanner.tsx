@@ -14,15 +14,13 @@ export default function CookieBanner() {
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem('cookieConsent', 'accepted');
+    localStorage.setItem("cookieConsent", "accepted");
     setVisible(false);
-    // Aici poți inițializa servicii de tracking
   };
 
   const handleDecline = () => {
-    localStorage.setItem('cookieConsent', 'declined');
+    localStorage.setItem("cookieConsent", "declined");
     setVisible(false);
-    // Șterge cookie-urile non-esențiale dacă e necesar
   };
 
   if (!visible) return null;
@@ -33,14 +31,19 @@ export default function CookieBanner() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.3 }}
-      className="fixed bottom-0 left-0 right-0 bg-slate-110 backdrop-blur-sm border-t border-white/10 z-50 py-4"
+      className="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-sm border-t border-white/10 z-50 py-4"
     >
       <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="text-sm text-gray-300 text-center md:text-left">
-        Continuând, ești de acord cu{' '}
-          <Link href="/politica-cookies" className="text-[#FEBFD2] hover:underline">
-            Politica noastră de utilizare cookie-uri
-          </Link>.
+          Acest site folosește cookie-uri și stocare locală strict necesare
+          funcționării (ex. preferința ta aici). Detalii în{" "}
+          <Link
+            href="/politica-cookies"
+            className="text-[#FEBFD2] hover:underline"
+          >
+            Politica de utilizare cookie-uri
+          </Link>
+          .
         </div>
         <div className="flex gap-2">
           <button
