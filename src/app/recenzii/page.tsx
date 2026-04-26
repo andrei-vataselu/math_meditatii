@@ -56,7 +56,13 @@ export default function Recenzii() {
           {testimonials.map((t, idx) => (
             <div key={idx} className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:border-white/40 transition-all duration-300 flex flex-col items-center shadow-lg">
               <div className="w-20 h-20 mb-4 relative rounded-full overflow-hidden border-4 border-[#FEBFD2]">
-                <Image src={t.image} alt={t.name} fill style={{ objectFit: 'cover' }} />
+                <Image
+                  src={t.image}
+                  alt={t.name}
+                  fill
+                  className="object-cover"
+                  sizes="80px"
+                />
               </div>
               <p className="text-gray-200 italic mb-4">“{t.text}”</p>
               <span className="text-[#FEBFD2] font-semibold">{t.name}</span>

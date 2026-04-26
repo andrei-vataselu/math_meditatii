@@ -34,6 +34,8 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
+  productionBrowserSourceMaps: false,
   experimental: {
     optimizePackageImports: ["framer-motion", "react-icons"],
   },

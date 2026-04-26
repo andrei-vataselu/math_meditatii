@@ -1,4 +1,4 @@
-import { sitemapEntries } from "../seo-optimization/sitemap";
+import { sitemapEntries } from "@/lib/seo/sitemap-entries";
 
 function escapeXml(value: string): string {
   return value

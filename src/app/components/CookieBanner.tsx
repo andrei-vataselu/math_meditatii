@@ -35,13 +35,13 @@ export default function CookieBanner() {
     >
       <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="text-sm text-gray-300 text-center md:text-left">
-          Acest site folosește cookie-uri și stocare locală strict necesare
-          funcționării (ex. preferința ta aici). Detalii în{" "}
+          Acest site nu folosește cookie-uri de urmărire; memorăm în browser
+          (localStorage) doar preferința ta pentru acest mesaj. Detalii în{" "}
           <Link
             href="/politica-cookies"
             className="text-[#FEBFD2] hover:underline"
           >
-            Politica de utilizare cookie-uri
+            Politica privind utilizarea cookie-urilor
           </Link>
           .
         </div>

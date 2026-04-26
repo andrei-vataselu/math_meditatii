@@ -3,7 +3,6 @@ import homeMetadata from "./page.metadata";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import HomeSeoContent from "./components/HomeSeoContent";
-import Footer from "./components/Footer";
 
 export const metadata = homeMetadata;
 
@@ -12,6 +11,7 @@ const Features = dynamic(() => import("./components/Features"));
 const FeatureShowcase = dynamic(() => import("./components/FeatureShowcase"));
 const Statistics = dynamic(() => import("./components/Statistics"));
 const CTA = dynamic(() => import("./components/CTA"));
+const Footer = dynamic(() => import("./components/Footer"));
 
 const features = [
   {

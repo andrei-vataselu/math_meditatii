@@ -1,15 +1,14 @@
 "use client";
-import React from "react";
+
+import Image from "next/image";
+
+const sparkleDrop = "drop-shadow-[0_0_10px_rgba(255,215,120,0.95)]";
 
 export default function GoldOfferBanner() {
   return (
     <div className="relative w-full max-w-5xl mx-auto mb-16 sm:mb-12 px-4 sm:px-0 flex justify-center">
-
-      {/* Banner container */}
       <div className="relative z-10 inline-block w-fit bg-gradient-to-r from-[#F7D66E] via-[#F1C24E] to-[#EAA93A] rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
-        {/* Sparkles anchored to the banner edges */}
         <div className="pointer-events-none absolute -inset-x-8 -inset-y-4 z-0">
-          {/* Top row */}
           {[
             { left: "10%", size: 18 },
             { left: "20%", size: 22 },
@@ -23,13 +22,12 @@ export default function GoldOfferBanner() {
               width={p.size}
               height={p.size}
               viewBox="0 0 24 24"
-              className="absolute"
-              style={{ left: p.left, top: -8, filter: "drop-shadow(0 0 10px rgba(255, 215, 120, 0.95))" }}
+              className={`absolute ${sparkleDrop} top-[-8px]`}
+              style={{ left: p.left }}
             >
               <path d="M12 0l2.5 7 7 2.5-7 2.5-2.5 7-2.5-7-7-2.5 7-2.5L12 0z" fill="rgba(255,240,180,0.95)" />
             </svg>
           ))}
-          {/* Bottom row */}
           {[
             { left: "12%", size: 20 },
             { left: "27%", size: 18 },
@@ -43,13 +41,12 @@ export default function GoldOfferBanner() {
               width={p.size}
               height={p.size}
               viewBox="0 0 24 24"
-              className="absolute"
-              style={{ left: p.left, bottom: -8, filter: "drop-shadow(0 0 10px rgba(255, 215, 120, 0.95))" }}
+              className={`absolute ${sparkleDrop} bottom-[-8px]`}
+              style={{ left: p.left }}
             >
               <path d="M12 0l2.5 7 7 2.5-7 2.5-2.5 7-2.5-7-7-2.5 7-2.5L12 0z" fill="rgba(255,240,180,0.95)" />
             </svg>
           ))}
-          {/* Left column */}
           {[
             { top: "18%", size: 22 },
             { top: "38%", size: 20 },
@@ -61,13 +58,12 @@ export default function GoldOfferBanner() {
               width={p.size}
               height={p.size}
               viewBox="0 0 24 24"
-              className="absolute"
-              style={{ left: -10, top: p.top, filter: "drop-shadow(0 0 10px rgba(255, 215, 120, 0.95))" }}
+              className={`absolute ${sparkleDrop} left-[-10px]`}
+              style={{ top: p.top }}
             >
               <path d="M12 0l2.5 7 7 2.5-7 2.5-2.5 7-2.5-7-7-2.5 7-2.5L12 0z" fill="rgba(255,240,180,0.95)" />
             </svg>
           ))}
-          {/* Right column */}
           {[
             { top: "22%", size: 18 },
             { top: "42%", size: 22 },
@@ -79,17 +75,15 @@ export default function GoldOfferBanner() {
               width={p.size}
               height={p.size}
               viewBox="0 0 24 24"
-              className="absolute"
-              style={{ right: -10, top: p.top, filter: "drop-shadow(0 0 10px rgba(255, 215, 120, 0.95))" }}
+              className={`absolute ${sparkleDrop} right-[-10px]`}
+              style={{ top: p.top }}
             >
               <path d="M12 0l2.5 7 7 2.5-7 2.5-2.5 7-2.5-7-7-2.5 7-2.5L12 0z" fill="rgba(255,240,180,0.95)" />
             </svg>
           ))}
         </div>
-        {/* Inner shine / bevel */}
         <div className="absolute inset-0" />
 
-        {/* Content */}
         <div className="relative px-5 sm:px-7 py-3 sm:py-5">
           <p className="text-lg sm:text-xl md:text-3xl font-extrabold tracking-wide">
             <span className="text-[#4B0A3A] drop-shadow-sm">OFERTĂ SPECIALĂ!</span>
@@ -101,12 +95,13 @@ export default function GoldOfferBanner() {
             formule de matematică la achiziția oricărei culegeri!
           </p>
 
-          {/* PDF gift badge image */}
-          <div className="absolute -right-10 sm:-right-12 md:-right-14 -top-10 sm:-top-12 md:-top-16 z-20">
-            <img
+          <div className="absolute -right-10 sm:-right-12 md:-right-14 -top-10 sm:-top-12 md:-top-16 z-20 w-36 sm:w-44 md:w-52 aspect-square">
+            <Image
               src="/pdf_image.png"
               alt="PDF cadou"
-              className="w-36 sm:w-44 md:w-52 drop-shadow-2xl rotate-3"
+              fill
+              className="object-contain drop-shadow-2xl rotate-3"
+              sizes="(max-width: 640px) 144px, (max-width: 768px) 176px, 208px"
             />
           </div>
         </div>
