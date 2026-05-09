@@ -52,9 +52,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/logo.svg",
-        width: 512,
-        height: 512,
+        url: "/logo.png",
+        width: 1200,
+        height: 630,
         alt: "DS Math Center Logo",
       },
     ],

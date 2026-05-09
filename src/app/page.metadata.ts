@@ -1,4 +1,5 @@
 ﻿import type { Metadata } from "next";
+import { siteConfig } from "@/config/site";
 
 const titleText = "Meditații matematică Bac, Pitești | DS Math Center";
 const description =
@@ -23,7 +24,7 @@ const metadata: Metadata = {
     siteName: "DS Math Center",
     images: [
       {
-        url: "/logo.svg",
+        url: "/logo.png",
         width: 1200,
         height: 630,
         alt: "DS Math Center Logo",
@@ -37,7 +38,7 @@ const metadata: Metadata = {
     title: titleText,
     description,
     site: "@dsmathcenter",
-    images: ["https://www.matebac.com/logo.png"],
+    images: [`${siteConfig.url}/logo.png`],
   },
   alternates: {
     canonical: "/",
