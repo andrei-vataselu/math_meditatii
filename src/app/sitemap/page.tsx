@@ -18,12 +18,23 @@ const siteMapSections = [
     ],
   },
   {
-    title: "Subiecte Oficiale",
+    title: "Subiecte și Simulări",
     links: [
-      { href: "/subiecte-oficiale-bacalaureat", label: "Bacalaureat" },
       {
-        href: "/subiecte-oficiale-evaluare-nationala",
-        label: "Evaluarea Nationala",
+        href: "/subiecte-oficiale-bacalaureat",
+        label: "Subiecte oficiale Bacalaureat",
+      },
+      {
+        href: "/simulari-judetene-bacalaureat",
+        label: "Simulări județene Bacalaureat",
+      },
+      {
+        href: "/subiecte-oficiale-evaluarea-nationala",
+        label: "Subiecte oficiale Evaluarea Națională",
+      },
+      {
+        href: "/simulari-judetene-evaluarea-nationala",
+        label: "Simulări județene Evaluarea Națională",
       },
     ],
   },

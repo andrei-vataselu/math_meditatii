@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import AnimatedCounter from './AnimatedCounter';
 
 const stats = [
-  { number: "50+", label: "Elevi ajutati", icon: "👥" },
+  { number: "100+", label: "Elevi ajutati", icon: "👥" },
   { number: "100%", label: "Rată promovabilitate", icon: "📈" },
   { number: "15+", label: "Localități", icon: "🌍" },
   { number: "24/7", label: "Asistență", icon: "⏰" }

@@ -65,6 +65,21 @@ const nextConfig: NextConfig = {
         destination: "/termeni-si-conditii",
         permanent: true,
       },
+      {
+        source: "/subiecte-oficiale-evaluare-nationala",
+        destination: "/subiecte-oficiale-evaluarea-nationala",
+        permanent: true,
+      },
+      {
+        source: "/simulari-bacalaureat",
+        destination: "/simulari-judetene-bacalaureat",
+        permanent: true,
+      },
+      {
+        source: "/simulari-evaluare-nationala",
+        destination: "/simulari-judetene-evaluarea-nationala",
+        permanent: true,
+      },
     ];
   },
   async headers() {

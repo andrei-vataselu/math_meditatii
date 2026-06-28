@@ -15,7 +15,17 @@ export const sitemapEntries: MetadataRoute.Sitemap = [
     priority: 0.95,
   },
   {
-    url: `${SITE_URL}/subiecte-oficiale-evaluare-nationala`,
+    url: `${SITE_URL}/simulari-judetene-bacalaureat`,
+    changeFrequency: "daily",
+    priority: 0.95,
+  },
+  {
+    url: `${SITE_URL}/subiecte-oficiale-evaluarea-nationala`,
+    changeFrequency: "daily",
+    priority: 0.95,
+  },
+  {
+    url: `${SITE_URL}/simulari-judetene-evaluarea-nationala`,
     changeFrequency: "daily",
     priority: 0.95,
   },

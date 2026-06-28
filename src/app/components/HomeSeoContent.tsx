@@ -10,30 +10,29 @@ export default function HomeSeoContent() {
   return (
     <section
       id="pregatire-matematica-bac-en"
-      className="relative py-16 md:py-24 px-6 text-left"
+      className="relative pt-8 md:pt-10 pb-16 md:pb-24 px-6 text-left"
       aria-labelledby="seo-section-heading"
     >
       <div className="max-w-3xl mx-auto space-y-10 text-gray-200">
         <div>
           <h2
             id="seo-section-heading"
-            className="text-3xl md:text-4xl font-bold text-white mb-4"
+            className="text-4xl md:text-5xl font-bold text-white mb-8 md:mb-10 text-center"
           >
             Meditații la matematică pentru Bac și Evaluare Națională la {name}
           </h2>
-          <p className="text-lg leading-relaxed">
+          <p className="text-lg leading-relaxed text-justify">
             <span className="text-white font-bold">Meditații la matematică Bac și EN</span>{" "}
             cu <span className="text-white font-bold">Denisa Niță</span> la{" "}
-            <strong className="text-white">{name}</strong>: pregătire pentru
-            Evaluarea Națională și Bacalaureatul la matematică, cu aceeași rigoare
-            ca la meditațiile din fața tablului. Pregătește
-            elevi de clasa a VIII-a și a XII-a pentru{" "}
-            <span className="text-white font-bold">Evaluarea Națională</span> și{" "}
-            <span className="text-white font-bold">Bacalaureatul la matematică</span>.
-            Oferim{" "}
+            <strong className="text-white">{name}</strong>: pregătire pentru{" "}
+            <span className="text-white font-bold">Evaluarea Națională</span> și
+            pentru proba de matematică de la{" "}
+            <span className="text-white font-bold">Bacalaureat</span>. Pregătim elevi de clasa a
+            VIII-a și a XII-a pentru ambele examene. Oferim{" "}
             <span className="text-white font-bold">meditații la matematică</span>{" "}
-            online și întâlniri la Pitești, cu explicații structurate și materiale
-            care urmăresc programa oficială și tipurile de subiecte de la examen.
+            online și ședințe fizice în Pitești, cu explicații structurate și materiale
+            aliniate cu programa școlară și cu tipurile de subiecte întâlnite la
+            examen.
           </p>
         </div>
 
@@ -41,7 +40,7 @@ export default function HomeSeoContent() {
           <h3 className="text-2xl font-semibold text-white mb-3">
             De ce să alegi meditații de matematică aici?
           </h3>
-          <p className="leading-relaxed mb-4">
+          <p className="leading-relaxed mb-4 text-justify">
             Mulți elevi au nevoie nu doar de exerciții, ci de o explicație clară a
             raționamentului din spatele formulelor. La {name} combinăm antrenamentul
             pe subiecte oficiale cu un plan personalizat: identificăm lacunele,
@@ -62,14 +61,14 @@ export default function HomeSeoContent() {
             </Link>{" "}
             și{" "}
             <Link
-              href="/subiecte-oficiale-evaluare-nationala"
+              href="/subiecte-oficiale-evaluarea-nationala"
               className="text-[#FEBFD2] underline underline-offset-2 hover:text-white"
             >
               modele pentru Evaluarea Națională
             </Link>
             .
           </p>
-          <p className="leading-relaxed">
+          <p className="leading-relaxed text-justify">
             Pentru detalii despre formatul ședințelor și abordare, citește{" "}
             <Link
               href="/despre-meditatii"
@@ -100,7 +99,7 @@ export default function HomeSeoContent() {
           <h3 className="text-2xl font-semibold text-white mb-3">
             Profiluri la matematică: Mate-Info, Științe, Tehnologic, Pedagogic
           </h3>
-          <p className="leading-relaxed mb-4">
+          <p className="leading-relaxed mb-4 text-justify">
             Subiectele de la Bac și EN diferă ca structură și profunzime. Ne
             adaptăm profilului tău (Mate-Info, Științe ale naturii, Tehnologic,
             Pedagogic) astfel încât să exersăm exact tipurile de cerințe care îți
@@ -108,7 +107,7 @@ export default function HomeSeoContent() {
             subiecte cu conținut practic, mereu legate de baremele și tendințele
             recente ale ministerului.
           </p>
-          <p className="leading-relaxed">
+          <p className="leading-relaxed text-justify">
             Meditațiile pot fi urmate constant sau ca intensiv înainte de simulări
             și sesiunea oficială. Important este să începi devreme: matematica se
             construiește în timp, iar o bază solidă îți reduce stresul și îți
@@ -120,7 +119,7 @@ export default function HomeSeoContent() {
           <h3 className="text-2xl font-semibold text-white mb-3">
             Locație și contact ({address.addressLocality})
           </h3>
-          <p className="leading-relaxed">
+          <p className="leading-relaxed text-justify">
             Ne poți contacta la telefon{" "}
             <a
               href={`tel:${phoneE164}`}
@@ -194,7 +193,7 @@ export default function HomeSeoContent() {
                 Aveți materiale pentru Bacalaureat și Evaluare Națională?
               </dt>
               <dd className="mt-2 leading-relaxed">
-                Da — pe site găsești subiecte oficiale, resurse gratuite și
+                Da. Pe site găsești subiecte oficiale, resurse gratuite și
                 explicații aliniate la programa actuală. În meditații folosim aceste
                 materiale ca punct de plecare și le completăm cu exerciții
                 suplimentare acolo unde e nevoie.
@@ -205,8 +204,8 @@ export default function HomeSeoContent() {
                 Cum mă ajută {name} față de învățat singur acasă?
               </dt>
               <dd className="mt-2 leading-relaxed">
-                Primești clarificări la locul unde te blochezi, eviți să înveți greșit
-                de pe start și economisești timp: exersăm strategic, cu feedback
+                Primești clarificări în locul unde te blochezi, eviți să înveți greșit
+                de la inceput și economisești timp: exersăm strategic, cu feedback
                 imediat și plan de repetare.
               </dd>
             </div>

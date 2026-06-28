@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
@@ -75,45 +75,60 @@ export default function Header() {
   );
 }
 
+const subiecteMenu = [
+  {
+    label: "Bacalaureat",
+    items: [
+      { label: "Subiecte oficiale BAC", href: "/subiecte-oficiale-bacalaureat" },
+      { label: "Simulări județene BAC", href: "/simulari-judetene-bacalaureat" },
+    ],
+  },
+  {
+    label: "Evaluarea Națională",
+    items: [
+      {
+        label: "Subiecte oficiale EN",
+        href: "/subiecte-oficiale-evaluarea-nationala",
+      },
+      { label: "Simulări județene EN", href: "/simulari-judetene-evaluarea-nationala" },
+    ],
+  },
+] as const;
+
 function HeaderSubiecte() {
   const [subOpen, setSubOpen] = useState(false);
+  const [hoveredSection, setHoveredSection] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (
-        subOpen &&
-        containerRef.current &&
-        !containerRef.current.contains(e.target as Node)
-      ) {
-        setSubOpen(false);
-      }
-    }
     function handleKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setSubOpen(false);
-      if (e.key === "ArrowDown" && subOpen) {
-        e.preventDefault();
-        const first = containerRef.current?.querySelector("a");
-        (first as HTMLElement | null)?.focus();
+      if (e.key === "Escape") {
+        setSubOpen(false);
+        setHoveredSection(null);
       }
     }
-    document.addEventListener("mousedown", handleClick);
     document.addEventListener("keydown", handleKey);
-    return () => {
-      document.removeEventListener("mousedown", handleClick);
-      document.removeEventListener("keydown", handleKey);
-    };
-  }, [subOpen]);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, []);
+
+  function closeMenu() {
+    setSubOpen(false);
+    setHoveredSection(null);
+  }
 
   return (
-    <div className="relative" ref={containerRef}>
-      <button
+    <div
+      className="relative"
+      ref={containerRef}
+      onMouseEnter={() => setSubOpen(true)}
+      onMouseLeave={closeMenu}
+    >
+      <span
         aria-haspopup="menu"
         aria-expanded={subOpen}
-        onClick={() => setSubOpen((v) => !v)}
-        className="text-gray-300 hover:text-white transition-colors inline-flex items-center gap-2"
+        className="text-gray-300 hover:text-white transition-colors inline-flex items-center gap-2 cursor-default"
       >
-        Subiecte Oficiale
+        Subiecte BAC / EN
         <svg
           className={`w-3 h-3 transition-transform ${subOpen ? "rotate-180" : "rotate-0"}`}
           viewBox="0 0 20 20"
@@ -126,32 +141,85 @@ function HeaderSubiecte() {
             clipRule="evenodd"
           />
         </svg>
-      </button>
+      </span>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: -6 }}
-        animate={
-          subOpen
-            ? { opacity: 1, scale: 1, y: 0 }
-            : { opacity: 0, scale: 0.95, y: -6 }
-        }
-        transition={{ duration: 0.15 }}
-        className={`absolute left-0 mt-2 w-48 bg-white/10 backdrop-blur-lg text-white rounded-2xl border border-white/20 shadow-lg z-40 ${subOpen ? "block" : "hidden"}`}
-        role="menu"
+      <div
+        className={`absolute left-0 top-full pt-2 w-52 z-40 ${subOpen ? "block" : "hidden"}`}
       >
-        <Link
-          href="/subiecte-oficiale-bacalaureat"
-          className="block px-4 py-2 text-base hover:bg-white/10 border-b border-white/10 transition-all duration-200 first:rounded-t-2xl last:border-b-0 last:rounded-b-2xl"
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: -6 }}
+          animate={
+            subOpen
+              ? { opacity: 1, scale: 1, y: 0 }
+              : { opacity: 0, scale: 0.95, y: -6 }
+          }
+          transition={{ duration: 0.15 }}
+          className="bg-white/10 backdrop-blur-lg text-white rounded-2xl border border-white/20 shadow-lg"
+          role="menu"
         >
-          Bacalaureat
-        </Link>
-        <Link
-          href="/subiecte-oficiale-evaluare-nationala"
-          className="block px-4 py-2 text-base hover:bg-white/10 border-b border-white/10 transition-all duration-200 first:rounded-t-2xl last:border-b-0 last:rounded-b-2xl"
-        >
-          Evaluarea Națională
-        </Link>
-      </motion.div>
+        {subiecteMenu.map((section, index) => (
+          <div
+            key={section.label}
+            onMouseEnter={() => setHoveredSection(section.label)}
+          >
+            <div
+              className={`flex items-center justify-between px-4 py-2.5 text-base transition-all duration-200 cursor-default ${
+                index === 0 ? "rounded-t-2xl" : ""
+              } ${index === subiecteMenu.length - 1 ? "rounded-b-2xl" : "border-b border-white/10"} ${
+                hoveredSection === section.label ? "bg-white/10" : "hover:bg-white/10"
+              }`}
+            >
+              <span>{section.label}</span>
+              <svg
+                className="w-3 h-3 shrink-0 ml-2 opacity-70"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M7.21 14.77a.75.75 0 01.02-1.06L10.94 10 7.23 6.29a.75.75 0 111.06-1.06l4.24 4.24a.75.75 0 010 1.06l-4.24 4.24a.75.75 0 01-1.06 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+          </div>
+        ))}
+
+        <div className="absolute left-full top-0 pl-1 w-52 z-50">
+          <AnimatePresence mode="wait">
+            {hoveredSection && (
+              <motion.div
+                key={hoveredSection}
+                initial={{ opacity: 0, scale: 0.95, y: -6 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -6 }}
+                transition={{ duration: 0.15 }}
+                className="bg-white/10 backdrop-blur-lg text-white rounded-2xl border border-white/20 shadow-lg overflow-hidden"
+                role="menu"
+              >
+                {subiecteMenu
+                  .find((section) => section.label === hoveredSection)
+                  ?.items.map((item, itemIndex, items) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`block px-4 py-2.5 text-base hover:bg-white/10 transition-all duration-200 ${
+                        itemIndex < items.length - 1
+                          ? "border-b border-white/10"
+                          : ""
+                      }`}
+                      onClick={closeMenu}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+        </motion.div>
+      </div>
     </div>
   );
 }

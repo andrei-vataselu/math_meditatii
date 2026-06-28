@@ -8,6 +8,7 @@ import Design from "./Design";
 export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedSubiecte, setExpandedSubiecte] = useState(false);
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -21,7 +22,10 @@ export default function MobileMenu() {
   }, [isOpen]);
 
   useEffect(() => {
-    if (!isOpen) setExpandedSubiecte(false);
+    if (!isOpen) {
+      setExpandedSubiecte(false);
+      setExpandedSection(null);
+    }
   }, [isOpen]);
 
   const menuItems = [
@@ -29,12 +33,30 @@ export default function MobileMenu() {
     { href: "/despre-mine", label: "Despre mine" },
     { href: "/despre-meditatii", label: "Despre meditații" },
     {
-      label: "Subiecte Oficiale",
-      sub: [
-        { href: "/subiecte-oficiale-bacalaureat", label: "Bacalaureat" },
+      label: "Subiecte BAC / EN",
+      sections: [
         {
-          href: "/subiecte-oficiale-evaluare-nationala",
+          label: "Bacalaureat",
+          items: [
+            {
+              href: "/subiecte-oficiale-bacalaureat",
+              label: "Subiecte oficiale",
+            },
+            { href: "/simulari-judetene-bacalaureat", label: "Simulări județene BAC" },
+          ],
+        },
+        {
           label: "Evaluarea Națională",
+          items: [
+            {
+              href: "/subiecte-oficiale-evaluarea-nationala",
+              label: "Subiecte oficiale",
+            },
+            {
+              href: "/simulari-judetene-evaluarea-nationala",
+              label: "Simulări județene EN",
+            },
+          ],
         },
       ],
     },
@@ -121,7 +143,7 @@ export default function MobileMenu() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                   >
-                    {(item as any).sub ? (
+                    {(item as any).sections ? (
                       <div>
                         <button
                           onClick={() => setExpandedSubiecte((v) => !v)}
@@ -146,20 +168,54 @@ export default function MobileMenu() {
                         {expandedSubiecte && (
                           <div
                             id="mobile-subiecte"
-                            className="pl-4 mt-2 space-y-2"
+                            className="pl-4 mt-2 space-y-3"
                           >
-                            {(item as any).sub.map((s: any) => (
-                              <Link
-                                key={s.href}
-                                href={s.href}
-                                className="block text-lg text-gray-300 hover:text-white transition-colors"
-                                onClick={() => {
-                                  setIsOpen(false);
-                                  setExpandedSubiecte(false);
-                                }}
-                              >
-                                {s.label}
-                              </Link>
+                            {(item as any).sections.map((section: any) => (
+                              <div key={section.label}>
+                                <button
+                                  onClick={() =>
+                                    setExpandedSection((current) =>
+                                      current === section.label
+                                        ? null
+                                        : section.label,
+                                    )
+                                  }
+                                  className="w-full flex items-center justify-between text-lg text-gray-300 hover:text-white transition-colors"
+                                  aria-expanded={expandedSection === section.label}
+                                >
+                                  {section.label}
+                                  <svg
+                                    className={`w-4 h-4 transform transition-transform ${expandedSection === section.label ? "rotate-180" : ""}`}
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                                      clipRule="evenodd"
+                                    />
+                                  </svg>
+                                </button>
+                                {expandedSection === section.label && (
+                                  <div className="pl-4 mt-2 space-y-2">
+                                    {section.items.map((link: any) => (
+                                      <Link
+                                        key={link.href}
+                                        href={link.href}
+                                        className="block text-base text-gray-300 hover:text-white transition-colors"
+                                        onClick={() => {
+                                          setIsOpen(false);
+                                          setExpandedSubiecte(false);
+                                          setExpandedSection(null);
+                                        }}
+                                      >
+                                        {link.label}
+                                      </Link>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
                             ))}
                           </div>
                         )}

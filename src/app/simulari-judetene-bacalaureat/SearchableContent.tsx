@@ -23,7 +23,8 @@ export default function SearchableContent({ categories }: SearchableContentProps
   return (
     <CategorySearchableContent
       categories={categories}
-      title="Subiecte Oficiale Bacalaureat"
+      title="Simulări Județene Bacalaureat"
+      emptyMessage="Nu s-au găsit simulări."
     />
   );
 }

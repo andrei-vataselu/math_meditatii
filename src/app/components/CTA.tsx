@@ -1,6 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { siteConfig } from "@/config/site";
+
+const whatsappConsultationUrl = `${siteConfig.social.whatsapp}?text=${encodeURIComponent(
+  "Salut! Vreau o ședință gratuită la DS Math Center.",
+)}`;
 
 export default function CTA() {
   const mapsUrl = "https://maps.app.goo.gl/4FnRJYZC1sXRP7hX9";
@@ -34,12 +39,12 @@ export default function CTA() {
           încredere la examen.
         </p>
         <a
-          href="https://wa.me/40731979588"
+          href={whatsappConsultationUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="bg-gradient-to-r from-[#FEBFD2] to-[#FAD4E4] text-gray-800 px-10 py-4 rounded-full text-xl font-semibold hover:from-[#fef6f8] hover:to-[#fce9f0] transition-all duration-300 transform hover:scale-105 shadow-lg inline-block"
         >
-          Programează o ședință gratuită
+          Programează o ședință de consultanță gratuită
         </a>
 
         <div className="mt-12 md:mt-16 pt-2 mx-auto w-full max-w-4xl">
