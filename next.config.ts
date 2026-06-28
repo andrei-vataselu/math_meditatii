@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 
+// Trigger redeploy — Jun 2026 (post major update)
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-inline' 'unsafe-eval';
